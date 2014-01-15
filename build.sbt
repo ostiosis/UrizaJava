@@ -9,3 +9,5 @@ libraryDependencies ++= Seq(
 )     
 
 play.Project.playJavaSettings
+
+libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.6"
