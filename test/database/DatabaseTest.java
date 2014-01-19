@@ -28,7 +28,8 @@ public class DatabaseTest
 	{
 	  running(fakeApplication(), new Runnable() 
 	  {
-	    public void run() {
+	    public void run() 
+	    {
 	        try(Connection conn = DB.getConnection() )
 	        {        	
 	            assertTrue(true);
