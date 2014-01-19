@@ -1,9 +1,9 @@
 package models;
 
-import java.sql.Date;
-
 import javax.persistence.*;
 import play.db.ebean.*;
+
+import java.sql.Date;
 
 @Entity
 public class User extends Model

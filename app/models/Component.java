@@ -1,7 +1,30 @@
 package models;
 
-import play.db.ebean.Model;
+import javax.persistence.*;
 
-public class Component extends Model {
+import play.db.ebean.*;
 
+import java.sql.Date;
+import java.util.List;
+
+@Entity
+public class Component extends Model 
+{
+	@Id
+	public Long id;
+	public String name;
+	public String code;
+	
+	@ManyToOne
+	User user;
+	
+	public Date dateCreated;
+	public Date dateModified;
+	
+	@ManyToMany
+	@JoinTable(
+		      name="template_component",
+		      joinColumns={@JoinColumn(name="component_id", referencedColumnName="id")},
+		      inverseJoinColumns={@JoinColumn(name="template_id", referencedColumnName="id")})
+	public List<Template> templates;
 }
