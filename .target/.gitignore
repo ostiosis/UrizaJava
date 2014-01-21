@@ -1,3 +1,5 @@
-/utility
+/controllers
+/views
 /database
 /models
+/utility

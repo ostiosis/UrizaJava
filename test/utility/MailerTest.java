@@ -1,7 +1,6 @@
 package utility;
 
 import com.typesafe.config.ConfigFactory;
-import com.typesafe.plugin.*;
 
 import static org.junit.Assert.*;
 import static play.test.Helpers.*;

@@ -1,0 +1,7 @@
+# Users
+
+- &bob !!models.User
+    username: Bob
+    email: bob@example.com
+    passwordHash: secret
+    joinDate: "2011-11-11 00:00:00"

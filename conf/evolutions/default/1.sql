@@ -13,6 +13,12 @@ create table component (
   constraint pk_component primary key (id))
 ;
 
+create table password_reset (
+  user_id                   bigint,
+  token                     varchar(255),
+  expires                   date)
+;
+
 create table template (
   id                        bigint auto_increment not null,
   name                      varchar(255),
@@ -40,8 +46,10 @@ create table template_component (
 ;
 alter table component add constraint fk_component_user_1 foreign key (user_id) references user (id) on delete restrict on update restrict;
 create index ix_component_user_1 on component (user_id);
-alter table template add constraint fk_template_user_2 foreign key (user_id) references user (id) on delete restrict on update restrict;
-create index ix_template_user_2 on template (user_id);
+alter table password_reset add constraint fk_password_reset_user_2 foreign key (user_id) references user (id) on delete restrict on update restrict;
+create index ix_password_reset_user_2 on password_reset (user_id);
+alter table template add constraint fk_template_user_3 foreign key (user_id) references user (id) on delete restrict on update restrict;
+create index ix_template_user_3 on template (user_id);
 
 
 
@@ -56,6 +64,8 @@ SET FOREIGN_KEY_CHECKS=0;
 drop table component;
 
 drop table template_component;
+
+drop table password_reset;
 
 drop table template;
 
