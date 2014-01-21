@@ -1,10 +1,15 @@
 package controllers;
 
+import java.sql.SQLException;
+
+import org.apache.commons.mail.EmailException;
+
 import models.PasswordReset;
 import models.User;
 import play.*;
 import play.data.Form;
 import play.mvc.*;
+import utility.Mailer;
 import views.html.*;
 
 public class Application extends Controller 
@@ -81,6 +86,31 @@ public class Application extends Controller
     	}
     	else
     	{
+			String token = "";
+    		
+    		try
+			{
+    			token = PasswordReset.createToken(resetForm.get().email);
+    			System.out.println(token);
+			} 
+    		catch (SQLException e)
+			{
+				// TODO Auto-generated catch block
+				System.out.println(e.getMessage());
+			}
+    		
+    		Mailer mailer = new Mailer();
+    		
+    		try
+			{
+				mailer.sendMail("philip.lipman@gmail.com", "philip.lipman@gmail.com", "Reset Token", token);
+			} 
+    		catch (EmailException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		
     		session().clear();
     		session("email", resetForm.get().email);
     		return redirect(routes.Application.token());
@@ -113,23 +143,6 @@ public class Application extends Controller
     	return ok(token.render(Form.form(Token.class)));
     }
     
-    
-    public static Result tokenForm2()
-    {
-    	Form<Token> tokenForm = Form.form(Token.class).bindFromRequest();
-    	
-    	if (tokenForm.hasErrors())
-    	{
-    		return badRequest(token.render(tokenForm));
-    	}
-    	else
-    	{
-    		session().clear();
-    		session("email", tokenForm.get().email);
-    		return redirect(routes.Application.password());
-    	}
-    }
-
     public static Result tokenForm()
     {
     	Form<Token> tokenForm = Form.form(Token.class).bindFromRequest();
@@ -139,7 +152,7 @@ public class Application extends Controller
     		return badRequest(token.render(tokenForm));
     	}
     	else
-    	{
+    	{    		
     		session().clear();
     		session("email", tokenForm.get().email);
     		return redirect(routes.Application.password());
@@ -153,12 +166,12 @@ public class Application extends Controller
     	    	
     	public String validate()
     	{
-    		//if (PasswordReset.authenticate(email, token) == null)
-    		//{
-    		//	return "Invalid email: " + email;
-    		//}
+    		if (PasswordReset.authenticate(email, token) == null)
+    		{
+    			return "Invalid email: " + email;
+    		}
     		
-    		return "test";
+    		return null;
     	}
     	
     }
@@ -172,10 +185,8 @@ public class Application extends Controller
     
     
     public static Result passwordForm()
-    {
-    	System.out.println(session().get("email"));
-    	
-    	Form<Password> passwordForm = Form.form(Password.class).bindFromRequest();
+    {    	    	
+    	Form<Password> passwordForm = Form.form(Password.class).bindFromRequest();    	   	
     	
     	if (passwordForm.hasErrors())
     	{
@@ -183,10 +194,25 @@ public class Application extends Controller
     	}
     	else
     	{
-    		session().clear();
+        	System.out.println(passwordForm.field("password").value());
+        	System.out.println(session().get("email"));
+        	
+        	try
+			{
+				User.resetPassword(session().get("email"), passwordForm.field("password").value());
+			} 
+    		catch (SQLException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		
+    		flash("success", "password reset");
+   		   		
     		session("email", session().get("email"));
     		return redirect(routes.Application.login());
     	}
+    	/**/
     }
 
     
@@ -198,7 +224,10 @@ public class Application extends Controller
     	
     	public String validate()
     	{
-    		if (password.equals(confirmPassword))
+    		//System.out.println(password);
+    		//System.out.println(confirmPassword);
+    		
+    		if (!password.equals(confirmPassword) || password.isEmpty() || password == null)
     		{
     			return "passwords do not match";
     		}
