@@ -180,6 +180,10 @@ public class Application extends Controller
     
     public static Result password()
     {
+    	if(session().get("email") == null)
+    	{
+    		return redirect(routes.Application.login());
+    	}
     	return ok(password.render(Form.form(Password.class)));
     }
     
