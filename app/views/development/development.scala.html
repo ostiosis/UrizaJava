@@ -1,0 +1,84 @@
+@(message: String)
+
+@views.html.main("development") {
+
+    <header>
+    	<hgroup>
+    		<h1>Dashboard</h1>
+    		<h2>@message</h2>
+   		</hgroup>
+   		
+   		<hgroup>
+   			<div class="row">
+   				<div id="dev-menu" class="col-md-8 col-md-offset-2">
+   					<div class="panel-heading">
+		                <a data-toggle="modal" href="#modelNew" roll="button" class="btn btn-default btn-sm">
+		                    <span class="glyphicon glyphicon-file"></span>
+		                    New
+		                </a>
+		                <a data-toggle="modal" href="#modelOpen" roll="button" class="btn btn-default btn-sm">
+		                    <span class="glyphicon glyphicon-open"></span>
+		                    Open
+		                </a>
+		                <button id="save" type="button" class="btn btn-default btn-sm">
+		                    <i class="fa fa-floppy-o fa-lg"></i>
+		                    Save
+		                </button>
+		                <button type="button" class="btn btn-danger btn-sm">
+		                    <span class="glyphicon glyphicon-remove"></span>
+		                    Close without Saving
+		                </button>
+		
+		                    <span class="pull-right">
+		                    <button type="button" class="btn btn-default btn-sm">
+		                        <img style="width: 18px; height: 18px;" src="images/undo.png">
+		                        Undo
+		                    </button>
+		                    <button type="button" class="btn btn-default btn-sm">
+		                        Redo
+		                        <img class="imgFlip" style="width: 18px; height: 18px;" src="images/undo.png">
+		                    </button>
+		
+		                    <button type="button" class="btn btn-default btn-sm" id="show-menu">
+		                        <i class=" fa fa-bars fa-lg "></i>
+		                    </button>
+		
+		                    </span>
+		                <br>
+		                <br>
+		                Current Page: index
+		
+		            </div>
+
+   				</div>
+   			</div>
+   		</hgroup>
+    </header>
+    
+<!-- Model New Page-->
+    <div class="modal fade" id="modelNew" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">New</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form class="form-inline" role="form">
+                        <div class="form-group">
+                            <label class="sr-only" for="inputPageName">Page Name</label>
+                            <input type="text" class="form-control" id="inputPageName" placeholder="Enter page name">
+                        </div>
+                        <div class="modal-footer">
+                            <!-- <a href="#" class="btn btn-primary btn-success">Save</a> -->
+                            <button type="button" class="btn btn-success" data-dismiss="modal">Save</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+}

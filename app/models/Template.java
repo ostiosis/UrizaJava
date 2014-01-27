@@ -28,4 +28,13 @@ public class Template extends Model
 		      joinColumns={@JoinColumn(name="template_id", referencedColumnName="id")},
 		      inverseJoinColumns={@JoinColumn(name="component_id", referencedColumnName="id")})
 	public List<Component> components;
+	
+	@ManyToMany
+	@JoinTable(
+		      name="page_template",
+		      joinColumns={@JoinColumn(name="template_id", referencedColumnName="id")},
+		      inverseJoinColumns={@JoinColumn(name="page_id", referencedColumnName="id")})
+	public List<Page> pages;
+	
+	
 }

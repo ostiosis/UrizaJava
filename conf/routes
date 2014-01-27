@@ -5,6 +5,7 @@
 # Home page
 GET     /                           controllers.Application.index()
 
+
 # Login
 GET 	/login						controllers.Application.login()
 POST	/login						controllers.Application.authenticate()
@@ -20,6 +21,11 @@ POST	/token						controllers.Application.tokenForm()
 
 GET		/password					controllers.Application.password()
 POST	/password					controllers.Application.passwordForm()
+
+GET		/development				controllers.Development.development()
+
+# Dynamic Page
+GET		/:name						controllers.Custom.custom(name: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

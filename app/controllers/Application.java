@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import org.apache.commons.mail.EmailException;
 
+import models.Page;
 import models.PasswordReset;
 import models.User;
 import play.*;
@@ -14,6 +15,7 @@ import views.html.*;
 
 public class Application extends Controller 
 {
+	static boolean TEST_MODE = true;
 
 	@Security.Authenticated(Secured.class)
     public static Result index() 
@@ -21,6 +23,8 @@ public class Application extends Controller
         return ok(index.render("Your new application is ready."));
     }
     
+
+	
     public static Result login()
     {
     	session().clear();
@@ -86,24 +90,32 @@ public class Application extends Controller
     	}
     	else
     	{
-			String token = "";
+			String email = resetForm.get().email;
+    		String token = "";
     		
     		try
 			{
-    			token = PasswordReset.createToken(resetForm.get().email);
-    			System.out.println(token);
+    			token = PasswordReset.createToken(email);
+    			Logger.debug(token);
 			} 
     		catch (SQLException e)
 			{
 				// TODO Auto-generated catch block
-				System.out.println(e.getMessage());
+				Logger.error(e.getMessage());
 			}
     		
     		Mailer mailer = new Mailer();
     		
     		try
 			{
-				mailer.sendMail("philip.lipman@gmail.com", "philip.lipman@gmail.com", "Reset Token", token);
+    			if(TEST_MODE)
+    			{
+    				mailer.sendMail("philip.lipman@gmail.com", "philip.lipman@gmail.com", "Reset Token", token);    				
+    			}
+    			else
+    			{
+    				mailer.sendMail("philip.lipman@gmail.com", email, "Reset Token", token);    				    				
+    			}
 			} 
     		catch (EmailException e)
 			{
@@ -198,8 +210,8 @@ public class Application extends Controller
     	}
     	else
     	{
-        	System.out.println(passwordForm.field("password").value());
-        	System.out.println(session().get("email"));
+        	//System.out.println(passwordForm.field("password").value());
+        	//System.out.println(session().get("email"));
         	
         	try
 			{
@@ -218,7 +230,6 @@ public class Application extends Controller
     	}
     	/**/
     }
-
     
     public static class Password
     {

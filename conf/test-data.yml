@@ -5,3 +5,12 @@
     email: bob@example.com
     passwordHash: secret
     joinDate: "2011-11-11 00:00:00"
+    
+# Pages
+
+- &test !!models.Page
+    name: test
+    title: "Test Page"
+    description: "This is a test page."
+    dateCreated: "2011-11-11 00:00:00"    
+    dateModified: "2011-11-11 00:00:00"

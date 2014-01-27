@@ -1,16 +1,14 @@
 package models;
 
 
-import java.sql.Date;
-
 import javax.persistence.*;
 
 import play.db.DB;
 import play.db.ebean.*;
-import play.db.ebean.Model.Finder;
-
 import java.sql.*;
 import java.util.Calendar;
+
+import java.util.UUID;
 
 @Entity
 public class PasswordReset extends Model
@@ -20,7 +18,7 @@ public class PasswordReset extends Model
 	
 	public String token;
 	
-	public Date expires;
+	public Timestamp expires;
 	
 	public static Finder<Long, PasswordReset> find 
 	= new Finder<Long, PasswordReset>(Long.class, PasswordReset.class);
@@ -44,7 +42,8 @@ public class PasswordReset extends Model
 		PreparedStatement preparedStatement = null;
 		
 		User user = User.find.where().eq("email", email).findUnique();
-		String token = "test";
+		String token = UUID.randomUUID().toString();
+		
 		String sql = "INSERT INTO password_reset (user_id, token, expires) VALUES (?, ?, ?)";
 		
 		try
@@ -87,7 +86,7 @@ public class PasswordReset extends Model
 		return token;
 	}
 	
-	private static java.sql.Timestamp getExpiresTimeStamp()
+	private static Timestamp getExpiresTimeStamp()
 	{
 		Integer timeToExpire = 15;
 		
@@ -95,6 +94,6 @@ public class PasswordReset extends Model
 		calendar.add(Calendar.MINUTE, timeToExpire);
 		//java.util.Date expires = calendar.getTime();
 		
-		return new java.sql.Timestamp(calendar.getTimeInMillis());
+		return new Timestamp(calendar.getTimeInMillis());
 	}
 }
