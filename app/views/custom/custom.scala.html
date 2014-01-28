@@ -1,26 +1,14 @@
 @(page: Page)
 
-<!DOCTYPE html>
+@views.html.main(page.title) {
 
-<html>
-    <head>
-        <title>@page.title</title>
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
-        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-        
-		<script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("jquery.js"))'></script>
-		<script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("jquery-ui.js"))'></script>
-        <link rel="stylesheet" media="screen" href="@routes.WebJarAssets.at(WebJarAssets.locate("bootstrap.css"))">
-    </head>
-    <body>
-        @page.description
-        
+	@page.description
+     
+
+	@for(template <- page.templates) {
+		for(component -< template.components) {
+			<span>Test</span>
+		}
+	}
 		
-			@for(template <- page.templates) {
-				for(component -< template.components) {
-					<span>Test</span>
-				}
-			}
-		
-    </body>
-</html>
+}
