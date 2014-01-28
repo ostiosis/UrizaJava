@@ -4,7 +4,6 @@ import java.sql.SQLException;
 
 import org.apache.commons.mail.EmailException;
 
-import models.Page;
 import models.PasswordReset;
 import models.User;
 import play.*;
@@ -22,9 +21,16 @@ public class Application extends Controller
 	{
         return ok(index.render("Your new application is ready."));
     }
-    
-
 	
+    public static Result javascriptRoutes()
+    {
+    	response().setContentType("test/javascript");
+    	
+    	return ok(Routes.javascriptRouter("jsRoutes", 
+    			controllers.routes.javascript.Development.add()
+		));
+    }
+    	
     public static Result login()
     {
     	session().clear();
@@ -250,6 +256,5 @@ public class Application extends Controller
     		return null;
     	}
     	
-    }
-    
+    }    
 }

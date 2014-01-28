@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.*;
 
 import play.db.ebean.*;
-import play.db.ebean.Model.Finder;
 
 @Entity
 public class Page extends Model 
@@ -31,6 +30,13 @@ public class Page extends Model
 		      inverseJoinColumns={@JoinColumn(name="template_id", referencedColumnName="id")})
 	public List<Template> templates;
 
+	public Page(String name, String title, String description)
+	{
+		this.name = name;
+		this.title = title;
+		this.description = description;
+	}
+	
 	public static Finder<Long, Page> find 
 	= new Finder<Long, Page>(Long.class, Page.class);
 	
@@ -39,5 +45,14 @@ public class Page extends Model
 		return find.where()
 				.eq("name", name)
 				.findUnique();
+	}
+	
+	public static Page create(String name, String title, String description)
+	{
+		Page page = new Page(name, title, description);
+		page.save();
+		page.saveManyToManyAssociations("templates");
+		
+		return page;
 	}
 }

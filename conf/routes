@@ -23,9 +23,13 @@ GET		/password					controllers.Application.password()
 POST	/password					controllers.Application.passwordForm()
 
 GET		/development				controllers.Development.development()
+POST	/development				controllers.Development.add()
 
 # Dynamic Page
 GET		/:name						controllers.Custom.custom(name: String)
+
+# Javascript routing
+GET		/assets/javascripts/routes	controllers.Application.javascriptRoutes()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -1,16 +1,10 @@
 package controllers;
 
-import java.sql.SQLException;
-
-import org.apache.commons.mail.EmailException;
+import static play.data.Form.form;
 
 import models.Page;
-import models.PasswordReset;
-import models.User;
-import play.*;
-import play.data.Form;
 import play.mvc.*;
-import utility.Mailer;
+import views.html.custom.*;
 import views.html.development.*;
 
 public class Development extends Controller
@@ -19,4 +13,15 @@ public class Development extends Controller
 	{
         return ok(development.render("Dev Menu"));
     }
+    
+    public static Result add()
+	{
+		Page newPage = Page.create(
+			form().bindFromRequest().get("name"), 
+			form().bindFromRequest().get("title"), 
+			form().bindFromRequest().get("description")
+		);
+		
+		return ok(custom.render(newPage));
+	}
 }

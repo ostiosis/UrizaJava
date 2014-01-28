@@ -14,7 +14,7 @@ public class Global extends GlobalSettings
 				
 		if (User.find.findRowCount() == 0)
 		{
-			Ebean.save((List) Yaml.load("test-data.yml"));
+			Ebean.save((List<?>) Yaml.load("test-data.yml"));
 		}
 	}
 }
