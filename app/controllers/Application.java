@@ -116,11 +116,11 @@ public class Application extends Controller
 			{
     			if(TEST_MODE)
     			{
-    				mailer.sendMail("philip.lipman@gmail.com", "philip.lipman@gmail.com", "Reset Token", token);    				
+    				mailer.sendMail("prinnypayday@gmail.com", "prinnypayday@gmail.com", "Reset Token", token);    				
     			}
     			else
     			{
-    				mailer.sendMail("philip.lipman@gmail.com", email, "Reset Token", token);    				    				
+    				mailer.sendMail("prinnypayday@gmail.com", email, "Reset Token", token);    				    				
     			}
 			} 
     		catch (EmailException e)
