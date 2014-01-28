@@ -4,7 +4,11 @@
 
 
 <script type="text/javascript">
-	
+	$(document).on("click", ".btn-success", function(event){
+    	//alert( "GO" ); 
+    	var form = $(this).closest("form");
+    	alert( form.attr('id') );
+	});
 </script>
 
     <header>
@@ -70,16 +74,16 @@
                 </div>
                 <div class="modal-body">
 
-                    <form class="form-inline" role="form">
+                    <form class="form-inline" role="form" id="addNewPage">
                         <div class="form-group">
-                            <label class="sr-only" for="inputPageName">Page Name</label>
-                            <input type="text" class="form-control" id="inputPageName" placeholder="Enter Page Name">
+                            <label class="sr-only" for="name">Page Name</label>
+                            <input type="text" class="form-control" id="name" placeholder="Enter Page Name">
                             <br/>
-                            <label class="sr-only" for="inputPageTitle">Page Title</label>
-                            <input type="text" class="form-control" id="inputPageTitle" placeholder="Enter Title">
+                            <label class="sr-only" for="title">Page Title</label>
+                            <input type="text" class="form-control" id="title" placeholder="Enter Title">
                             <br/>
-                            <label class="sr-only" for="inputPageDescription">Page Description</label>
-                            <input type="text" class="form-control" id="inputPageDescription" placeholder="Enter Description">
+                            <label class="sr-only" for="description">Page Description</label>
+                            <input type="text" class="form-control" id="description" placeholder="Enter Description">
                         </div>
                         <div class="modal-footer">
                             <!-- <a href="#" class="btn btn-primary btn-success">Save</a> -->

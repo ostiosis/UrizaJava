@@ -10,6 +10,8 @@ dump
 .project
 .classpath
 .scala_dependencies
+.metadata
+
 bin
  
 # SBT
