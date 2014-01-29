@@ -23,7 +23,7 @@ GET		/password					controllers.Application.password()
 POST	/password					controllers.Application.passwordForm()
 
 GET		/development				controllers.Development.development()
-POST	/development				controllers.Development.add()
+POST	/development/:name/:title/:description			controllers.Development.add(name: String, title: String, description: String)
 
 # Dynamic Page
 GET		/:name						controllers.Custom.custom(name: String)

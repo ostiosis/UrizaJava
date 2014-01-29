@@ -4,11 +4,29 @@
 
 
 <script type="text/javascript">
+$(document).ready(function(){
+
 	$(document).on("click", ".btn-success", function(event){
     	//alert( "GO" ); 
-    	var form = $(this).closest("form");
-    	alert( form.attr('id') );
+    	//var form = $(this).closest("form");
+    	var name = $('#name').val();
+    	var title = $('#title').val();
+    	var description = $('#description').val();
+    	alert( name + title + description );
+    	
+    	var route = r = jsRoutes.controllers.Development.add(name, title, description).ajax({
+			success: function(data) {
+		    	$("#result").html(data);
+		  	},
+		  	error: function() {
+		    	alert("Error!")
+		  	}
+		});
+    	
 	});
+
+});
+
 </script>
 
     <header>
