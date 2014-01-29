@@ -7,8 +7,7 @@
 $(document).ready(function(){
 
 	$(document).on("click", ".btn-success", function(event){
-    	//alert( "GO" ); 
-    	//var form = $(this).closest("form");
+
     	var name = $('#name').val();
     	var title = $('#title').val();
     	var description = $('#description').val();
@@ -24,6 +23,58 @@ $(document).ready(function(){
 		});
     	
 	});
+
+	$(document).on("click", "#open-menu", function(event){
+
+    	var route = r = jsRoutes.controllers.Development.openMenu().ajax({
+			success: function(data) {
+		    	$("#open-result").html(data);
+		  	},
+		  	error: function() {
+		    	alert("Error!")
+		  	}
+		});
+    	
+	});
+	
+		$(document).on("click", ".open-page", function(event){
+
+		//Prevent normal link behavior
+		//This can be removed when you no longer use <a></a> tags
+		
+		event.preventDefault(); 
+		
+		var pageId = $(this).attr('id');
+
+    	//alert( pageId );
+    	
+    	$('.modal').modal('hide');
+    	
+    	var route = r = jsRoutes.controllers.Development.open(pageId).ajax({
+			success: function(data) {
+		    	$("#result").html(data);
+		  	},
+		  	error: function() {
+		    	alert("Error!")
+		  	}
+		});
+    	
+	});
+	
+	$("#save").click(function(  ){
+            $( this ).children( 'i' ).addClass( 'fa-refresh fa-spin' ).removeClass( 'fa-floppy-o' );
+
+            var that = this;
+
+            window.setTimeout( function(  ) {
+                $( that ).children( 'i' ).removeClass( 'fa-refresh fa-spin' ).addClass( 'fa-floppy-o' );
+
+                //remove on publish
+                audioElement.pause(  );
+                //remove on publish
+
+            }, 5 * 1000);
+        });
 
 });
 
@@ -43,7 +94,7 @@ $(document).ready(function(){
 		                    <span class="glyphicon glyphicon-file"></span>
 		                    New
 		                </a>
-		                <a data-toggle="modal" href="#modelOpen" roll="button" class="btn btn-default btn-sm">
+		                <a id="open-menu" data-toggle="modal" href="#modelOpen" roll="button" class="btn btn-default btn-sm">
 		                    <span class="glyphicon glyphicon-open"></span>
 		                    Open
 		                </a>
@@ -56,31 +107,31 @@ $(document).ready(function(){
 		                    Close without Saving
 		                </button>
 		
-		                    <span class="pull-right">
-		                    <button type="button" class="btn btn-default btn-sm">
-		                        <img style="width: 18px; height: 18px;" src="images/undo.png">
-		                        Undo
-		                    </button>
-		                    <button type="button" class="btn btn-default btn-sm">
-		                        Redo
-		                        <img class="imgFlip" style="width: 18px; height: 18px;" src="images/undo.png">
-		                    </button>
-		
-		                    <button type="button" class="btn btn-default btn-sm" id="show-menu">
-		                        <i class=" fa fa-bars fa-lg "></i>
-		                    </button>
-		
-		                    </span>
-		                <br>
-		                <br>
-		                Current Page: index
-		
+	                    <span class="pull-right">
+	                    <button type="button" class="btn btn-default btn-sm">
+	                        <img style="width: 18px; height: 18px;" src="images/undo.png">
+	                        Undo
+	                    </button>
+	                    <button type="button" class="btn btn-default btn-sm">
+	                        Redo
+	                        <img class="imgFlip" style="width: 18px; height: 18px;" src="images/undo.png">
+	                    </button>
+	
+	                    <button type="button" class="btn btn-default btn-sm" id="show-menu">
+	                        <i class=" fa fa-bars fa-lg "></i>
+	                    </button>
+	
+	                    </span>
 		            </div>
-
    				</div>
    			</div>
    		</hgroup>
     </header>
+    
+    <!--  Main Editor Area -->
+    <div id="result">
+    </div>
+    
     
 <!-- Model New Page-->
     <div class="modal fade" id="modelNew" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -109,6 +160,25 @@ $(document).ready(function(){
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                         </div>
                     </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+<!-- Model Open Page-->
+    <div class="modal fade" id="modelOpen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Open</h4>
+                </div>
+                <div id="open-result">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <a href="#" class="btn btn-primary btn-default">Open</a>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

@@ -55,4 +55,9 @@ public class Page extends Model
 		
 		return page;
 	}
+	
+	public static List<Page> pages()
+	{
+		return find.findList();
+	}
 }

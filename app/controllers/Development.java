@@ -9,7 +9,14 @@ import views.html.development.*;
 
 public class Development extends Controller
 {
-    public static Result development() 
+    /**
+	public static Result development() 
+	{
+        return ok(development.render("Dev Menu"));
+    }
+    /**/
+	
+    public static Result development(String name) 
 	{
         return ok(development.render("Dev Menu"));
     }
@@ -35,7 +42,18 @@ public class Development extends Controller
 			description
 		);
 		
-		return ok(custom.render(newPage));
+		return ok(page.render(newPage));
 	}
 	/**/
+    public static Result openMenu()
+    {
+    	return ok(open.render(Page.pages()));
+    }
+    /**/
+    public static Result open(Long pageId)
+    {
+    	Page getPage = Page.find.byId(pageId);
+    	
+    	return ok(page.render(getPage));
+    }
 }

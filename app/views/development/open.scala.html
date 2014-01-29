@@ -1,0 +1,10 @@
+@(pages: List[Page])
+
+@for(page <- pages) {
+		<span>
+			<a href="#" class="open-page" id="@page.id">
+				Name: @page.name
+			</a>
+		</span>
+		<br/>		
+}
