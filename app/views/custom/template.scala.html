@@ -1,0 +1,7 @@
+@(template: Template)
+
+<div id="template_@template.id">test3
+	@for(row <- template.rows) {
+		@views.html.custom.row(row)		
+	}
+</div>

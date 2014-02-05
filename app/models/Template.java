@@ -22,12 +22,17 @@ public class Template extends Model
 	public Date dateCreated;
 	public Date dateModified;
 	
+	@OneToMany
+	public List<Row> rows;
+	
+	/**
 	@ManyToMany
 	@JoinTable(
 		      name="template_component",
 		      joinColumns={@JoinColumn(name="template_id", referencedColumnName="id")},
 		      inverseJoinColumns={@JoinColumn(name="component_id", referencedColumnName="id")})
 	public List<Component> components;
+	/**/
 	
 	@ManyToMany
 	@JoinTable(

@@ -6,9 +6,7 @@
      
 
 	@for(template <- page.templates) {
-		for(component -< template.components) {
-			<span>Test</span>
-		}
+		@views.html.custom.template(template)		
 	}
 		
 }

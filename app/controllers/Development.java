@@ -18,7 +18,10 @@ public class Development extends Controller
 	
     public static Result development(String name) 
 	{
-        return ok(development.render("Dev Menu"));
+    	Page getPage = Page.getPage(name);
+    	
+    	return ok(development.render(getPage, "Dev Menu"));
+        
     }
     /**
     public static Result add()
@@ -55,6 +58,6 @@ public class Development extends Controller
     {
     	Page getPage = Page.find.byId(pageId);
     	
-    	return ok(page.render(getPage));
+    	return ok(custom.render(getPage));
     }
 }

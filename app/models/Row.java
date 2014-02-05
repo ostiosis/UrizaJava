@@ -1,31 +1,35 @@
 package models;
 
-
-import javax.persistence.*;
-
-import play.db.ebean.*;
-
 import java.sql.Date;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+
+import play.db.ebean.Model;
+
 @Entity
-public class Component extends Model 
+public class Row extends Model
 {
 	@Id
 	public Long id;
 	public String name;
 	public String code;
 	
-	@ManyToOne
-	User user;
-	
 	public Date dateCreated;
 	public Date dateModified;
+	
+	@ManyToOne
+	public Template template;
 	
 	@ManyToMany
 	@JoinTable(
 		      name="row_component",
 		      joinColumns={@JoinColumn(name="row_id", referencedColumnName="id")},
 		      inverseJoinColumns={@JoinColumn(name="component_id", referencedColumnName="id")})
-	public List<Row> rows;
+	public List<Component> components;
 }
