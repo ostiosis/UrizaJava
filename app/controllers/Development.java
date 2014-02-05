@@ -50,7 +50,6 @@ public class Development extends Controller
 	/**/
     public static Result openMenu()
     {
-    	Logger.info("test");
     	return ok(open.render(Page.pages()));
     }
     /**/
@@ -58,6 +57,6 @@ public class Development extends Controller
     {
     	Page getPage = Page.find.byId(pageId);
     	
-    	return ok(custom.render(getPage));
+    	return ok(editor.render(getPage));
     }
 }

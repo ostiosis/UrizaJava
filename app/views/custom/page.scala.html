@@ -1,0 +1,6 @@
+@(page: Page)
+	
+	
+	@for(template <- page.templates) {
+		@views.html.custom.template(template)		
+	}
