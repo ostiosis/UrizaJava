@@ -28,7 +28,9 @@ $(document).ready(function(){
 
     	var route = r = jsRoutes.controllers.Development.openMenu().ajax({
 			success: function(data) {
+				//alert(data);
 		    	$("#open-result").html(data);
+		    	
 		  	},
 		  	error: function() {
 		    	alert("Error!")
@@ -60,21 +62,6 @@ $(document).ready(function(){
 		});
     	
 	});
-	
-	$("#save").click(function(  ){
-            $( this ).children( 'i' ).addClass( 'fa-refresh fa-spin' ).removeClass( 'fa-floppy-o' );
-
-            var that = this;
-
-            window.setTimeout( function(  ) {
-                $( that ).children( 'i' ).removeClass( 'fa-refresh fa-spin' ).addClass( 'fa-floppy-o' );
-
-                //remove on publish
-                audioElement.pause(  );
-                //remove on publish
-
-            }, 5 * 1000);
-        });
 
 });
 
