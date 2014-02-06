@@ -2,9 +2,12 @@ package controllers;
 
 import static play.data.Form.form;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 import javax.activation.MimetypesFileTypeMap;
+import javax.imageio.ImageIO;
 
 import models.Page;
 import models.User;
@@ -13,6 +16,7 @@ import play.Play;
 import play.mvc.*;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
+import utility.MediaObjectType;
 import views.html.custom.*;
 import views.html.development.*;
 
@@ -102,23 +106,44 @@ public class Development extends Controller
     /**/
     public static Result uploadAjax(String filename)
     {    	
-    	/**/
-    	String uploadDir = (Play.application().path().getAbsolutePath() + "\\public\\uploads\\" + filename);
+    	BufferedImage img = null;
+    	
+    	String uploadDir = (Play.application().path().getAbsolutePath() + "\\public\\uploads\\" + filename + ".png");
     	
     	File file = request().body().asRaw().asFile();
+    	
+    	try
+		{
+			img = ImageIO.read(file);
+			
+		} 
+    	catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			Logger.error(e.getMessage());
+		}
     	
     	Logger.info("test: " + file.getAbsoluteFile());
     	Logger.info("file: " + file.getName());
     	Logger.info("file: " + new MimetypesFileTypeMap().getContentType(file).toString());
     	
-    	File upload = new File(uploadDir);
+    	
+    	try
+		{
+			Logger.info("image test: " +ImageIO.write(img, "png", new File(uploadDir)));
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+    	//File upload = new File(uploadDir);
     	    	
-		file.renameTo(upload);
+		//file.renameTo(upload);
 		file.delete();
-		
-		return ok("File uploaded @" + upload.getAbsolutePath());    	
-		/**/
+    	//Logger.info("file: " + new MimetypesFileTypeMap().getContentType(upload).toString());
 
+		return ok("File uploaded @");    	
+		
     }
     /**/
 

@@ -2,5 +2,8 @@ package utility;
 
 public enum MediaObjectType
 {
-	IMG
+	JPG,
+	PNG,
+	GIF
+	
 }
