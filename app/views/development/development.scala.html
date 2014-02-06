@@ -3,69 +3,7 @@
 @views.html.main("development") {
 
 
-<script type="text/javascript">
-$(document).ready(function(){
-
-	$(document).on("click", ".btn-success", function(event){
-
-    	var name = $('#name').val();
-    	var title = $('#title').val();
-    	var description = $('#description').val();
-    	alert( name + title + description );
-    	
-    	var route = r = jsRoutes.controllers.Development.add(name, title, description).ajax({
-			success: function(data) {
-		    	$("#result").html(data);
-		  	},
-		  	error: function() {
-		    	alert("Error!")
-		  	}
-		});
-    	
-	});
-
-	$(document).on("click", "#open-menu", function(event){
-
-    	var route = r = jsRoutes.controllers.Development.openMenu().ajax({
-			success: function(data) {
-				//alert(data);
-		    	$("#open-result").html(data);
-		    	
-		  	},
-		  	error: function() {
-		    	alert("Error!")
-		  	}
-		});
-    	
-	});
-	
-		$(document).on("click", ".open-page", function(event){
-
-		//Prevent normal link behavior
-		//This can be removed when you no longer use <a></a> tags
-		
-		event.preventDefault(); 
-		
-		var pageId = $(this).attr('id');
-
-    	//alert( pageId );
-    	
-    	$('.modal').modal('hide');
-    	
-    	var route = r = jsRoutes.controllers.Development.open(pageId).ajax({
-			success: function(data) {
-		    	$("#result").html(data);
-		  	},
-		  	error: function() {
-		    	alert("Error!")
-		  	}
-		});
-    	
-	});
-
-});
-
-</script>
+	@views.html.development.developmentjavascript()
 
     <header>
     	<hgroup>
@@ -116,14 +54,16 @@ $(document).ready(function(){
     </header>
     
     <!--  Main Editor Area -->
-    <div id="result">
+    <div id="result" class="col-md-8" >
 		@if(page == null) {
-		  <h1>Nothing to display</h1>
+		  	<h1>Nothing to display</h1>
 		} else {
-		  @views.html.development.editor(page)
+ 			@views.html.development.editor(page)
 		}
     </div>
-    
+	<div id="palette-menu" class="col-md-4 " style="height: 100%; ">
+		@views.html.development.palletmenu()
+	</div>
     
 <!-- Model New Page-->
     <div class="modal fade" id="modelNew" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

@@ -1,0 +1,32 @@
+
+	<div class="panel-group" id="accordion">
+	    <!-- Basic HTML Elements -->
+	    <div class="panel panel-default">
+	        <div class="panel-heading">
+	            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+	                <h3 class="panel-title">
+	                    Media
+	                </h3>
+	            </a>
+	        </div>
+	        <div id="collapseOne" class="panel-collapse collapse in">
+	            <div class="panel-body">
+	                <ul class=" basicHTMLMenuItems nav nav-pills nav-stacked ">
+	                    <li class="drag" id=""><a href="#" class="toolTip" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Drag to 'panel content' area"><i class=" fa fa-font fa-lg " ></i>&nbsp;Text</a></li>
+	                    <li class="drag"><a href="#" class="toolTip" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Drag to 'panel content' area"><i class=" fa fa-link fa-lg "></i>&nbsp;Link</a></li>
+	                    <li class="drag" id=""><a href="#" class="toolTip" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Drag to 'panel content' area"><i class=" fa fa-picture-o fa-lg "></i>&nbsp;Image</a></li>
+	                    <li class="drag"><a href="#" class="toolTip" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Drag to 'panel content' area"><i class=" fa fa-bars fa-lg "></i>&nbsp;Menu</a></li>
+	                    <li>&nbsp;</li>
+	                </ul>
+					
+					<!-- Drag and drop upload area -->
+					@helper.form(action = routes.Development.upload, 'enctype -> "multipart/form-data", 'id -> "media-upload") {    
+					    <input type="file" name="picture">
+					    <p>
+					        <input type="submit">
+					    </p>					    
+					}
+	            </div>
+	        </div>
+	    </div>	
+	</div>

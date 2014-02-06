@@ -29,7 +29,8 @@ public class Application extends Controller
     	return ok(Routes.javascriptRouter("jsRoutes", 
     			controllers.routes.javascript.Development.add(),
     			controllers.routes.javascript.Development.openMenu(),
-    			controllers.routes.javascript.Development.open()
+    			controllers.routes.javascript.Development.open(),
+    			controllers.routes.javascript.Development.uploadAjax()
 		));
     }
     	
