@@ -12,7 +12,8 @@ libraryDependencies ++= Seq(
   "org.webjars" %% "webjars-play" % "2.2.0",
   "org.webjars" % "jquery-ui" % "1.10.3",
   "org.webjars" % "jquery-ui-themes" % "1.10.3",
-  "org.webjars" % "font-awesome" % "4.0.3"
+  "org.webjars" % "font-awesome" % "4.0.3",
+  "org.webjars" % "modernizr" % "2.6.2-1"
 )     
 
 play.Project.playJavaSettings

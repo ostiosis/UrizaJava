@@ -107,6 +107,7 @@ public class Development extends Controller
     public static Result uploadAjax(String filename)
     {    	
     	BufferedImage img = null;
+    	new File(Play.application().path().getAbsolutePath() + "\\public\\uploads\\").mkdirs();
     	
     	String uploadDir = (Play.application().path().getAbsolutePath() + "\\public\\uploads\\" + filename + ".png");
     	

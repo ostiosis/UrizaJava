@@ -28,3 +28,6 @@ RUNNING_PID
 
 # Conf
 conf/application.conf
+
+# Public
+public/upload
