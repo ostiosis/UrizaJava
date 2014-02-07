@@ -28,6 +28,7 @@ RUNNING_PID
 
 # Conf
 conf/application.conf
+conf/evolutions
 
 # Public
 public/upload
