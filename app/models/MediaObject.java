@@ -72,90 +72,27 @@ public class MediaObject extends Model
 	
 	public Map<String, MediaObject> thumbnails() throws SQLException
 	{
+		
 		Map<String, MediaObject> thumbnails = new HashMap<String, MediaObject>();
-				
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
 		
-		ResultSet rs = null;
+		List<MediaObjectThumbnail> test = MediaObjectThumbnail.find.where().eq("parent_id", this.id).findList();
 		
-		String sql = "SELECT * FROM media_object_thumbnail WHERE parent_id = ?";
-		
-		try
+		for (MediaObjectThumbnail m: test)
 		{
-			connection = DB.getConnection();
-			
-			preparedStatement = connection.prepareStatement(sql);
-			
-			preparedStatement.setLong(1, this.id);
-			
-			rs = preparedStatement.executeQuery();
+			thumbnails.put(m.label, MediaObject.find.byId(m.childId));
 		}
-		catch (SQLException e)
-		{
-			System.out.println(e.getMessage());
-		}
-		finally
-		{
-			if (preparedStatement != null)
-			{
-				preparedStatement.close();
-			}
-			
-			if (connection != null)
-			{
-				connection.close();
-			}
-		}
-		
-		while (rs.next())
-		{
-			thumbnails.put(rs.getString("label"), MediaObject.find.byId(rs.getLong("child_id")));
-		}
+
 		
 		return thumbnails;	
 	}
 	
 	public MediaObject thumbnail(String label) throws SQLException
-	{
+	{		
 		MediaObject thumbnail = null;
-				
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
 		
-		ResultSet rs = null;
-		
-		String sql = "SELECT * FROM media_object_thumbnail WHERE parent_id = ? AND label = ?";
-		
-		try
-		{
-			connection = DB.getConnection();
-			
-			preparedStatement = connection.prepareStatement(sql);
-			
-			preparedStatement.setLong(1, this.id);
-			preparedStatement.setString(2, label);
-			
-			rs = preparedStatement.executeQuery();
-		}
-		catch (SQLException e)
-		{
-			System.out.println(e.getMessage());
-		}
-		finally
-		{
-			if (preparedStatement != null)
-			{
-				preparedStatement.close();
-			}
-			
-			if (connection != null)
-			{
-				connection.close();
-			}
-		}
+		MediaObjectThumbnail child = MediaObjectThumbnail.find.where().eq("parent_id", this.id).eq("label", label).findUnique();
 
-		thumbnail = find.where().eq("id", rs.getLong("child_id")).findUnique();
+		thumbnail = find.where().eq("id", child.childId).findUnique();
 		
 		return thumbnail;
 	}
