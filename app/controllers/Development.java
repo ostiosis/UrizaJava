@@ -3,11 +3,18 @@ package controllers;
 import static play.data.Form.form;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLConnection;
 
 import javax.activation.MimetypesFileTypeMap;
 import javax.imageio.ImageIO;
+
+import org.apache.commons.io.FilenameUtils;
 
 import models.Page;
 import models.User;
@@ -104,14 +111,37 @@ public class Development extends Controller
     /**/
     
     /**/
-    public static Result uploadAjax(String filename)
+    public static Result uploadAjax(String fileName, String fileType)
     {    	
     	BufferedImage img = null;
     	new File(Play.application().path().getAbsolutePath() + "\\public\\uploads\\").mkdirs();
     	
-    	String uploadDir = (Play.application().path().getAbsolutePath() + "\\public\\uploads\\" + filename + ".png");
+    	String uploadDir = (Play.application().path().getAbsolutePath() + "\\public\\uploads\\" + fileName + ".png");
     	
     	File file = request().body().asRaw().asFile();
+    	
+    	Logger.info("filename ext: " + FilenameUtils.getExtension(fileName));
+    	Logger.info("filetype: " + fileType);
+    	
+    	InputStream is = null;
+		try
+		{
+			is = new BufferedInputStream(new FileInputStream(file));
+		} catch (FileNotFoundException e2)
+		{
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+    	try
+		{
+			String mimeType = URLConnection.guessContentTypeFromStream(is);
+			Logger.info("mimeType guess: " + mimeType);
+		} catch (IOException e1)
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
     	
     	try
 		{
@@ -145,6 +175,17 @@ public class Development extends Controller
 
 		return ok("File uploaded @");    	
 		
+    }
+    
+    public void processUpload(String fileName, String fileType, File file)
+    {
+    	switch (fileType)
+    	{
+    	case "image/jpeg":
+    	case "image/gif":
+    	case "image/png":
+    		break;
+    	}
     }
     /**/
 

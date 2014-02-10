@@ -24,6 +24,12 @@ public class User extends Model
 	public static Finder<Long, User> find 
 		= new Finder<Long, User>(Long.class, User.class);
 	
+	public User(String username, String email, String password)
+	{
+		this.username = username;
+		this.email = email;
+	}
+	
 	public static User authenticate(String email, String passwordHash)
 	{
 		return find.where()

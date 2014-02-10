@@ -85,7 +85,7 @@
 
 
 			//this only uploads raw file
-	    	var route = r = jsRoutes.controllers.Development.uploadAjax(file.name).ajax({
+	    	var route = r = jsRoutes.controllers.Development.uploadAjax(file.name, file.type).ajax({
 		    	data: file,
 		    	processData: false,
 	            contentType: false,
@@ -104,7 +104,7 @@
 	    function uploadFile(file)
 	    {
 			//this only uploads raw file
-	    	var route = r = jsRoutes.controllers.Development.uploadAjax(file.name).ajax({
+	    	var route = r = jsRoutes.controllers.Development.uploadAjax(file.name, file.type).ajax({
 		    	data: file,
 		    	processData: false,
 	            contentType: false,

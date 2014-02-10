@@ -76,8 +76,7 @@ public class Application extends Controller
     		}
     		
     		return null;
-    	}
-    	
+    	}    	
     }
  
     //Password Reset
@@ -151,8 +150,7 @@ public class Application extends Controller
     		}
     		
     		return null;
-    	}
-    	
+    	}   	
     }
     
     //Password Token
@@ -193,8 +191,7 @@ public class Application extends Controller
     		}
     		
     		return null;
-    	}
-    	
+    	}   	
     }
     
     //Password

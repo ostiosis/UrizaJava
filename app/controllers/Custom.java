@@ -21,6 +21,7 @@ public class Custom extends Controller
 		return ok(custom.render(page));
 	}
 	
+	/**
 	public static Result add()
 	{
 		Page newPage = Page.create(
@@ -31,4 +32,5 @@ public class Custom extends Controller
 		
 		return ok(custom.render(newPage));
 	}
+	/**/
 }
