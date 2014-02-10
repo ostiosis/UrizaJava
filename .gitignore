@@ -31,4 +31,4 @@ conf/application.conf
 conf/evolutions
 
 # Public
-public/upload
+public/uploads
