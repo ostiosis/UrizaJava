@@ -17,4 +17,11 @@ public class MediaObjectThumbnail extends Model
 	
 	public static Finder<Long, MediaObjectThumbnail> find 
 	= new Finder<Long, MediaObjectThumbnail>(Long.class, MediaObjectThumbnail.class);
+	
+	public MediaObjectThumbnail(Long parentId, String label, Long childId)
+	{
+		this.parentId = parentId;
+		this.label = label;
+		this.childId = childId;
+	}
 }

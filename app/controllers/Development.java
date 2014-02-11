@@ -16,6 +16,7 @@ import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FilenameUtils;
 
+import models.MediaObject;
 import models.Page;
 import models.User;
 import play.Logger;
@@ -111,64 +112,25 @@ public class Development extends Controller
     /**/
     
     /**/
-    public static Result uploadAjax(String fileName, String fileType)
+    public static Result uploadAjax(String fileName) throws IOException
     {    	
     	BufferedImage img = null;
-    	new File(Play.application().path().getAbsolutePath() + "\\public\\uploads\\").mkdirs();
     	
-    	String uploadDir = (Play.application().path().getAbsolutePath() + "\\public\\uploads\\" + fileName + ".png");
+    	String extension = FilenameUtils.getExtension(fileName);
+    	String name = FilenameUtils.removeExtension(fileName);
     	
     	File file = request().body().asRaw().asFile();
     	
-    	Logger.info("filename ext: " + FilenameUtils.getExtension(fileName));
-    	Logger.info("filetype: " + fileType);
-    	
     	InputStream is = null;
-		try
-		{
-			is = new BufferedInputStream(new FileInputStream(file));
-		} catch (FileNotFoundException e2)
-		{
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+    	
+		is = new BufferedInputStream(new FileInputStream(file));
 		
-    	try
+		String mimeType = URLConnection.guessContentTypeFromStream(is);
+		
+		if (mimeType.contains("image"))
 		{
-			String mimeType = URLConnection.guessContentTypeFromStream(is);
-			Logger.info("mimeType guess: " + mimeType);
-		} catch (IOException e1)
-		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			MediaObject.create(name, extension, file);
 		}
-    	
-    	try
-		{
-			img = ImageIO.read(file);
-			
-		} 
-    	catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			Logger.error(e.getMessage());
-		}
-    	
-    	Logger.info("test: " + file.getAbsoluteFile());
-    	Logger.info("file: " + file.getName());
-    	Logger.info("file: " + new MimetypesFileTypeMap().getContentType(file).toString());
-    	
-    	
-    	try
-		{
-			Logger.info("image test: " +ImageIO.write(img, "png", new File(uploadDir)));
-		} catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-    	//File upload = new File(uploadDir);
-    	    	
 		//file.renameTo(upload);
 		file.delete();
     	//Logger.info("file: " + new MimetypesFileTypeMap().getContentType(upload).toString());
@@ -181,10 +143,10 @@ public class Development extends Controller
     {
     	switch (fileType)
     	{
-    	case "image/jpeg":
-    	case "image/gif":
-    	case "image/png":
-    		break;
+	    	case "image/jpeg":
+	    	case "image/gif":
+	    	case "image/png":
+	    		break;
     	}
     }
     /**/

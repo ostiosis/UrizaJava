@@ -2,9 +2,9 @@ package utility;
 
 public enum MediaObjectThumbnailType
 {
-	SMALL("small", 100, 50),
-	MEDIUM("medium", 200, 100),
-	LARGE("large", 400, 200);
+	SMALL("small", 25, 25),
+	MEDIUM("medium", 50, 50),
+	LARGE("large", 100, 100);
 	
 	private final String name;
 	private final Integer width;

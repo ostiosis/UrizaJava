@@ -29,7 +29,7 @@ GET		/development/openMenu		controllers.Development.openMenu()
 GET		/development/open/:pageId	controllers.Development.open(pageId: Long)
 
 POST	/development/upload			controllers.Development.upload()
-POST	/development/uploadajax		controllers.Development.uploadAjax(name: String, type: String)
+POST	/development/uploadajax		controllers.Development.uploadAjax(name: String)
 
 #Order Matters here
 GET		/development/				controllers.Development.development(name = "index")

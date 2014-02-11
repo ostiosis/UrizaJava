@@ -79,13 +79,10 @@
 	    $('input[type=file]').change(function() {
 
 			var file = this.files[0];
-			alert("name: " + file.name);
-			alert("size: " + file.size);
-			alert("type: " + file.type);
-
+			alert("name: " + file.name + "\nsize: " + file.size + "\ntype: " + file.type);
 
 			//this only uploads raw file
-	    	var route = r = jsRoutes.controllers.Development.uploadAjax(file.name, file.type).ajax({
+	    	var route = r = jsRoutes.controllers.Development.uploadAjax(file.name).ajax({
 		    	data: file,
 		    	processData: false,
 	            contentType: false,
