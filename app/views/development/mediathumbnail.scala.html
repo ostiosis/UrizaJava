@@ -1,0 +1,9 @@
+@(thumbnails: List[MediaObject])
+
+@for(thumbnail <- thumbnails) {
+	<span>
+		<img src="@routes.Assets.at("uploads/" + thumbnail.code)" />
+		@thumbnail.parent().name				
+	</span>
+	<br/>		
+}

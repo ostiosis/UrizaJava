@@ -10,6 +10,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
+import java.sql.SQLException;
+import java.util.List;
 
 import javax.activation.MimetypesFileTypeMap;
 import javax.imageio.ImageIO;
@@ -46,11 +48,6 @@ public class Development extends Controller
 			description
 		);
 		
-		Logger.info("name: " + name);
-		Logger.info("title: " + title);
-		Logger.info("description: " + description);
-		Logger.info("id: " + newPage.id);
-		
 		return ok(editor.render(newPage));
 	}
     
@@ -66,18 +63,6 @@ public class Development extends Controller
     	Page getPage = Page.find.byId(pageId);
     	
     	return ok(editor.render(getPage));
-    }
-    
-    public static class Upload
-    {
-    	public String picture;
-    	public String pageName;
-    	
-    	public String validate()
-    	{   		
-    		return null;
-    	}
-    	
     }
     
     /**/
@@ -135,10 +120,19 @@ public class Development extends Controller
 		file.delete();
     	//Logger.info("file: " + new MimetypesFileTypeMap().getContentType(upload).toString());
 
-		return ok("File uploaded @");    	
+		return ok("File uploaded");    	
 		
     }
+    /**/
     
+    public static Result showImageThumbnails(String label) throws SQLException
+    {
+    	List<MediaObject> thumbnails = MediaObject.thumbnailList(label);
+    	
+    	return ok(mediathumbnail.render(thumbnails));    	
+    }
+    
+    /**/
     public void processUpload(String fileName, String fileType, File file)
     {
     	switch (fileType)
@@ -146,7 +140,7 @@ public class Development extends Controller
 	    	case "image/jpeg":
 	    	case "image/gif":
 	    	case "image/png":
-	    		break;
+	    	break;
     	}
     }
     /**/

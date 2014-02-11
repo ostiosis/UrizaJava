@@ -28,6 +28,8 @@ POST	/development/:name/:title/:description			controllers.Development.add(name: 
 GET		/development/openMenu		controllers.Development.openMenu()
 GET		/development/open/:pageId	controllers.Development.open(pageId: Long)
 
+GET		/development/showImageThumbnails	controllers.Development.showImageThumbnails(label: String)
+
 POST	/development/upload			controllers.Development.upload()
 POST	/development/uploadajax		controllers.Development.uploadAjax(name: String)
 

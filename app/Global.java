@@ -1,8 +1,11 @@
-import play.GlobalSettings;
 import play.*;
 import play.libs.*;
+
 import com.avaje.ebean.Ebean;
+
 import models.*;
+
+import java.io.File;
 import java.util.*;
 
 public class Global extends GlobalSettings
@@ -11,6 +14,7 @@ public class Global extends GlobalSettings
 	public void onStart(Application app)
 	{
 		// Check if the database is empty
+		new File(Play.application().path().getAbsolutePath() + "\\public\\uploads\\").mkdirs();
 				
 		if (User.find.findRowCount() == 0)
 		{

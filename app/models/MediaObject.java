@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -141,11 +142,11 @@ public class MediaObject extends Model
 		
 		Map<String, MediaObject> thumbnails = new HashMap<String, MediaObject>();
 		
-		List<MediaObjectThumbnail> test = MediaObjectThumbnail.find.where().eq("parent_id", this.id).findList();
+		List<MediaObjectThumbnail> thumbnailList = MediaObjectThumbnail.find.where().eq("parent_id", this.id).findList();
 		
-		for (MediaObjectThumbnail m: test)
+		for (MediaObjectThumbnail m: thumbnailList)
 		{
-			thumbnails.put(m.label, MediaObject.find.byId(m.childId));
+			thumbnails.put(m.label.toLowerCase(), MediaObject.find.byId(m.childId));
 		}
 
 		
@@ -156,10 +157,35 @@ public class MediaObject extends Model
 	{		
 		MediaObject thumbnail = null;
 		
-		MediaObjectThumbnail child = MediaObjectThumbnail.find.where().eq("parent_id", this.id).eq("label", label).findUnique();
+		MediaObjectThumbnail reference = MediaObjectThumbnail.find.where().eq("parent_id", this.id).eq("label", label).findUnique();
 
-		thumbnail = find.where().eq("id", child.childId).findUnique();
+		thumbnail = find.where().eq("id", reference.childId).findUnique();
 		
 		return thumbnail;
+	}
+	
+	public MediaObject parent() throws SQLException
+	{		
+		MediaObject parent = null;
+		
+		MediaObjectThumbnail reference = MediaObjectThumbnail.find.where().eq("child_id", this.id).findUnique();
+
+		parent = find.where().eq("id", reference.parentId).findUnique();
+		
+		return parent;
+	}
+	
+	public static List<MediaObject> thumbnailList(String label) throws SQLException
+	{		
+		List<MediaObject> thumbnails = new ArrayList<MediaObject>();
+		
+		List<MediaObjectThumbnail> thumbnailList = MediaObjectThumbnail.find.where().eq("label", label).findList();
+
+		for (MediaObjectThumbnail m: thumbnailList)
+		{
+			thumbnails.add(MediaObject.find.byId(m.childId));
+		}
+		
+		return thumbnails;
 	}
 }

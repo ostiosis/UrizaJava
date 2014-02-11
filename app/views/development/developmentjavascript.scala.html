@@ -101,7 +101,7 @@
 	    function uploadFile(file)
 	    {
 			//this only uploads raw file
-	    	var route = r = jsRoutes.controllers.Development.uploadAjax(file.name, file.type).ajax({
+	    	var route = r = jsRoutes.controllers.Development.uploadAjax(file.name).ajax({
 		    	data: file,
 		    	processData: false,
 	            contentType: false,
@@ -164,5 +164,22 @@
   		var dropZone = document.getElementById('drop-zone');
   		dropZone.addEventListener('dragover', handleDragOver, false);
   		dropZone.addEventListener('drop', handleFileSelect, false);
+  		
+  		
+		$(document).ready( function(event){
+	
+	    	var route = r = jsRoutes.controllers.Development.showImageThumbnails("medium").ajax({
+				success: function(data) {
+					//alert(data);
+			    	$('#media-thumbnails').html(data);
+			    	
+			  	},
+			  	error: function() {
+			    	alert("Error!")
+			  	}
+			});
+	    	
+		});		
+  		
 	});
 </script>
