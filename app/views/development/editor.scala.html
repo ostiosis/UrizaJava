@@ -1,9 +1,5 @@
 @(page: Page)
 
-<h2>Name: @page.name</h2>
-<h2>Title: @page.title</h2>
-<h3>Description: @page.description</h3>
-
-<div class="drag-and-drop-area">
+<div id="drag-and-drop-area">
 	@views.html.custom.page(page)
 </div>

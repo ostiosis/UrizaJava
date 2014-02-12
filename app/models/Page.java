@@ -42,15 +42,17 @@ public class Page extends Model
 	
 	public static Page getPage(String name)
 	{
-		Page getPage = find.setMaxRows(1).findUnique();
-		
+		if (name.isEmpty())
+		{
+			Page getPage = find.setMaxRows(1).findUnique();
+			return getPage;
+		}
 			
-		/**
+		/**/
 		return find.where()
 				.eq("name", name)
 				.findUnique();
 		/**/
-		return getPage;
 	}
 	
 	public static Page create(String name, String title, String description)

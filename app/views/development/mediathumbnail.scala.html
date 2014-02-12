@@ -2,7 +2,9 @@
 
 @for(thumbnail <- thumbnails) {
 	<span>
-		<img src="@routes.Assets.at("uploads/" + thumbnail.code)" class="img-thumbnail"/>
+		<div class="draggable-thumbnail ui-widget-content" id="@thumbnail.parent().name">
+			<img src="@routes.Assets.at("uploads/" + thumbnail.code)" class="img-thumbnail"/>
+		</div>
 		@thumbnail.parent().name				
 	</span>
 	<br/>		

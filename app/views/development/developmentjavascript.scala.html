@@ -135,27 +135,64 @@
   		var dropZone = document.getElementById('drop-zone');
   		dropZone.addEventListener('dragover', handleDragOver, false);
   		dropZone.addEventListener('drop', handleFileSelect, false);
-  		
-  		
-		$(document).ready( function(event){
-			mediaThumbnails(event);
-		});
+
 
 		function mediaThumbnails(event){
 			var route = r = jsRoutes.controllers.Development.showImageThumbnails("medium").ajax({
 				success: function(data) {
 					//alert(data);
 			    	$('#media-thumbnails').html(data);
-			    	
+			    	setDraggable();
 			  	},
 			  	error: function() {
 			    	alert("Error!")
 			  	}
 			});
 		}
+
+		function setDraggable()
+		{
+	        $('.draggable-thumbnail').draggable({
+	            helper:			function(event){
+		            //alert($(this).attr('id'));
+		            return $('<div class="ui-widget-header"><img src="/assets/uploads/' + $(this).attr('id') + '" /></div>');
+	            },
+	            containment:    "#overlay",
+	            tolerance:      "fit",
+	            cursor:         "move",
+	            revert:			true,
+	            snap:			".col-xs-1",
+	            /**
+	            drag: function( event, ui ) {
+	                var snapTolerance = $(this).draggable('option', 'snapTolerance');
+	                var topRemainder = ui.position.top % 68;
+	                var leftRemainder = ui.position.left % 63;
+	                
+	                if (topRemainder <= snapTolerance) {
+	                    ui.position.top = ui.position.top - topRemainder;
+	                }
+	                
+	                if (leftRemainder <= snapTolerance) {
+	                    ui.position.left = ui.position.left - leftRemainder;
+	                }
+	            }, 
+	            /**/
+	            start:  function( event, ui ){
+	                //zIndexTemp = $(this).zIndex();
+	                //$(this).zIndex( 9999 );
+	            },
+	            stop:   function( event, ui ){
+	                //zIndexTemp = $(this).zIndex();
+	                //$(this).zIndex( zIndexTemp );
+	            }
+
+	        });
+        }
 		
 		$(document).ready( function(event){
-					
+
+			mediaThumbnails(event);
+
 			var length = $("#grid-display > .row").length;
 			var height = $("#grid-display > .row").height();
 			
