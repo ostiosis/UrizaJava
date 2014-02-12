@@ -2,7 +2,7 @@
 
 @for(thumbnail <- thumbnails) {
 	<span>
-		<img src="@routes.Assets.at("uploads/" + thumbnail.code)" />
+		<img src="@routes.Assets.at("uploads/" + thumbnail.code)" class="img-thumbnail"/>
 		@thumbnail.parent().name				
 	</span>
 	<br/>		

@@ -55,44 +55,46 @@
     </header>
     
     <!--  Main Editor Area -->
-    <div class="col-md-8">
-    <div id="container"  >
-	    
-	    <div id="result" class="col-md-12">
-	    	<div class="row">
-				@if(page == null) {
-				  	<h1>Nothing to display</h1>
-				} else {
-		 			@views.html.development.editor(page)
-				}
+    <div class="container">
+	    <div class="row">
+		    <div class="col-md-8">
+		    <div id="overlay"  >	    
+			    <div id="result" class="col-md-12">
+			    	<div class="row">
+						@if(page == null) {
+						  	<h1>Nothing to display</h1>
+						} else {
+				 			@views.html.development.editor(page)
+						}
+					</div>
+			    </div>
+			    
+			    <div id="grid-display" class="col-md-12">
+			    	<div class="row">
+			    		<div class="col-xs-1"></div>
+			    		<div class="col-xs-1"></div>
+			    		<div class="col-xs-1"></div>
+			    		<div class="col-xs-1"></div>
+			    		<div class="col-xs-1"></div>
+			    		<div class="col-xs-1"></div>
+			    		<div class="col-xs-1"></div>
+			    		<div class="col-xs-1"></div>
+			    		<div class="col-xs-1"></div>
+			    		<div class="col-xs-1"></div>
+			    		<div class="col-xs-1"></div>
+			    		<div class="col-xs-1"></div>
+			    	</div>
+			    </div>
+			    
+			    
+		    </div>
+		    </div>
+		    
+			<div id="palette-menu" class="col-md-4 " style="height: 100%; ">
+				@views.html.development.palletmenu()
 			</div>
 	    </div>
-	    
-	    <div id="grid-display" class="col-md-12">
-	    	<div class="row">
-	    		<div class="col-md-1"></div>
-	    		<div class="col-md-1"></div>
-	    		<div class="col-md-1"></div>
-	    		<div class="col-md-1"></div>
-	    		<div class="col-md-1"></div>
-	    		<div class="col-md-1"></div>
-	    		<div class="col-md-1"></div>
-	    		<div class="col-md-1"></div>
-	    		<div class="col-md-1"></div>
-	    		<div class="col-md-1"></div>
-	    		<div class="col-md-1"></div>
-	    		<div class="col-md-1"></div>
-	    	</div>
-	    </div>
-	    
-	    
     </div>
-    </div>
-    
-	<div id="palette-menu" class="col-md-4 " style="height: 100%; ">
-		@views.html.development.palletmenu()
-	</div>
-    
 <!-- Model New Page-->
     <div class="modal fade" id="modelNew" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">

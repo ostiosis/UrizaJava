@@ -1,20 +1,14 @@
 package controllers;
 
-import static play.data.Form.form;
-
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
 import java.sql.SQLException;
 import java.util.List;
-
-import javax.activation.MimetypesFileTypeMap;
-import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FilenameUtils;
 
@@ -26,8 +20,7 @@ import play.Play;
 import play.mvc.*;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
-import utility.MediaObjectType;
-import views.html.custom.*;
+import utility.MediaHelpers;
 import views.html.development.*;
 
 public class Development extends Controller
@@ -41,14 +34,16 @@ public class Development extends Controller
     
     /**/
     public static Result add(String name, String title, String description)
-	{    	
-		Page newPage = Page.create(
+	{    	    	
+    	Page newPage = Page.create(
 			name, 
 			title, 
 			description
 		);
 		
-		return ok(editor.render(newPage));
+		//return ok(editor.render(newPage));
+    	return ok(development.render(newPage, "Dev Menu"));        
+
 	}
     
 	/**/
@@ -98,21 +93,27 @@ public class Development extends Controller
     
     /**/
     public static Result uploadAjax(String fileName) throws IOException
-    {    	
-    	BufferedImage img = null;
+    {    	   	
+    	Logger.info("uploadAjax");
     	
     	String extension = FilenameUtils.getExtension(fileName);
     	String name = FilenameUtils.removeExtension(fileName);
     	
-    	File file = request().body().asRaw().asFile();
-    	
+    	File file = null;
+
+		file = request().body().asRaw().asFile();
+		Logger.info("TEST2");
+		   	
     	InputStream is = null;
     	
 		is = new BufferedInputStream(new FileInputStream(file));
 		
-		String mimeType = URLConnection.guessContentTypeFromStream(is);
+		//String mimeType = URLConnection.guessContentTypeFromStream(is);
+		String mimeType = MediaHelpers.guessContentTypeFromStream(is);
 		
-		if (mimeType.contains("image"))
+		Logger.info(mimeType);
+		
+		if (mimeType != null && mimeType.contains("image"))
 		{
 			MediaObject.create(name, extension, file);
 		}

@@ -24,13 +24,12 @@ POST	/password					controllers.Application.passwordForm()
 
 GET		/development				controllers.Development.development(name = "index")
 
-POST	/development/:name/:title/:description			controllers.Development.add(name: String, title: String, description: String)
+POST	/development/add/:name/:title/:description			controllers.Development.add(name: String, title: String, description: String)
 GET		/development/openMenu		controllers.Development.openMenu()
 GET		/development/open/:pageId	controllers.Development.open(pageId: Long)
 
 GET		/development/showImageThumbnails	controllers.Development.showImageThumbnails(label: String)
 
-POST	/development/upload			controllers.Development.upload()
 POST	/development/uploadajax		controllers.Development.uploadAjax(name: String)
 
 #Order Matters here
