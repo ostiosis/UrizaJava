@@ -13,6 +13,7 @@ import java.util.List;
 import org.apache.commons.io.FilenameUtils;
 
 import models.MediaObject;
+import models.MediaObjectThumbnail;
 import models.Page;
 import models.User;
 import play.Logger;
@@ -131,6 +132,33 @@ public class Development extends Controller
     	List<MediaObject> thumbnails = MediaObject.thumbnailList(label);
     	
     	return ok(mediathumbnail.render(thumbnails));    	
+    }
+    
+    public static Result getImage(Long imageId, String label)
+    {
+    	MediaObject findImage = null;
+    	
+    	if (label == "")
+    	{
+	    	findImage = MediaObject.find.byId(imageId);
+    	}
+    	else
+    	{
+	    	findImage = MediaObject.find.byId(
+				MediaObjectThumbnail
+				.find
+				.where()
+				.eq("parent_id", imageId)
+				.eq("label", label).findUnique().childId
+			);
+    	}
+    	
+    	Logger.info("Code: " + findImage.code);
+    	Logger.info("imageId: " + imageId);
+    	Logger.info("label: " + label);
+    	Logger.info(views.html.development.image.render(findImage).toString());
+    	
+    	return ok(views.html.development.image.render(findImage));
     }
     
     /**/

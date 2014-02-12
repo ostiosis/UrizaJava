@@ -154,8 +154,18 @@
 		{
 	        $('.draggable-thumbnail').draggable({
 	            helper:			function(event){
-		            //alert($(this).attr('id'));
-		            return $('<div class="ui-widget-header"><img src="/assets/uploads/' + $(this).attr('id') + '" /></div>');
+	            	var result = $(this).clone();
+	            	
+					 var route = r = jsRoutes.controllers.Development.getImage($(this).attr('id'), "large").ajax({
+						success: function(data) {
+					    	$(result).html(data);					    	
+					  	},
+					  	error: function() {
+					    	alert("Error!")
+					  	}
+					});
+					
+					return $(result);		            
 	            },
 	            containment:    "#overlay",
 	            tolerance:      "fit",

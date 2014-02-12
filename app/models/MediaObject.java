@@ -1,13 +1,11 @@
 package models;
-
+/**
+ * TODO: refactor into this class and Image subclass
+ */
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -15,8 +13,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
-
 import javax.imageio.ImageIO;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -26,9 +22,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import play.Play;
-import play.db.DB;
 import play.db.ebean.Model;
-import play.db.ebean.Model.Finder;
 import utility.MediaObjectThumbnailType;
 
 @Entity
