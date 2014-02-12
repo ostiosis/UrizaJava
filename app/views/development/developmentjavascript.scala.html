@@ -179,7 +179,42 @@
 			  	}
 			});
 	    	
-		});		
+		});
+		
+		$(document).ready( function(event){
+		
+			$("#grid-display").css('visibility', 'hidden');
+			
+			var length = $("#grid-display > .row").length;
+			var height = $("#grid-display > .row").height();
+			
+			var htmlRow = ['<div class="row">',
+		    		'<div class="col-md-1"></div>',
+		    		'<div class="col-md-1"></div>',
+		    		'<div class="col-md-1"></div>',
+		    		'<div class="col-md-1"></div>',
+		    		'<div class="col-md-1"></div>',
+		    		'<div class="col-md-1"></div>',
+		    		'<div class="col-md-1"></div>',
+		    		'<div class="col-md-1"></div>',
+		    		'<div class="col-md-1"></div>',
+		    		'<div class="col-md-1"></div>',
+		    		'<div class="col-md-1"></div>',
+		    		'<div class="col-md-1"></div>',
+		    	'</div>'].join('\n');
+			//alert("length: " + length + ", size" + height);
+			while (length * height < $('#result').height())
+			{
+				$('#grid-display').append(htmlRow);
+				length = $("#grid-display > .row").length;
+			}
+		});	
   		
+  		$("#result").mouseover(function () {
+    		$("#grid-display").css('visibility', 'visible');
+		}).mouseleave(function () {
+    		$("#grid-display").css('visibility', 'hidden');
+		});
+  				
 	});
 </script>
