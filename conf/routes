@@ -31,7 +31,6 @@ GET		/development/open/:pageId	controllers.Development.open(pageId: Long)
 GET		/development/showImageThumbnails	controllers.Development.showImageThumbnails(label: String)
 
 GET		/development/getImage		controllers.Development.getImage(imageId: Long, label: String)
-GET		/development/getImage		controllers.Development.getImage(imageId: Long, label = "")
 
 POST	/development/uploadajax		controllers.Development.uploadAjax(name: String)
 
