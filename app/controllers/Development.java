@@ -1,12 +1,10 @@
 package controllers;
 
-import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URLConnection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -15,7 +13,6 @@ import org.apache.commons.io.FilenameUtils;
 import models.MediaObject;
 import models.MediaObjectThumbnail;
 import models.Page;
-import models.User;
 import play.Logger;
 import play.Play;
 import play.mvc.*;
@@ -60,37 +57,6 @@ public class Development extends Controller
     	
     	return ok(editor.render(getPage));
     }
-    
-    /**/
-    public static Result upload()
-    {
-    	//Logger.info(Play.application().path().getAbsolutePath() + "\\public\\uploads\\");
-    	
-    	String uploadDir = (Play.application().path().getAbsolutePath() + "\\public\\uploads\\");
-    	
-    	File upload = new File(uploadDir);
-    	
-    	MultipartFormData body = request().body().asMultipartFormData();
-  		FilePart picture = body.getFile("picture");
-  		
-  		if (picture != null) 
-  		{
-    		String fileName = picture.getFilename();
-    		String contentType = picture.getContentType(); 
-    		File file = picture.getFile();
-    		//file = picture.getFile();
-    		    		
-    		file.renameTo(upload);
-    		file.delete();
-			return ok("File uploaded @" + upload.getAbsolutePath());    		
-  		} 
-  		else 
-  		{
-    		flash("error", "Missing file");
-    		return redirect(routes.Development.development("error"));    
-  		}    	
-    }
-    /**/
     
     /**/
     public static Result uploadAjax(String fileName) throws IOException
@@ -152,11 +118,6 @@ public class Development extends Controller
 				.eq("label", label).findUnique().childId
 			);
     	}
-    	
-    	Logger.info("Code: " + findImage.code);
-    	Logger.info("imageId: " + imageId);
-    	Logger.info("label: " + label);
-    	Logger.info(views.html.development.image.render(findImage).toString());
     	
     	return ok(views.html.development.image.render(findImage));
     }
