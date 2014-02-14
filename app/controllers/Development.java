@@ -50,12 +50,12 @@ public class Development extends Controller
     	return ok(open.render(Page.pages()));
     }
     
-    /**/
+    /**
     public static Result open(Long pageId)
     {
     	Page getPage = Page.find.byId(pageId);
     	
-    	return ok(editor.render(getPage));
+    	return ok(views.html.custom.page.render(getPage));
     }
     
     /**/

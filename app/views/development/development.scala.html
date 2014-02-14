@@ -55,16 +55,8 @@
     </header>
     
     <!--  Main Editor Area -->
-    <script>
-  $(function() {
-    $( ".draggable" ).draggable();
-  });
-  </script>
- <div class="draggable" class="ui-widget-content">
-  <p>Drag me around</p>
-</div>
     
-    <div class="container">
+    <div class="">
 	    <div class="row">
 		    <div class="col-md-8">
 		    <div id="page-information">
@@ -78,11 +70,9 @@
 		    </div>
 		    <div id="overlay"  >	    
 			    <div id="result" class="col-md-12">
-			    	<div class="row">
-						@if(page != null) {
-				 			@views.html.development.editor(page)
-						}
-					</div>
+					@if(page != null) {				 			
+						@views.html.custom.page(page)							
+					}
 			    </div>
 			    
 			    <div id="grid-display" class="col-md-12">

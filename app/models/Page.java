@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import play.Logger;
 import play.db.ebean.*;
 
 @Entity
@@ -42,6 +43,9 @@ public class Page extends Model
 	
 	public static Page getPage(String name)
 	{
+		
+		Logger.info("Name: " + name);
+		
 		if (name.isEmpty())
 		{
 			Page getPage = find.setMaxRows(1).findUnique();

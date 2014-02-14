@@ -35,59 +35,11 @@
 			});
 	    	
 		});
-		
-		$(document).on('click', '.open-page', function(event){
-	
-			//Prevent normal link behavior
-			//This can be removed when you no longer use <a></a> tags
-			
-			event.preventDefault(); 
-			
-			var pageId = $(this).attr('id');
-	
-	    	//alert( pageId );
-	    	
-	    	$('.modal').modal('hide');
-	    	
-	    	var route = r = jsRoutes.controllers.Development.open(pageId).ajax({
-				success: function(data) {
-			    	$('#result').html(data);
-			  	},
-			  	error: function() {
-			    	alert("Error!")
-			  	}
-			});
-	    	
-		});
 
 	    $('input[type=file]').change(function() {
-
 			var file = this.files[0];
-			//alert("name: " + file.name + "\nsize: " + file.size + "\ntype: " + file.type);
-
 			uploadFile(file);
 	    });
-	    
-	    function uploadFile(file)
-	    {
-			//this only uploads raw file
-	    	var route = r = jsRoutes.controllers.Development.uploadAjax(file.name).ajax({
-		    	data: file,
-		    	processData: false,
-	            contentType: false,
-	            cache: false,
-	            type: 'POST',
-				success: function(data) {
-					//alert(data);
-			    	//$('#result').html(data);
-					mediaThumbnails(event);
-			  	},
-			  	error: function() {
-			    	alert("Error!");
-			  	}
-			});
-	    
-	    }
 	
 		if (Modernizr.draganddrop) 
 		{
@@ -100,132 +52,170 @@
 			//alert("no drag and drop");
 		}
 		
- 		function handleFileSelect(event) 
- 		{
-   			event.stopPropagation();
-    		event.preventDefault();
-
-    		var files = event.dataTransfer.files; // FileList object.
-
-    		// files is a FileList of File objects. List some properties.
-    		
-    		var output = [];
-    		
-    		for (var i = 0, f; f = files[i]; i++) 
-    		{
-      			uploadFile(f);
-      			
-      			output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
-            		f.size, ' bytes, last modified: ',
-                  	f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
-                  	'</li>');
-   			}
-   			
-    		document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
-  		}
-
-  		function handleDragOver(event) 
-  		{
-    		event.stopPropagation();
-    		event.preventDefault();
-    		event.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-  		}
-
   		// Setup the dnd listeners.
   		var dropZone = document.getElementById('drop-zone');
   		dropZone.addEventListener('dragover', handleDragOver, false);
   		dropZone.addEventListener('drop', handleFileSelect, false);
 
+		mediaThumbnails(event);
 
-		function mediaThumbnails(event){
-			var route = r = jsRoutes.controllers.Development.showImageThumbnails("medium").ajax({
-				success: function(data) {
-					//alert(data);
-			    	$('#media-thumbnails').html(data);
-			    	setDraggable();
-			  	},
-			  	error: function() {
-			    	alert("Error!")
-			  	}
-			});
-		}
-
-		function setDraggable()
-		{
-	        $('.draggable-thumbnail').draggable({
-	            helper:			function(event){
-	            	var result = $(this).clone();
-	            	
-					 var route = r = jsRoutes.controllers.Development.getImage($(this).attr('id'), "large").ajax({
-						success: function(data) {
-					    	$(result).html(data);					    	
-					  	},
-					  	error: function() {
-					    	alert("Error!")
-					  	}
-					});
-					
-					return $(result);		            
-	            },
-	            containment:    "#overlay",
-	            tolerance:      "fit",
-	            cursor:         "move",
-	            revert:			true,
-	            snap:			".col-xs-1",
-	            /**
-	            drag: function( event, ui ) {
-	                var snapTolerance = $(this).draggable('option', 'snapTolerance');
-	                var topRemainder = ui.position.top % 68;
-	                var leftRemainder = ui.position.left % 63;
-	                
-	                if (topRemainder <= snapTolerance) {
-	                    ui.position.top = ui.position.top - topRemainder;
-	                }
-	                
-	                if (leftRemainder <= snapTolerance) {
-	                    ui.position.left = ui.position.left - leftRemainder;
-	                }
-	            }, 
-	            /**/
-	            start:  function( event, ui ){
-	                //zIndexTemp = $(this).zIndex();
-	                //$(this).zIndex( 9999 );
-	            },
-	            stop:   function( event, ui ){
-	                //zIndexTemp = $(this).zIndex();
-	                //$(this).zIndex( zIndexTemp );
-	            }
-
-	        });
-        }
+		var length = $("#grid-display > .row").length;
+		var height = $("#grid-display > .row").height();
 		
-		$(document).ready( function(event){
+		var htmlRow = ['<div class="row">',
+	    		'<div class="col-xs-1"></div>',
+	    		'<div class="col-xs-1"></div>',
+	    		'<div class="col-xs-1"></div>',
+	    		'<div class="col-xs-1"></div>',
+	    		'<div class="col-xs-1"></div>',
+	    		'<div class="col-xs-1"></div>',
+	    		'<div class="col-xs-1"></div>',
+	    		'<div class="col-xs-1"></div>',
+	    		'<div class="col-xs-1"></div>',
+	    		'<div class="col-xs-1"></div>',
+	    		'<div class="col-xs-1"></div>',
+	    		'<div class="col-xs-1"></div>',
+	    	'</div>'].join('\n');
 
-			mediaThumbnails(event);
-
-			var length = $("#grid-display > .row").length;
-			var height = $("#grid-display > .row").height();
-			
-			var htmlRow = ['<div class="row">',
-		    		'<div class="col-xs-1"></div>',
-		    		'<div class="col-xs-1"></div>',
-		    		'<div class="col-xs-1"></div>',
-		    		'<div class="col-xs-1"></div>',
-		    		'<div class="col-xs-1"></div>',
-		    		'<div class="col-xs-1"></div>',
-		    		'<div class="col-xs-1"></div>',
-		    		'<div class="col-xs-1"></div>',
-		    		'<div class="col-xs-1"></div>',
-		    		'<div class="col-xs-1"></div>',
-		    		'<div class="col-xs-1"></div>',
-		    		'<div class="col-xs-1"></div>',
-		    	'</div>'].join('\n');
-			//alert("length: " + length + ", size" + height);
-			while (length * height < $('#result').height())
-			{
-				$('#grid-display').append(htmlRow);
-				length = $("#grid-display > .row").length;
-			}
-		});			
+		while (length * height < $('#result').height())
+		{
+			$('#grid-display').append(htmlRow);
+			length = $("#grid-display > .row").length;
+		}
+		
+		setDroppable();
+					
 	});
+	
+	//Functions
+    function uploadFile(file)
+    {
+		//this only uploads raw file
+    	var route = r = jsRoutes.controllers.Development.uploadAjax(file.name).ajax({
+	    	data: file,
+	    	processData: false,
+            contentType: false,
+            cache: false,
+            type: 'POST',
+			success: function(data) {
+				mediaThumbnails(event);
+		  	},
+		  	error: function() {
+		    	alert("Error!");
+		  	}
+		});	    
+    }
+	
+	function mediaThumbnails(event){
+		var route = r = jsRoutes.controllers.Development.showImageThumbnails("medium").ajax({
+			success: function(data) {
+				//alert(data);
+		    	$('#media-thumbnails').html(data);
+		    	Thumbnail();
+		  	},
+		  	error: function() {
+		    	alert("Error!");
+		  	}
+		});
+	}
+	
+	function setDroppable()
+	{
+		$('#result').droppable({
+			drop:		function(event, ui){
+
+				var helperOffset = ui.helper.offset();
+				var clonedComponent = ui.helper.clone();
+				
+				ui.helper.remove();
+				
+				$(clonedComponent).detach();
+				$(clonedComponent).css('top', helperOffset.top - $("#result").offset().top);
+				$(clonedComponent).css('left', helperOffset.left - $("#result").offset().left);			
+				
+				$(clonedComponent).appendTo( "#result" );
+			}
+		});
+	}
+	
+	function Thumbnail()
+	{
+        $('.draggable-thumbnail').draggable({
+            helper:			function(event){
+            	var result = $(this).clone();
+            	
+				 var route = r = jsRoutes.controllers.Development.getImage($(this).attr('id'), "large").ajax({
+					success: function(data) {
+				    	$(result).html(data);					    	
+				  	},
+				  	error: function() {
+				    	alert("Error!");
+				  	}
+				});
+				
+				return $(result);		            
+            },
+            containment:    "#result",
+            tolerance:      "fit",
+            cursor:         "move",
+            revert:			true,
+            snap:			".col-xs-1",
+            /**
+            drag: function( event, ui ) {
+                var snapTolerance = $(this).draggable('option', 'snapTolerance');
+                var topRemainder = ui.position.top % 68;
+                var leftRemainder = ui.position.left % 63;
+                
+                if (topRemainder <= snapTolerance) {
+                    ui.position.top = ui.position.top - topRemainder;
+                }
+                
+                if (leftRemainder <= snapTolerance) {
+                    ui.position.left = ui.position.left - leftRemainder;
+                }
+            }, 
+            /**/
+            start:  function( event, ui ){
+                //zIndexTemp = $(this).zIndex();
+                //$(this).zIndex( 9999 );
+            },
+            stop:   function( event, ui ){
+                //zIndexTemp = $(this).zIndex();
+                //$(this).zIndex( zIndexTemp );
+            }
+
+        });
+    }
+	
+	function handleDragOver(event) 
+	{
+   		event.stopPropagation();
+   		event.preventDefault();
+   		event.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+	}
+		
+	function handleFileSelect(event) 
+	{
+		event.stopPropagation();
+  		event.preventDefault();
+
+  		var files = event.dataTransfer.files; // FileList object.
+
+  		// files is a FileList of File objects. List some properties.
+  		
+  		var output = [];
+  		
+  		for (var i = 0, f; f = files[i]; i++) 
+  		{
+   			uploadFile(f);
+   			
+   			output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+         			f.size, ' bytes, last modified: ',
+               	f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
+               	'</li>');
+		}
+ 			
+  		document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+	}
+
 </script>

@@ -22,11 +22,10 @@ POST	/token						controllers.Application.tokenForm()
 GET		/password					controllers.Application.password()
 POST	/password					controllers.Application.passwordForm()
 
-GET		/development				controllers.Development.development(name = "index")
+
 
 POST	/development/add/:name/:title/:description			controllers.Development.add(name: String, title: String, description: String)
 GET		/development/openMenu		controllers.Development.openMenu()
-GET		/development/open/:pageId	controllers.Development.open(pageId: Long)
 
 GET		/development/showImageThumbnails	controllers.Development.showImageThumbnails(label: String)
 
@@ -35,7 +34,8 @@ GET		/development/getImage		controllers.Development.getImage(imageId: Long, labe
 POST	/development/uploadajax		controllers.Development.uploadAjax(name: String)
 
 #Order Matters here
-GET		/development/				controllers.Development.development(name = "index")
+GET		/development				controllers.Development.development(name = "")
+GET		/development/				controllers.Development.development(name = "")
 GET		/development/:name			controllers.Development.development(name: String)
 
 # Dynamic Page
