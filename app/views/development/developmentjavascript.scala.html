@@ -59,33 +59,59 @@
 
 		mediaThumbnails(event);
 
+		resizeTargets();
+		createGrid();
+		setDroppable();
+		
+		$(window).resize(function(){
+			resizeTargets();
+			createGrid();
+		});
+					
+	});
+	
+	function createGrid()
+	{
 		var length = $("#grid-display > .row").length;
 		var height = $("#grid-display > .row").height();
 		
 		var htmlRow = ['<div class="row">',
-	    		'<div class="col-xs-1"></div>',
-	    		'<div class="col-xs-1"></div>',
-	    		'<div class="col-xs-1"></div>',
-	    		'<div class="col-xs-1"></div>',
-	    		'<div class="col-xs-1"></div>',
-	    		'<div class="col-xs-1"></div>',
-	    		'<div class="col-xs-1"></div>',
-	    		'<div class="col-xs-1"></div>',
-	    		'<div class="col-xs-1"></div>',
-	    		'<div class="col-xs-1"></div>',
-	    		'<div class="col-xs-1"></div>',
-	    		'<div class="col-xs-1"></div>',
+	    		'<div class="col-xs-1 grid-cell"></div>',
+	    		'<div class="col-xs-1 grid-cell"></div>',
+	    		'<div class="col-xs-1 grid-cell"></div>',
+	    		'<div class="col-xs-1 grid-cell"></div>',
+	    		'<div class="col-xs-1 grid-cell"></div>',
+	    		'<div class="col-xs-1 grid-cell"></div>',
+	    		'<div class="col-xs-1 grid-cell"></div>',
+	    		'<div class="col-xs-1 grid-cell"></div>',
+	    		'<div class="col-xs-1 grid-cell"></div>',
+	    		'<div class="col-xs-1 grid-cell"></div>',
+	    		'<div class="col-xs-1 grid-cell"></div>',
+	    		'<div class="col-xs-1 grid-cell"></div>',
 	    	'</div>'].join('\n');
-
+		
 		while (length * height < $('#result').height())
 		{
 			$('#grid-display').append(htmlRow);
-			length = $("#grid-display > .row").length;
+			resizeTargets()
+			length = $("#grid-display > .row").length;			
 		}
 		
-		setDroppable();
-					
-	});
+
+	}
+	
+	function resizeTargets()
+	{
+		var length = ($("#overlay").width() / 12);
+		
+		$('.col-xs-1').each(function(){
+			$(this).css('height', length);
+	   	});
+	   
+	   	$('#grid-display > .row').each(function(){
+		   	$(this).css('height', length);   
+	   	});
+	}
 	
 	//Functions
     function uploadFile(file)
@@ -123,15 +149,29 @@
 	{
 		$('#result').droppable({
 			drop:		function(event, ui){
-
+				
+				gridWidth = $('#overlay').width() / 12;
+				gridHeight = gridWidth;
+				// Test Area
+				alert("width: " + gridWidth + "\nheight: " + gridHeight );
+				
+				
 				var helperOffset = ui.helper.offset();
 				var clonedComponent = ui.helper.clone();
+				
+				var offsetTop = helperOffset.top - $("#result").offset().top;
+				var offsetLeft = helperOffset.left - $("#result").offset().left;
+				
+				var divTop = parseInt(offsetTop / gridHeight);
+				var divLeft = parseInt(offsetLeft / gridWidth);
 				
 				ui.helper.remove();
 				
 				$(clonedComponent).detach();
-				$(clonedComponent).css('top', helperOffset.top - $("#result").offset().top);
-				$(clonedComponent).css('left', helperOffset.left - $("#result").offset().left);			
+				$(clonedComponent).css('top', divTop * gridHeight);
+				$(clonedComponent).css('left', divLeft * gridWidth);	
+				
+				//alert(parseInt(left / gridWidth));
 				
 				$(clonedComponent).appendTo( "#result" );
 			}
