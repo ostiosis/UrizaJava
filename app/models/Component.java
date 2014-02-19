@@ -16,6 +16,11 @@ public class Component extends Model
 	public String name;
 	public String code;
 	
+	
+	public Long columnWidth;
+	public Long offset;
+	public Long height;
+	
 	@ManyToOne
 	User user;
 	
@@ -28,4 +33,6 @@ public class Component extends Model
 		      joinColumns={@JoinColumn(name="row_id", referencedColumnName="id")},
 		      inverseJoinColumns={@JoinColumn(name="component_id", referencedColumnName="id")})
 	public List<Row> rows;
+	
+	
 }
