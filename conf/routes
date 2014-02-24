@@ -3,48 +3,51 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index()
+GET     /                           						controllers.Application.index()
 
 
 # Login
-GET 	/login						controllers.Application.login()
-POST	/login						controllers.Application.authenticate()
+GET 	/login												controllers.Application.login()
+POST	/login												controllers.Application.authenticate()
 
-GET		/logout						controllers.Application.logout()
+GET		/logout												controllers.Application.logout()
 
 # Password Reset
-GET		/reset						controllers.Application.reset()
-POST	/reset						controllers.Application.resetForm()
+GET		/reset												controllers.Application.reset()
+POST	/reset												controllers.Application.resetForm()
 
-GET		/token						controllers.Application.token()
-POST	/token						controllers.Application.tokenForm()
+GET		/token												controllers.Application.token()
+POST	/token												controllers.Application.tokenForm()
 
-GET		/password					controllers.Application.password()
-POST	/password					controllers.Application.passwordForm()
+GET		/password											controllers.Application.password()
+POST	/password											controllers.Application.passwordForm()
 
 
 
 POST	/development/add/:name/:title/:description			controllers.Development.add(name: String, title: String, description: String)
-GET		/development/openMenu		controllers.Development.openMenu()
+GET		/development/openMenu								controllers.Development.openMenu()
 
-GET		/development/showImageThumbnails	controllers.Development.showImageThumbnails(label: String)
+GET		/development/showImageThumbnails					controllers.Development.showImageThumbnails(label: String)
 
-GET		/development/getImage		controllers.Development.getImage(imageId: Long, label: String)
+GET		/development/getImage								controllers.Development.getImage(imageId: Long, label: String)
 
-POST	/development/uploadajax		controllers.Development.uploadAjax(name: String)
+POST	/development/uploadajax								controllers.Development.uploadAjax(name: String)
+
+POST	/development/updateComponent						controllers.Development.updateComponent(code: String, componentId: Long, componentType: String, topPosition: Long, leftPosition: Long, width: Long, height: Long, templateId: Long, pageId: Long)
+
 
 #Order Matters here
-GET		/development				controllers.Development.development(name = "")
-GET		/development/				controllers.Development.development(name = "")
-GET		/development/:name			controllers.Development.development(name: String)
+GET		/development										controllers.Development.development(name = "")
+GET		/development/										controllers.Development.development(name = "")
+GET		/development/:name									controllers.Development.development(name: String)
 
 # Dynamic Page
-GET		/:name						controllers.Custom.custom(name: String)
+GET		/:name												controllers.Custom.custom(name: String)
 
 # Javascript routing
-GET		/assets/javascripts/routes	controllers.Application.javascriptRoutes()
+GET		/assets/javascripts/routes							controllers.Application.javascriptRoutes()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /assets/*file               						controllers.Assets.at(path="/public", file)
 
-GET     /webjars/*file                    controllers.WebJarAssets.at(file)
+GET     /webjars/*file                    					controllers.WebJarAssets.at(file)

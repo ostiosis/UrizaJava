@@ -10,9 +10,11 @@ import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 
+import models.Component;
 import models.MediaObject;
 import models.MediaObjectThumbnail;
 import models.Page;
+import models.Template;
 import play.Logger;
 import play.Play;
 import play.mvc.*;
@@ -134,5 +136,57 @@ public class Development extends Controller
     	}
     }
     /**/
+    
+    public static Result updateComponent(String code, Long componentId, String componentType, Long topPosition, Long leftPosition, Long width, Long height, Long templateId, Long pageId)
+    {
+    	code = code.trim();
+    	
+    	Page getPage = Page.find.byId(pageId);
+    	
+    	Template getTemplate = null;
+    	Component getComponent = null;
+    	
+    	if (templateId <= 0)
+    	{
+    		getTemplate = Template.create("", "", topPosition, leftPosition);
+    	}    	
+    	else
+    	{
+    		getTemplate = Template.find.byId(templateId);
+    		getTemplate.update(topPosition, leftPosition);   		
+    	}
+    	
+    	/**/
+		getPage.templates.add(getTemplate);
+		getPage.saveManyToManyAssociations("templates");
+		//getPage.save();
+		
+    	if (componentId <= 0)
+    	{
+    		getComponent = Component.create("", code, componentType, width, height);
+    	}
+    	else
+    	{
+    		getComponent = Component.find.byId(componentId);
+    		getComponent.update(code, width, height);
+    	}
+		/**/
+    	getTemplate.components.add(getComponent);
+    	getTemplate.saveManyToManyAssociations("components");
+    	//getTemplate.save();
+    	
+    	Logger.info("code: " + code.trim());
+    	Logger.info("componentId: " + componentId);
+    	Logger.info("componentType: " + componentType);
+    	Logger.info("topPosition: " + topPosition);
+    	Logger.info("leftPosition: " + leftPosition);
+    	Logger.info("width: " + width);
+    	Logger.info("height: " + height);
+    	
+    	Logger.info("templateId: " + templateId);
+    	Logger.info("pageId: " + pageId);
+    	
+    	return ok("test");
+    }
 
 }

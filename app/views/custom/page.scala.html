@@ -1,5 +1,5 @@
 @(page: Page)
-	
+	<input type="hidden" name="page" value="@page.id" />
 	
 	@for(template <- page.templates) {
 		@views.html.custom.template(template)		

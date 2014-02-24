@@ -149,12 +149,9 @@
 	{
 		$('#result').droppable({
 			drop:		function(event, ui){
-				
-				gridWidth = $('#overlay').width() / 12;
-				gridHeight = gridWidth;
-				// Test Area
-				alert("width: " + gridWidth + "\nheight: " + gridHeight );
-				
+
+				var gridWidth = $('#overlay').width() / 12;
+				var gridHeight = gridWidth;
 				
 				var helperOffset = ui.helper.offset();
 				var clonedComponent = ui.helper.clone();
@@ -162,18 +159,56 @@
 				var offsetTop = helperOffset.top - $("#result").offset().top;
 				var offsetLeft = helperOffset.left - $("#result").offset().left;
 				
-				var divTop = parseInt(offsetTop / gridHeight);
-				var divLeft = parseInt(offsetLeft / gridWidth);
+				var divTop = parseInt((offsetTop + 5) / gridHeight);
+				var divLeft = parseInt((offsetLeft + 5) / gridWidth);
+
+				var topPosition = divTop * gridHeight;
+				var leftPosition = divLeft * gridWidth;
+				
+				var width = 0;
+				var height = 0;
+
+				var componentId = 0;
+				var componentType = "image";
+				var code = $(clonedComponent).html();
+
+				var templateId = 0;				
+				var pageId = $('input[name="page"]').val();
+
+				if ($(this).parent('.template_wrapper').length > 0)
+				{
+					alert($(this).parent('.template_wrapper').attr('id'));
+					templateId = $(this).parent('.template_wrapper').attr('id');
+				}
 				
 				ui.helper.remove();
 				
 				$(clonedComponent).detach();
-				$(clonedComponent).css('top', divTop * gridHeight);
-				$(clonedComponent).css('left', divLeft * gridWidth);	
-				
-				//alert(parseInt(left / gridWidth));
+				$(clonedComponent).css('top', topPosition);
+				$(clonedComponent).css('left', leftPosition);	
+
+				alert($(clonedComponent).html());
+
+				$(clonedComponent).draggable({
+                    helper:         "original",
+                    containment:    "#result",
+                    tolerance:      "fit",
+                    cursor:         "move",
+                    snap:			".grid-cell"
+                });
 				
 				$(clonedComponent).appendTo( "#result" );
+
+			 	var route = r = jsRoutes.controllers.Development.updateComponent(code, componentId, componentType, Math.floor(topPosition), Math.floor(leftPosition), width, height, templateId, pageId).ajax({
+					success: function(data) {
+			    		alert(data);					    	
+				  	},
+				  	error: function() {
+				    	alert("Error!");
+				  	}
+				});
+				
+						
 			}
 		});
 	}
@@ -182,11 +217,11 @@
 	{
         $('.draggable-thumbnail').draggable({
             helper:			function(event){
-            	var result = $(this).clone();
+				var result = $(this).clone();
             	
-				 var route = r = jsRoutes.controllers.Development.getImage($(this).attr('id'), "large").ajax({
+			 	var route = r = jsRoutes.controllers.Development.getImage($(this).attr('id'), "large").ajax({
 					success: function(data) {
-				    	$(result).html(data);					    	
+			    		$(result).html(data);					    	
 				  	},
 				  	error: function() {
 				    	alert("Error!");

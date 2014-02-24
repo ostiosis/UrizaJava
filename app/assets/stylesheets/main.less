@@ -1,9 +1,24 @@
 @mainBackground:        #c7d1d8;
 
 
+html, body
+{
+	height:100%;
+}
+
 .drag-and-drop-area
 {
 	background: @mainBackground;
+}
+
+#content-area
+{
+	border: 1px solid black;
+	min-height: 100%;
+}
+
+html #content-area {
+height: 100%;
 }
 
 #result
@@ -20,7 +35,8 @@
 }
 
 #result, 
-#grid-display {
+#grid-display 
+{
     width: 100%;
     height: 100%;
     position: absolute;

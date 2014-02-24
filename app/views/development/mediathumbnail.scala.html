@@ -1,11 +1,9 @@
 @(thumbnails: List[MediaObject])
 
 @for(thumbnail <- thumbnails) {
-	<span>
-		<div class="draggable-thumbnail ui-widget-content" id="@thumbnail.parent().id">
+		<div class="draggable-thumbnail ui-widget-content" id="@thumbnail.parent().id" type="image">
 			@views.html.element.imagethumbnail(thumbnail)
 		</div>
 		@thumbnail.parent().name				
-	</span>
-	<br/>		
+
 }

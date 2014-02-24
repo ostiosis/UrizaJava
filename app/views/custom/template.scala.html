@@ -1,7 +1,7 @@
 @(template: Template)
 
-<div id="template_@template.id">test3
-	@for(row <- template.rows) {
-		@views.html.custom.row(row)		
+<div class="template-wrapper" id="@template.id" name="@template.name" style="position: absolute; top: @{template.topPosition + "px"}; left: @{template.leftPosition + "px"};" >
+	@for(component <- template.components) {
+		@views.html.custom.component(component)		
 	}
 </div>
