@@ -14,6 +14,19 @@
 	                <ul class="nav nav-pills nav-stacked">
 	                    
 	                </ul>
+	                <script type="text/javascript">
+					$('document').ready( function(){$('.draggable-text').draggable({
+	            	helper:			"clone",
+		            containment:    "#result",
+		            tolerance:      "fit",
+		            cursor:         "move",
+		            revert:			true,
+		            snap:			".col-xs-1"
+		      	  	});
+					}
+					);
+	                </script>
+	                <br><div class="draggable-text">Dragwithme<textarea>Touchme</textarea></div>
 					<br>test
 					<div id="media-thumbnails">
 					
