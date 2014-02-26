@@ -28,6 +28,11 @@ import utility.MediaObjectThumbnailType;
 @Entity
 public class MediaObject extends Model
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7341090239191464746L;
+
 	private static String uploadDir = (Play.application().path().getAbsolutePath() + "\\public\\uploads\\");
 	
 	@Id

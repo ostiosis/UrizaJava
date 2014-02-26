@@ -137,7 +137,7 @@
 			success: function(data) {
 				//alert(data);
 		    	$('#media-thumbnails').html(data);
-		    	Thumbnail();
+		    	draggableThumbnail();
 		  	},
 		  	error: function() {
 		    	alert("Error!");
@@ -213,7 +213,7 @@
 		});
 	}
 	
-	function Thumbnail()
+	function draggableThumbnail()
 	{
         $('.draggable-thumbnail').draggable({
             helper:			function(event){

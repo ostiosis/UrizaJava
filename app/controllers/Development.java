@@ -16,10 +16,7 @@ import models.MediaObjectThumbnail;
 import models.Page;
 import models.Template;
 import play.Logger;
-import play.Play;
 import play.mvc.*;
-import play.mvc.Http.MultipartFormData;
-import play.mvc.Http.MultipartFormData.FilePart;
 import utility.MediaHelpers;
 import views.html.development.*;
 

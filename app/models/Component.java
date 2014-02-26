@@ -13,6 +13,12 @@ import java.util.List;
 @Entity
 public class Component extends Model 
 {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7757858881784856402L;
+
 	@Id
 	public Long id;
 	

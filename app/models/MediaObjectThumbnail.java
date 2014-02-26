@@ -1,16 +1,17 @@
 package models;
 
-import java.util.Map;
-
 import javax.persistence.Entity;
 
 import play.db.ebean.Model;
-import play.db.ebean.Model.Finder;
-import utility.MediaObjectThumbnailType;
 
 @Entity
 public class MediaObjectThumbnail extends Model
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -968345188282491238L;
+	
 	public Long parentId;
 	public String label;
 	public Long childId;

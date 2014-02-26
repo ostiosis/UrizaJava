@@ -13,6 +13,10 @@ import java.sql.SQLException;
 @Entity
 public class User extends Model
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1798862127077049477L;
 	@Id
 	public Long id;
 	public String username;
@@ -52,7 +56,6 @@ public class User extends Model
 			PreparedStatement preparedStatement = null;
 			
 			User user = User.find.where().eq("email", email).findUnique();
-			String token = "test";
 			String sql = "UPDATE user SET password_hash = ? WHERE id = ?";
 			
 			try

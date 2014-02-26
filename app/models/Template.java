@@ -4,14 +4,17 @@ package models;
 import javax.persistence.*;
 
 import play.db.ebean.*;
-import play.db.ebean.Model.Finder;
-
 import java.sql.Date;
 import java.util.List;
 
 @Entity
 public class Template extends Model 
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2150265888934939399L;
+
 	@Id
 	public Long id;
 

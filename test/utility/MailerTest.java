@@ -3,15 +3,11 @@ package utility;
 import com.typesafe.config.ConfigFactory;
 
 import static org.junit.Assert.*;
-import static play.test.Helpers.*;
-
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
 import org.junit.*;
-
-import play.api.Play;
 
 public class MailerTest
 {

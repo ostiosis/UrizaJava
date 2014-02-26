@@ -13,6 +13,11 @@ import java.util.UUID;
 @Entity
 public class PasswordReset extends Model
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 561195005161319761L;
+
 	@OneToOne
 	User user;
 	

@@ -1,8 +1,6 @@
 package utility;
 
 import static org.junit.Assert.*;
-import static play.test.Helpers.*;
-
 import org.junit.*;
 
 public class PasswordTest

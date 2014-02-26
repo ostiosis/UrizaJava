@@ -1,7 +1,5 @@
 package controllers;
 
-import static play.data.Form.form;
-
 import models.Page;
 import play.mvc.*;
 import views.html.custom.*;

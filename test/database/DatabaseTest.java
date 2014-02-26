@@ -30,7 +30,8 @@ public class DatabaseTest
 	  {
 	    public void run() 
 	    {
-	        try(Connection conn = DB.getConnection() )
+	    	/**/
+	        try (Connection conn = DB.getConnection())
 	        {        	
 	            assertTrue(true);
 	        } 
@@ -39,6 +40,7 @@ public class DatabaseTest
 	            e1.printStackTrace();
 	            fail();
 	        }
+	        /**/
 	    }
 	  });
 	}
