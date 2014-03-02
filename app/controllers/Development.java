@@ -143,35 +143,7 @@ public class Development extends Controller
     	Template getTemplate = null;
     	Component getComponent = null;
     	
-    	if (templateId <= 0)
-    	{
-    		getTemplate = Template.create("", "", topPosition, leftPosition);
-    	}    	
-    	else
-    	{
-    		getTemplate = Template.find.byId(templateId);
-    		getTemplate.update(topPosition, leftPosition);   		
-    	}
-    	
-    	/**/
-		getPage.templates.add(getTemplate);
-		getPage.saveManyToManyAssociations("templates");
-		//getPage.save();
-		
-    	if (componentId <= 0)
-    	{
-    		getComponent = Component.create("", code, componentType, width, height);
-    	}
-    	else
-    	{
-    		getComponent = Component.find.byId(componentId);
-    		getComponent.update(code, width, height);
-    	}
-		/**/
-    	getTemplate.components.add(getComponent);
-    	getTemplate.saveManyToManyAssociations("components");
-    	//getTemplate.save();
-    	
+    	Logger.info("\nBegin Row");
     	Logger.info("code: " + code.trim());
     	Logger.info("componentId: " + componentId);
     	Logger.info("componentType: " + componentType);
@@ -183,6 +155,38 @@ public class Development extends Controller
     	Logger.info("templateId: " + templateId);
     	Logger.info("pageId: " + pageId);
     	
+    	Logger.info("\nEnd Row");
+    	
+    	if (templateId <= 0)
+    	{
+    		getTemplate = Template.create("", "", topPosition, leftPosition);
+    		getPage.templates.add(getTemplate);
+    		getPage.saveManyToManyAssociations("templates");
+    	}    	
+    	else
+    	{
+    		getTemplate = Template.find.byId(templateId);
+    		getTemplate.update(topPosition, leftPosition);   
+    		getTemplate.save();
+    	}
+    	
+    	/**/
+		
+		//getPage.save();
+		
+    	if (componentId <= 0)
+    	{
+    		getComponent = Component.create("", code, componentType, width, height);
+    		getTemplate.components.add(getComponent);
+        	getTemplate.saveManyToManyAssociations("components");
+    	}
+    	else
+    	{
+    		getComponent = Component.find.byId(componentId);
+    		getComponent.update(code, width, height);
+    		getComponent.save();
+    	}
+		/**/
     	return ok("test");
     }
 

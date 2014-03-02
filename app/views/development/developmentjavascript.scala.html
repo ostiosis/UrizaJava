@@ -67,6 +67,8 @@
 			resizeTargets();
 			createGrid();
 		});
+		
+		draggableTemplate();
 					
 	});
 	
@@ -144,7 +146,8 @@
 		  	}
 		});
 	}
-	
+	//TODO
+	//this needs to be updated so set template and set all template children
 	function setDroppable()
 	{
 		$('#result').droppable({
@@ -174,11 +177,22 @@
 
 				var templateId = 0;				
 				var pageId = $('input[name="page"]').val();
-
-				if ($(this).parent('.template_wrapper').length > 0)
+				
+				//alert("classes: " + clonedComponent.attr('class'));
+				//alert("hasclass: " + $(clonedComponent).hasClass("template-wrapper"));
+				
+				//alert("component id1: " + clonedComponent.children('.component')[0].attr('id'));
+				//alert("component id2: " + clonedComponent.child('component').attr('id'));
+				
+				if (clonedComponent.children('.component').length > 0)
 				{
-					alert($(this).parent('.template_wrapper').attr('id'));
-					templateId = $(this).parent('.template_wrapper').attr('id');
+					componentId = clonedComponent.children('.component').attr('id');
+					//alert("component id1: " + clonedComponent.children('.component').attr('id'));
+				}
+				
+				if (clonedComponent.hasClass("template-wrapper"))
+				{
+					templateId = clonedComponent.attr('id');
 				}
 				
 				ui.helper.remove();
@@ -187,7 +201,7 @@
 				$(clonedComponent).css('top', topPosition);
 				$(clonedComponent).css('left', leftPosition);	
 
-				alert($(clonedComponent).html());
+				//alert($(clonedComponent).html());
 
 				$(clonedComponent).draggable({
                     helper:         "original",
@@ -201,7 +215,7 @@
 
 			 	var route = r = jsRoutes.controllers.Development.updateComponent(code, componentId, componentType, Math.floor(topPosition), Math.floor(leftPosition), width, height, templateId, pageId).ajax({
 					success: function(data) {
-			    		alert(data);					    	
+			    		//alert(data);					    	
 				  	},
 				  	error: function() {
 				    	alert("Error!");
@@ -211,6 +225,17 @@
 						
 			}
 		});
+	}
+	
+	function draggableTemplate()
+	{
+		$('.template-wrapper').draggable({
+            helper:         "original",
+            containment:    "#result",
+            tolerance:      "fit",
+            cursor:         "move",
+            snap:			".grid-cell"
+        });
 	}
 	
 	function draggableThumbnail()
