@@ -152,7 +152,7 @@
 	{
 		$('#result').droppable({
 			drop:		function(event, ui){
-
+				alert('drop');
 				var gridWidth = $('#overlay').width() / 12;
 				var gridHeight = gridWidth;
 				
@@ -173,21 +173,27 @@
 
 				var componentId = 0;
 				var componentType = "image";
-				var code = $(clonedComponent).html();
+
+				var elementCheck = document.createElement('element');
 
 				var templateId = 0;				
-				var pageId = $('input[name="page"]').val();
+				var pageId = $('.custom-page').attr('id');
 				
-				//alert("classes: " + clonedComponent.attr('class'));
-				//alert("hasclass: " + $(clonedComponent).hasClass("template-wrapper"));
-				
-				//alert("component id1: " + clonedComponent.children('.component')[0].attr('id'));
-				//alert("component id2: " + clonedComponent.child('component').attr('id'));
-				
-				if (clonedComponent.children('.component').length > 0)
+				if (clonedComponent.children('.component-wrapper').length > 0)
 				{
-					componentId = clonedComponent.children('.component').attr('id');
-					//alert("component id1: " + clonedComponent.children('.component').attr('id'));
+					clonedComponent.children('.component-wrapper').each(
+						function(){
+							componentId = clonedComponent.children('.component-wrapper').attr('id');
+							code = clonedComponent.children('.component-wrapper').html();
+						}
+					);						
+				}
+
+				//TODO: clonedComponent.find( 'component-item' ) for multiple components
+				if (clonedComponent.hasClass('component-item'))
+				{
+					code = clonedComponent.html();
+					//alert("2code: " + code);
 				}
 				
 				if (clonedComponent.hasClass("template-wrapper"))
@@ -198,10 +204,20 @@
 				ui.helper.remove();
 				
 				$(clonedComponent).detach();
+				
+			 	var route = r = jsRoutes.controllers.Development.updateComponent(code, componentId, componentType, Math.floor(topPosition), Math.floor(leftPosition), width, height, templateId, pageId).ajax({
+					success: function(data) {
+			    		//alert(data);
+			    		//$(clonedComponent).html(data);					    	
+				  	},
+				  	error: function() {
+				    	alert("Error!");
+				  	}
+				});
+				
 				$(clonedComponent).css('top', topPosition);
 				$(clonedComponent).css('left', leftPosition);	
 
-				//alert($(clonedComponent).html());
 
 				$(clonedComponent).draggable({
                     helper:         "original",
@@ -210,19 +226,11 @@
                     cursor:         "move",
                     snap:			".grid-cell"
                 });
+					
 				
 				$(clonedComponent).appendTo( "#result" );
 
-			 	var route = r = jsRoutes.controllers.Development.updateComponent(code, componentId, componentType, Math.floor(topPosition), Math.floor(leftPosition), width, height, templateId, pageId).ajax({
-					success: function(data) {
-			    		//alert(data);					    	
-				  	},
-				  	error: function() {
-				    	alert("Error!");
-				  	}
-				});
-				
-						
+	
 			}
 		});
 	}
