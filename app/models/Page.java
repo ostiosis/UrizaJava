@@ -1,12 +1,14 @@
 package models;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.*;
 
 import play.Logger;
 import play.db.ebean.*;
+import utility.UrizaHelpers;
 
 @Entity
 public class Page extends Model 
@@ -26,8 +28,8 @@ public class Page extends Model
 	@ManyToOne
 	User user;
 	
-	public Date dateCreated;
-	public Date dateModified;
+	public Timestamp dateCreated;
+	public Timestamp dateModified;
 	
 	@ManyToMany
 	@JoinTable(
@@ -49,8 +51,6 @@ public class Page extends Model
 	public static Page getPage(String name)
 	{
 		
-		Logger.info("Name: " + name);
-		
 		if (name.isEmpty())
 		{
 			Page getPage = find.setMaxRows(1).findUnique();
@@ -67,6 +67,7 @@ public class Page extends Model
 	public static Page create(String name, String title, String description)
 	{
 		Page page = new Page(name, title, description);
+		page.dateCreated = UrizaHelpers.getTime();
 		page.save();
 		page.saveManyToManyAssociations("templates");
 		

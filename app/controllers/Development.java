@@ -133,6 +133,32 @@ public class Development extends Controller
     	}
     }
     /**/
+
+    public static Result updateTemplate(String name, String code, Long templateId, Long topPosition, Long leftPosition, Long pageId)
+    {
+    	name = name.trim();
+    	code = code.trim();
+    	
+    	Page getPage = Page.find.byId(pageId);
+    	
+    	Template getTemplate = null;
+    	
+    	if (templateId <= 0)
+    	{
+    		getTemplate = Template.create("", "", topPosition, leftPosition);
+    		getPage.templates.add(getTemplate);
+    		getPage.saveManyToManyAssociations("templates");
+    	}    	
+    	else
+    	{
+    		getTemplate = Template.find.byId(templateId);
+    		getTemplate.update(topPosition, leftPosition);   
+    		getTemplate.save();
+    	}
+    	
+		/**/
+    	return ok(views.html.custom.template.render(getTemplate));
+    }
     
     public static Result updateComponent(String code, Long componentId, String componentType, Long topPosition, Long leftPosition, Long width, Long height, Long templateId, Long pageId)
     {

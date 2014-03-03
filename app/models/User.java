@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 @Entity
 public class User extends Model
@@ -23,7 +24,7 @@ public class User extends Model
 	public String email;
 	public String passwordHash;
 	
-	public Date joinDate;
+	public Timestamp joinDate;
 	
 	public static Finder<Long, User> find 
 		= new Finder<Long, User>(Long.class, User.class);

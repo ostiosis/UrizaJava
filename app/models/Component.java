@@ -7,7 +7,10 @@ import org.apache.commons.lang3.StringEscapeUtils;
 
 import play.Logger;
 import play.db.ebean.*;
+import utility.UrizaHelpers;
+
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
@@ -33,8 +36,8 @@ public class Component extends Model
 	@ManyToOne
 	User user;
 	
-	public Date dateCreated;
-	public Date dateModified;
+	public Timestamp dateCreated;
+	public Timestamp dateModified;
 	
 	/**/
 	@ManyToMany
@@ -71,11 +74,11 @@ public class Component extends Model
 	public static Component create(String name, String code, String componentType, Long width, Long height)
 	{
 		Component component = new Component(name, code, componentType, width, height);
+		component.dateCreated = UrizaHelpers.getTime();
 		component.save();
 		component.saveManyToManyAssociations("templates");
 		
 		return component;
-
 	}
 	
 	public void update(String name, String code, Long width, Long height)
@@ -85,6 +88,8 @@ public class Component extends Model
 		
 		this.width = width;
 		this.height = height;
+		
+		this.dateModified = UrizaHelpers.getTime();
 	}
 	
 	public void update(String code, Long width, Long height)
@@ -93,18 +98,15 @@ public class Component extends Model
 		
 		this.width = width;
 		this.height = height;
+		
+		this.dateModified = UrizaHelpers.getTime();
 	}
 
 	public void update(Long width, Long height)
 	{
 		this.width = width;
 		this.height = height;
+		
+		this.dateModified = UrizaHelpers.getTime();
 	}
-	
-	public String unEscape()
-	{
-		Logger.info(StringEscapeUtils.unescapeHtml4(this.code));
-		return "<b>TEST CODE</b>";
-	}
-
 }

@@ -4,7 +4,10 @@ package models;
 import javax.persistence.*;
 
 import play.db.ebean.*;
+import utility.UrizaHelpers;
+
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
@@ -27,8 +30,8 @@ public class Template extends Model
 	@ManyToOne
 	User user;
 	
-	public Date dateCreated;
-	public Date dateModified;
+	public Timestamp dateCreated;
+	public Timestamp dateModified;
 	
 	/**/
 	@ManyToMany
@@ -63,6 +66,7 @@ public class Template extends Model
 	public static Template create(String name, String code, Long topPosition, Long leftPosition)
 	{
 		Template template = new Template(name, code, topPosition, leftPosition);
+		template.dateCreated = UrizaHelpers.getTime();
 		template.save();
 		template.saveManyToManyAssociations("components");
 		
@@ -76,6 +80,8 @@ public class Template extends Model
 		
 		this.topPosition = topPosition;
 		this.leftPosition = leftPosition;
+		
+		this.dateModified = UrizaHelpers.getTime();
 	}
 	
 	public void update(String code, Long topPosition, Long leftPosition)
@@ -84,12 +90,16 @@ public class Template extends Model
 		
 		this.topPosition = topPosition;
 		this.leftPosition = leftPosition;
+		
+		this.dateModified = UrizaHelpers.getTime();
 	}
 
 	public void update(Long topPosition, Long leftPosition)
 	{
 		this.topPosition = topPosition;
 		this.leftPosition = leftPosition;
+		
+		this.dateModified = UrizaHelpers.getTime();
 	}
 
 }
