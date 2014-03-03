@@ -26,6 +26,8 @@ public class Component extends Model
 	public Long id;
 	
 	public String name;
+	
+	@Column(columnDefinition = "text")
 	public String code;
 	
 	public String componentType;

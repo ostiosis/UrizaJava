@@ -15,6 +15,34 @@
 	                    
 	                </ul>
 	                <script type="text/javascript">
+					$('document').ready( function(){$('.draggable-header').draggable({
+		            	handle:			"i",
+		            	helper:			"clone",
+			            containment:    "#result",
+			            tolerance:      "fit",
+			            cursor:         "move",
+			            revert:			true,
+			            snap:			".col-xs-1"
+		      	  	});
+					}
+					);
+	                </script>	
+	                <div class="draggable-header component-item" style="float: left;">
+						<div style="float: left; width: 40px;">
+						<i class=" fa fa-font fa-lg "></i>      
+						</div>       
+		                <div style="float: right; width: 200px;" class="editable-text" id="example-one" contenteditable="true">
+							<style scoped>
+							  #example-one { }
+							  [contenteditable="true"] { padding: 0px; outline: 2px dashed #CCC; }
+							  [contenteditable="true"]:hover { outline: 2px dashed #0090D2; cursor: text;}
+							</style>
+							<h3>Header3</h3>
+						</div>
+					</div>
+					<br>
+	                <br>
+	                <script type="text/javascript">
 					$('document').ready( function(){$('.draggable-text').draggable({
 	            	helper:			"clone",
 		            containment:    "#result",
