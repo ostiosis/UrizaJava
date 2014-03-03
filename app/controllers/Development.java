@@ -187,7 +187,7 @@ public class Development extends Controller
     		getComponent.save();
     	}
 		/**/
-    	return ok("test");
+    	return ok(views.html.custom.template.render(getTemplate));
     }
 
 }

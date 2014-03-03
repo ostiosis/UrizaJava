@@ -172,6 +172,7 @@
 				var height = 0;
 
 				var componentId = 0;
+				
 				var componentType = "image";
 
 				var elementCheck = document.createElement('element');
@@ -185,6 +186,7 @@
 						function(){
 							componentId = clonedComponent.children('.component-wrapper').attr('id');
 							code = clonedComponent.children('.component-wrapper').html();
+							componentType = clonedComponent.children('.component-wrapper').attr('type');
 						}
 					);						
 				}
@@ -193,6 +195,7 @@
 				if (clonedComponent.hasClass('component-item'))
 				{
 					code = clonedComponent.html();
+					componentType = clonedComponent.attr('type');
 					//alert("2code: " + code);
 				}
 				
@@ -203,20 +206,24 @@
 				
 				ui.helper.remove();
 				
-				$(clonedComponent).detach();
+				
 				
 			 	var route = r = jsRoutes.controllers.Development.updateComponent(code, componentId, componentType, Math.floor(topPosition), Math.floor(leftPosition), width, height, templateId, pageId).ajax({
 					success: function(data) {
-			    		//alert(data);
-			    		//$(clonedComponent).html(data);					    	
+			    		alert(data);
+			    		$(clonedComponent).replaceWith(data);	
+
+			    		draggableTemplate();				
+			    						    	
 				  	},
 				  	error: function() {
 				    	alert("Error!");
 				  	}
 				});
 				
-				$(clonedComponent).css('top', topPosition);
-				$(clonedComponent).css('left', leftPosition);	
+			 	$(clonedComponent).detach();
+				//$(clonedComponent).css('top', topPosition);
+				//$(clonedComponent).css('left', leftPosition);	
 
 
 				$(clonedComponent).draggable({
