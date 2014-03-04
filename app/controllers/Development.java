@@ -213,7 +213,7 @@ public class Development extends Controller
     		getComponent.save();
     	}
 		/**/
-    	return ok(views.html.custom.template.render(getTemplate));
+    	return ok(views.html.development.developmenttemplate.render(getTemplate));
     }
 
 }

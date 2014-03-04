@@ -154,7 +154,7 @@
 	{
 		$('#result').droppable({
 			drop:		function(event, ui){
-				alert('drop');
+				//alert('drop');
 				var gridWidth = $('#overlay').width() / 12;
 				var gridHeight = gridWidth;
 				
@@ -186,9 +186,14 @@
 				{
 					clonedComponent.children('.component-wrapper').each(
 						function(){
-							componentId = clonedComponent.children('.component-wrapper').attr('id');
-							code = clonedComponent.children('.component-wrapper').html();
-							componentType = clonedComponent.children('.component-wrapper').attr('type');
+							
+							attr = $(this).attr('id');
+							if (typeof attr !== 'undefined' && attr !== false)
+							{
+								componentId = $(this).attr('id');
+							}							
+							code = $(this).html();
+							componentType = $(this).attr('type');
 						}
 					);						
 				}
@@ -212,7 +217,7 @@
 				
 			 	var route = r = jsRoutes.controllers.Development.updateComponent(code, componentId, componentType, Math.floor(topPosition), Math.floor(leftPosition), width, height, templateId, pageId).ajax({
 					success: function(data) {
-			    		alert(data);
+			    		//alert(data);
 			    		$(clonedComponent).replaceWith(data);	
 
 			    		draggableTemplate();	
