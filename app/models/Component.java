@@ -32,6 +32,9 @@ public class Component extends Model
 	
 	public String componentType;
 	
+	public Long topPosition;
+	public Long leftPosition;
+	
 	public Long width;
 	public Long height;
 	

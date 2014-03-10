@@ -18,7 +18,6 @@ import models.Template;
 import play.Logger;
 import play.mvc.*;
 import utility.MediaHelpers;
-import views.html.development.*;
 
 public class Development extends Controller
 {
@@ -26,11 +25,23 @@ public class Development extends Controller
     public static Result development(String name) 
 	{
     	Page getPage = Page.getPage(name);
-    	return ok(development.render(getPage, "Dev Menu"));        
+    	return ok(views.html.development.development.render(getPage, "Dev Menu"));        
     }
     
     /**/
-    public static Result add(String name, String title, String description)
+    public static Result validatePage(String name)
+	{    	    	
+    	int check = Page.find.where().eq("name", name).findRowCount();
+    	
+		if (check > 0)
+		{
+			return ok("Error: page " + name + " already exists");  
+		}
+		return ok();
+    	      
+
+	}
+    public static Result addPage(String name, String title, String description)
 	{    	    	
     	Page newPage = Page.create(
 			name, 
@@ -39,14 +50,14 @@ public class Development extends Controller
 		);
 		
 		//return ok(editor.render(newPage));
-    	return ok(development.render(newPage, "Dev Menu"));        
+    	return ok(views.html.development.development.render(newPage, "Dev Menu"));        
 
 	}
     
 	/**/
     public static Result openMenu()
     {
-    	return ok(open.render(Page.pages()));
+    	return ok(views.html.development.open.render(Page.pages()));
     }
     
     /**
@@ -96,7 +107,7 @@ public class Development extends Controller
     {
     	List<MediaObject> thumbnails = MediaObject.thumbnailList(label);
     	
-    	return ok(mediathumbnail.render(thumbnails));    	
+    	return ok(views.html.development.mediathumbnail.render(thumbnails));    	
     }
     
     public static Result getImage(Long imageId, String label)
@@ -139,6 +150,17 @@ public class Development extends Controller
     	name = name.trim();
     	code = code.trim();
     	
+    	Logger.info("\nBegin Row");
+    	Logger.info("name: " + name);
+    	Logger.info("code: " + code);
+    	Logger.info("topPosition: " + topPosition);
+    	Logger.info("leftPosition: " + leftPosition);
+    	
+    	Logger.info("templateId: " + templateId);
+    	Logger.info("pageId: " + pageId);
+    	
+    	Logger.info("\nEnd Row");
+    	
     	Page getPage = Page.find.byId(pageId);
     	
     	Template getTemplate = null;
@@ -157,7 +179,7 @@ public class Development extends Controller
     	}
     	
 		/**/
-    	return ok(views.html.custom.template.render(getTemplate));
+    	return ok(views.html.utility.longresult.render(getTemplate.id));
     }
     
     public static Result updateComponent(String code, Long componentId, String componentType, Long topPosition, Long leftPosition, Long width, Long height, Long templateId, Long pageId)
@@ -213,7 +235,8 @@ public class Development extends Controller
     		getComponent.save();
     	}
 		/**/
-    	return ok(views.html.development.developmenttemplate.render(getTemplate));
+    	//return ok(views.html.development.developmenttemplate.render(getTemplate));
+    	return ok(views.html.utility.longresult.render(getComponent.id));
     }
 
 }

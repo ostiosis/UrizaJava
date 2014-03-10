@@ -27,13 +27,15 @@ public class Application extends Controller
     	response().setContentType("test/javascript");
     	
     	return ok(Routes.javascriptRouter("jsRoutes", 
-    			controllers.routes.javascript.Development.add(),
+    			controllers.routes.javascript.Development.addPage(),
+    			controllers.routes.javascript.Development.validatePage(),
     			controllers.routes.javascript.Development.openMenu(),
     			//controllers.routes.javascript.Development.open(),
     			controllers.routes.javascript.Development.uploadAjax(),
     			controllers.routes.javascript.Development.showImageThumbnails(),
     			controllers.routes.javascript.Development.development(),
     			controllers.routes.javascript.Development.getImage(),
+    			controllers.routes.javascript.Development.updateTemplate(),
     			controllers.routes.javascript.Development.updateComponent()
 		));
     }

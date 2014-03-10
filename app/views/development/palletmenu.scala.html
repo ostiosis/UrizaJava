@@ -15,7 +15,7 @@
 	                    
 	                </ul>
 	                <script type="text/javascript">
-					$('document').ready( function(){$('.draggable-header').draggable({
+					$('document').ready( function(){$('.test-parent').draggable({
 		            	handle:			"i",
 		            	helper:			"clone",
 			            containment:    "#result",
@@ -27,17 +27,24 @@
 					}
 					);
 	                </script>	
-	                <div class="draggable-header " style="float: left;">
-						<div style="float: left; width: 40px;">
-						<i class=" fa fa-font fa-lg "></i>      
-						</div>     
-							<style scoped>
-							  #example-one { }
-							  [contenteditable="true"] { padding: 0px; outline: 2px dashed #CCC; }
-							  [contenteditable="true"]:hover { outline: 2px dashed #0090D2; cursor: text;}
-							</style>						  
-		                <div style="float: right; width: 200px;" class="editable-text component-wrapper" type="text" contenteditable="true">	                	
-								<h3>Header3</h3>							
+	                <div class="test-parent">
+	                	<i class=" fa fa-font fa-lg "></i>
+	                	<div class="template-wrapper">
+	                		
+			                <div class="draggable-header " style="float: left;">
+			                
+								<div style="float: left; width: 40px;">
+								      
+								</div>     
+									<style scoped>
+									  #example-one { }
+									  [contenteditable="true"] { padding: 0px; outline: 2px dashed #CCC; }
+									  [contenteditable="true"]:hover { outline: 2px dashed #0090D2; cursor: text;}
+									</style>						  
+				                <div style="float: right; width: 200px;" class="editable-text component-wrapper" type="text" contenteditable="true">	                	
+										<h3>Header3</h3>							
+								</div>
+							</div>
 						</div>
 					</div>
 					<br>

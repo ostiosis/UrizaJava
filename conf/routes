@@ -24,7 +24,8 @@ POST	/password											controllers.Application.passwordForm()
 
 
 
-POST	/development/add/:name/:title/:description			controllers.Development.add(name: String, title: String, description: String)
+POST	/development/validatePage/:name						controllers.Development.validatePage(name: String)
+POST	/development/addPage/:name/:title/:description		controllers.Development.addPage(name: String, title: String, description: String)
 GET		/development/openMenu								controllers.Development.openMenu()
 
 GET		/development/showImageThumbnails					controllers.Development.showImageThumbnails(label: String)
@@ -33,6 +34,7 @@ GET		/development/getImage								controllers.Development.getImage(imageId: Long
 
 POST	/development/uploadAjax								controllers.Development.uploadAjax(name: String)
 
+POST	/development/updateTemplate							controllers.Development.updateTemplate(name: String, code: String, templateId: Long, topPosition: Long, leftPosition: Long, pageId: Long)
 POST	/development/updateComponent						controllers.Development.updateComponent(code: String, componentId: Long, componentType: String, topPosition: Long, leftPosition: Long, width: Long, height: Long, templateId: Long, pageId: Long)
 
 

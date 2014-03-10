@@ -16,7 +16,7 @@
    			<div class="row">
    				<div id="dev-menu" class="col-md-8 col-md-offset-2">
    					<div class="panel-heading">
-		                <a data-toggle="modal" href="#modelNew" roll="button" class="btn btn-default btn-sm">
+		                <a data-toggle="modal" href="#modalNew" roll="button" class="btn btn-default btn-sm">
 		                    <span class="glyphicon glyphicon-file"></span>
 		                    New
 		                </a>
@@ -57,51 +57,54 @@
     
     <div class="">
 	    <div class="row">
-		    <div class="col-md-8">
-		    <div id="page-information">
-			@if(page == null) {
-			  	<h1>Nothing to display</h1>
-			} else {
-			<h3>Name: @page.name</h2>
-			<h3>Title: @page.title</h2>
-			<h3>Description: @page.description</h3>
-			}		    
-		    </div>
-		    <div id="overlay"  >	    
-			    <div id="result" class="col-md-12">
-					@if(page != null) {				 			
-						@views.html.custom.page(page)							
-					}
-			    </div>
-			    
-			    <div id="grid-display" class="col-md-12">
-			    	<div class="row">
-			    		<div class="col-xs-1 grid-cell"></div>
-			    		<div class="col-xs-1 grid-cell"></div>
-			    		<div class="col-xs-1 grid-cell"></div>
-			    		<div class="col-xs-1 grid-cell"></div>
-			    		<div class="col-xs-1 grid-cell"></div>
-			    		<div class="col-xs-1 grid-cell"></div>
-			    		<div class="col-xs-1 grid-cell"></div>
-			    		<div class="col-xs-1 grid-cell"></div>
-			    		<div class="col-xs-1 grid-cell"></div>
-			    		<div class="col-xs-1 grid-cell"></div>
-			    		<div class="col-xs-1 grid-cell"></div>
-			    		<div class="col-xs-1 grid-cell"></div>
-			    	</div>
-			    </div>
-			    
-			    
-		    </div>
-		    </div>
-		    
+ 			<div class="col-md-8">			
+				@if(page == null) {
+				  	<h1>Nothing to display</h1>
+				} else {
+	
+			    		<div id="page-information">
+				
+							<h3>Name: @page.name</h2>
+							<h3>Title: @page.title</h2>
+							<h3>Description: @page.description</h3>
+						
+					    </div>
+			    		<div id="overlay"  >	    
+						    <div id="result" class="col-md-12">
+								@if(page != null) {				 			
+									@views.html.development.developmentpage(page)							
+								}
+						    </div>
+				    
+						    <div id="grid-display" class="col-md-12">
+						    	<div class="row">
+						    		<div class="col-xs-1 grid-cell"></div>
+						    		<div class="col-xs-1 grid-cell"></div>
+						    		<div class="col-xs-1 grid-cell"></div>
+						    		<div class="col-xs-1 grid-cell"></div>
+						    		<div class="col-xs-1 grid-cell"></div>
+						    		<div class="col-xs-1 grid-cell"></div>
+						    		<div class="col-xs-1 grid-cell"></div>
+						    		<div class="col-xs-1 grid-cell"></div>
+						    		<div class="col-xs-1 grid-cell"></div>
+						    		<div class="col-xs-1 grid-cell"></div>
+						    		<div class="col-xs-1 grid-cell"></div>
+						    		<div class="col-xs-1 grid-cell"></div>
+						    	</div>
+						    </div>
+				    
+				    
+					    </div>
+				}	
+			</div>
+			
 			<div id="palette-menu" class="col-md-4 " style="height: 100%; ">
 				@views.html.development.palletmenu()
-			</div>
+			</div>	    
 	    </div>
     </div>
 <!-- Model New Page-->
-    <div class="modal fade" id="modelNew" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalNew" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -109,24 +112,36 @@
                     <h4 class="modal-title">New</h4>
                 </div>
                 <div class="modal-body">
-
-                    <form class="form-inline" role="form" id="addNewPage">
-                        <div class="form-group">
-                            <label class="sr-only" for="name">Page Name</label>
-                            <input type="text" class="form-control" id="name" placeholder="Enter Page Name">
-                            <br/>
-                            <label class="sr-only" for="title">Page Title</label>
-                            <input type="text" class="form-control" id="title" placeholder="Enter Title">
-                            <br/>
-                            <label class="sr-only" for="description">Page Description</label>
-                            <input type="text" class="form-control" id="description" placeholder="Enter Description">
-                        </div>
-                        <div class="modal-footer">
-                            <!-- <a href="#" class="btn btn-primary btn-success">Save</a> -->
-                            <button type="button" class="btn btn-success" data-dismiss="modal">Save</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        </div>
-                    </form>
+					<div class="modal-form">
+	                    <form class="form-inline" role="form" id="addNewPage">
+	                        <div class="form-group">
+	                            <label class="sr-only" for="name">Page Name</label>
+	                            <input type="text" class="form-control" id="name" placeholder="Enter Page Name">
+	                            <br/>
+	                            <label class="sr-only" for="title">Page Title</label>
+	                            <input type="text" class="form-control" id="title" placeholder="Enter Title">
+	                            <br/>
+	                            <label class="sr-only" for="description">Page Description</label>
+	                            <input type="text" class="form-control" id="description" placeholder="Enter Description">
+	                        </div>
+	                    </form>
+                    </div>
+                    <div class="modal-loading">
+                    	<div id="loading-frame">
+                    	@for(i <- 1 to 25){
+                    		<div class="dot"></div>
+                    	}                   	
+                    	</div>
+                    	<div style="margin: auto; text-align: center;">
+                    		<h3 style="">Loading...</h3>
+                   		</div>
+                    </div>
+                    <div class="modal-footer">
+                        <!-- <a href="#" class="btn btn-primary btn-success">Save</a> -->
+                        <button type="button" class="btn btn-success" >Save</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                    
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

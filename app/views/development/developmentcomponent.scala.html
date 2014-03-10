@@ -1,4 +1,20 @@
 @(component: Component)
-	<div class="component-wrapper" id="@component.id" type="@component.componentType">
-		@Html(component.code)
-	</div>
+
+	@component.componentType match {
+		case ("text") => {
+			<i class=" fa fa-font fa-lg "></i> 
+			<div id="@component.id" class="editable-text component-wrapper" type="@component.componentType" contenteditable="true">
+				@Html(component.code)
+			</div>
+		}
+		
+		case ("image") => {
+			<div id="@component.id" class="component-wrapper" type="@component.componentType" >
+				@Html(component.code)
+			</div>		}	
+		
+		case _ => {
+			Html("<br>not working<br>")
+		}
+	}
+		

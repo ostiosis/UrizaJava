@@ -6,18 +6,44 @@
 	    	var name = $('#name').val();
 	    	var title = $('#title').val();
 	    	var description = $('#description').val();
-	    	alert( name + title + description );
+	    	//alert( name + title + description );
 	    	
-	    	var route = r = jsRoutes.controllers.Development.add(name, title, description).ajax({
-				success: function(data) {
-					//alert(data)
-			    	//$('#result').html(data);
-					window.location.replace("/development/" + name);
-			  	},
-			  	error: function() {
-			    	alert("Error!")
-			  	}
-			});
+	    	var route = r = jsRoutes.controllers.Development.validatePage(name).ajax({
+				success: 	function(data) {
+					if (data != null && data != '')
+					{
+						$('#modalNew').find('.modal-header').append("<p>" + data + "</p>");
+						alert(data);
+					}
+					else
+					{
+				    	var route = r = jsRoutes.controllers.Development.addPage(name, title, description).ajax({
+				    		beforeSend: function() {
+				    			$('#modalNew').find('.modal-loading').show();
+				    			$('#modalNew').find('.modal-form').hide();
+				    		},
+							success: function(data) {
+								//alert(data)
+						    	//$('#result').html(data);
+
+						    	window.setTimeout(function(){
+						    		window.location.replace("/development/" + name);
+						        }, 5000);
+
+								
+						  	},
+						  	error: function() {
+						    	alert("Error!")
+						  	}
+						});
+					}
+				},
+				error:		function(){
+					alert("Error!");
+				}
+	    	});
+	    	
+
 	    	
 		});
 	
@@ -176,27 +202,101 @@
 				var componentId = 0;
 				
 				var componentType = "image";
+				var name = "test";
+				var code = "";
 
 				var elementCheck = document.createElement('element');
 
 				var templateId = 0;				
 				var pageId = $('.custom-page').attr('id');
 				
-				if (clonedComponent.children('.component-wrapper').length > 0)
-				{
-					clonedComponent.children('.component-wrapper').each(
-						function(){
-							
-							attr = $(this).attr('id');
-							if (typeof attr !== 'undefined' && attr !== false)
-							{
-								componentId = $(this).attr('id');
-							}							
-							code = $(this).html();
-							componentType = $(this).attr('type');
-						}
-					);						
-				}
+				//if (clonedComponent.find('.component-wrapper').length > 0)
+				//{
+				clonedComponent.find('.template-wrapper').addBack('.template-wrapper').each(
+					function(){
+
+						var template = $(this);
+						
+						alert("test");
+						templateId = 0
+						attr = template.attr('id');
+
+						if (typeof attr !== 'undefined' && attr !== false)
+						{
+							templateId = template.attr('id');
+						}	
+
+						var route = r = jsRoutes.controllers.Development.updateTemplate(name, code, templateId, Math.floor(topPosition), Math.floor(leftPosition), pageId).ajax({
+							success: function(data) {
+					    		alert(data);
+					    		//$(clonedComponent).replaceWith(data);	
+
+					    		//draggableTemplate();	
+					    		//editText();
+					    		
+					    		
+					    		templateId = data;
+
+					    		//alert("templateId: " + templateId);
+					    		template.attr('id', templateId);
+
+					    		template.addClass("phil-test");
+
+					    		template.find('.component-wrapper').each(
+									function(){
+
+										var component = $(this);
+										
+										//alert("Hello, World!");
+										//alert("test2: " + templateId);
+										componentId = 0;
+										attr = component.attr('id');
+
+										if (typeof attr !== 'undefined' && attr !== false)
+										{
+											componentId = component.attr('id');
+										}							
+										code = component.html();
+										componentType = component.attr('type');
+										
+
+										/**/
+										var route = r = jsRoutes.controllers.Development.updateComponent(code, componentId, componentType, Math.floor(topPosition), Math.floor(leftPosition), width, height, templateId, pageId).ajax({
+											success: function(data) {
+									    		//alert(data);
+									    		//$(clonedComponent).replaceWith(data);	
+
+									    		//draggableTemplate();	
+									    		//editText();
+									    		componentId = data;
+
+									    		//alert("componentId: " + componentId);
+									    		component.attr('id', componentId);
+
+									    		component.addClass("phil-test");
+													    											    						    	
+										  	},
+										  	error: function() {
+										    	alert("Error!");
+										  	}
+										});
+										/**/
+									}
+								);	
+					    						    	
+						  	},
+						  	error: function() {
+						    	alert("Error!");
+						  	}
+						});					
+												
+						
+
+
+				
+					}
+				);					
+				//}
 
 				//TODO: clonedComponent.find( 'component-item' ) for multiple components
 				if (clonedComponent.hasClass('component-item'))
@@ -206,32 +306,20 @@
 					//alert("2code: " + code);
 				}
 				
-				if (clonedComponent.hasClass("template-wrapper"))
-				{
-					templateId = clonedComponent.attr('id');
-				}
+				//if (clonedComponent.hasClass("template-wrapper"))
+				//{
+				//	templateId = clonedComponent.attr('id');
+				//}
 				
 				ui.helper.remove();
 				
 				
 				
-			 	var route = r = jsRoutes.controllers.Development.updateComponent(code, componentId, componentType, Math.floor(topPosition), Math.floor(leftPosition), width, height, templateId, pageId).ajax({
-					success: function(data) {
-			    		//alert(data);
-			    		$(clonedComponent).replaceWith(data);	
-
-			    		draggableTemplate();	
-			    		editText();
-			    						    	
-				  	},
-				  	error: function() {
-				    	alert("Error!");
-				  	}
-				});
+			 	
 				
 			 	$(clonedComponent).detach();
-				//$(clonedComponent).css('top', topPosition);
-				//$(clonedComponent).css('left', leftPosition);	
+				$(clonedComponent).css('top', topPosition);
+				$(clonedComponent).css('left', leftPosition);	
 
 				
 				$(clonedComponent).draggable({
@@ -241,10 +329,13 @@
                     cursor:         "move",
                     snap:			".grid-cell"
                 });
-				
+
 				
 				
 				$(clonedComponent).appendTo( "#result" );
+
+	    		draggableTemplate();	
+	    		editText();
 			}
 		});
 		
@@ -267,10 +358,18 @@
         $('.draggable-thumbnail').draggable({
             helper:			function(event){
 				var result = $(this).clone();
+
+				alert($(result).find('img').attr('parentId'));
+				
+				var img = $(result).find('img');
             	
-			 	var route = r = jsRoutes.controllers.Development.getImage($(this).attr('id'), "large").ajax({
+			 	var route = r = jsRoutes.controllers.Development.getImage(img.attr('parentId'), "large").ajax({
 					success: function(data) {
-			    		$(result).html(data);					    	
+
+						
+						alert(data);
+						img.replaceWith(data);
+			    		//$(result).html(data);					    	
 				  	},
 				  	error: function() {
 				    	alert("Error!");
@@ -349,13 +448,13 @@
 		
 		$('.editable-text').mouseenter(function() 
 		{
-			$(this).parents('.template-wrapper').draggable('disable');
+			$(this).parents('.ui-draggable').draggable('disable');
 			//alet('mouse enter');
 		});
 		
 		$('.editable-text').mouseleave(function() 
 		{
-			$(this).parents('.template-wrapper').draggable('enable');
+			$(this).parents('.ui-draggable').draggable('enable');
 		});
 		
 
