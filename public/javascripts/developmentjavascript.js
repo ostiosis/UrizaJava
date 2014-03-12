@@ -345,7 +345,7 @@
 	function editText()
 	{
 
-		
+		$('.editable-text').popline();
 		$('.editable-text').mouseenter(function() 
 		{
 			$(this).parents('.template-wrapper').draggable('disable');
