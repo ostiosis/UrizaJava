@@ -11,7 +11,8 @@
 		case ("image") => {
 			<div id="@component.id" class="component-wrapper" type="@component.componentType" >
 				@Html(component.code)
-			</div>		}	
+			</div>		
+		}	
 		
 		case _ => {
 			Html("<br>not working<br>")

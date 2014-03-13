@@ -1,6 +1,6 @@
 @(template: Template)
 
-<div class="template-wrapper ui-widget-content" id="@template.id" name="@template.name" style="position: absolute; top: @{template.topPosition + "px"}; left: @{template.leftPosition + "px"};" >
+<div class="template-wrapper ui-widget-content" id="@template.id" name="@template.name" style="top: @{template.topPosition + "px"}; left: @{template.leftPosition + "px"};" >
 	@for(component <- template.components) {
 		@views.html.custom.component(component)		
 	}

@@ -182,11 +182,10 @@ public class Development extends Controller
     	return ok(views.html.utility.longresult.render(getTemplate.id));
     }
     
-    public static Result updateComponent(String code, Long componentId, String componentType, Long topPosition, Long leftPosition, Long width, Long height, Long templateId, Long pageId)
+    public static Result updateComponent(String code, Long componentId, String componentType, Long width, Long height, Long templateId)
     {
     	code = code.trim();
     	
-    	Page getPage = Page.find.byId(pageId);
     	
     	Template getTemplate = null;
     	Component getComponent = null;
@@ -195,29 +194,15 @@ public class Development extends Controller
     	Logger.info("code: " + code.trim());
     	Logger.info("componentId: " + componentId);
     	Logger.info("componentType: " + componentType);
-    	Logger.info("topPosition: " + topPosition);
-    	Logger.info("leftPosition: " + leftPosition);
     	Logger.info("width: " + width);
     	Logger.info("height: " + height);
     	
     	Logger.info("templateId: " + templateId);
-    	Logger.info("pageId: " + pageId);
     	
     	Logger.info("\nEnd Row");
-    	
-    	if (templateId <= 0)
-    	{
-    		getTemplate = Template.create("", "", topPosition, leftPosition);
-    		getPage.templates.add(getTemplate);
-    		getPage.saveManyToManyAssociations("templates");
-    	}    	
-    	else
-    	{
-    		getTemplate = Template.find.byId(templateId);
-    		getTemplate.update(topPosition, leftPosition);   
-    		getTemplate.save();
-    	}
-    	
+
+		getTemplate = Template.find.byId(templateId);
+   	
     	/**/
 		
 		//getPage.save();

@@ -111,6 +111,9 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">New</h4>
                 </div>
+                <div class="modal-error">
+                
+                </div>
                 <div class="modal-body">
 					<div class="modal-form">
 	                    <form class="form-inline" role="form" id="addNewPage">
@@ -127,7 +130,7 @@
 	                    </form>
                     </div>
                     <div class="modal-loading">
-                    	<div id="loading-frame">
+                    	<div class="loading-frame">
                     	@for(i <- 1 to 25){
                     		<div class="dot"></div>
                     	}                   	
@@ -160,7 +163,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <a href="#" class="btn btn-primary btn-default">Open</a>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
