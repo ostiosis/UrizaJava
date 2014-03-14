@@ -103,19 +103,16 @@ html #content-area
 
 .loading-animation-keyframes
 {
-	100% 
-	{ 
-		opacity: 0; 
-		transform: 
-		scale(0.5); 
-	}
+	opacity: 0; 
+	transform: scale(0.5); 
+	
 }
 
-@-webkit-keyframes load-animation {.loading-animation-keyframes;}
-   @-moz-keyframes load-animation {.loading-animation-keyframes;}
-	@-ms-keyframes load-animation {.loading-animation-keyframes;}
-	 @-o-keyframes load-animation {.loading-animation-keyframes;}
-		@keyframes load-animation {.loading-animation-keyframes;}
+@-webkit-keyframes load-animation {100% {.loading-animation-keyframes;}}
+   @-moz-keyframes load-animation {100% {.loading-animation-keyframes;}}
+	@-ms-keyframes load-animation {100% {.loading-animation-keyframes;}}
+	 @-o-keyframes load-animation {100% {.loading-animation-keyframes;}}
+		@keyframes load-animation {100% {.loading-animation-keyframes;}}
 
 .modal-loading
 {

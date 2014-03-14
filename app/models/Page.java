@@ -49,15 +49,7 @@ public class Page extends Model
 	= new Finder<Long, Page>(Long.class, Page.class);
 	
 	public static Page getPage(String name)
-	{
-		/**
-		if (name.isEmpty())
-		{
-			Page getPage = find.setMaxRows(1).findUnique();
-			return getPage;
-		}
-		/**/
-		
+	{		
 		/**/
 		return find.where()
 				.eq("name", name)
