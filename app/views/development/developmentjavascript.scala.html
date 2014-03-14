@@ -9,19 +9,22 @@
 	    	//alert( name + title + description );
 	    	
 	    	var route = r = jsRoutes.controllers.Development.validatePage(name).ajax({
-				success: 	function(data) {
+	    		beforeSend: function() {
+	    			$('#modalNew').find('.modal-loading').show();
+	    			$('#modalNew').find('.modal-form').hide();
+	    		},
+	    		success: 	function(data) {
 					if (data != null && data != '')
 					{
-						$('#modalNew').find('.modal-header').append("<p>" + data + "</p>");
-						alert(data);
+						$('#modalNew').find('.modal-error').css('padding-left', '15px');
+						$('#modalNew').find('.modal-error').css('padding-right', '15px');
+						$('#modalNew').find('.modal-error').html("<div class='alert alert-danger'>" + data + "</div>");
+		    			$('#modalNew').find('.modal-loading').hide();
+		    			$('#modalNew').find('.modal-form').show();
 					}
 					else
 					{
 				    	var route = r = jsRoutes.controllers.Development.addPage(name, title, description).ajax({
-				    		beforeSend: function() {
-				    			$('#modalNew').find('.modal-loading').show();
-				    			$('#modalNew').find('.modal-form').hide();
-				    		},
 							success: function(data) {
 								//alert(data)
 						    	//$('#result').html(data);
@@ -33,7 +36,9 @@
 								
 						  	},
 						  	error: function() {
-						    	alert("Error!")
+				    			$('#modalNew').find('.modal-loading').hide();
+				    			$('#modalNew').find('.modal-form').show();						  		
+						    	alert("Error!");
 						  	}
 						});
 					}
@@ -50,10 +55,10 @@
 		$(document).on('click', '#open-menu', function(event){
 	
 	    	var route = r = jsRoutes.controllers.Development.openMenu().ajax({
-				success: function(data) {
+	    		success: function(data) {
 					//alert(data);
-			    	$('#open-result').html(data);
-			    	
+					
+					$('#open-result').html(data);			    				    	
 			  	},
 			  	error: function() {
 			    	alert("Error!")
@@ -217,7 +222,7 @@
 
 						var template = $(this);
 						
-						alert("test");
+						//alert("test");
 						templateId = 0
 						attr = template.attr('id');
 
@@ -228,7 +233,7 @@
 
 						var route = r = jsRoutes.controllers.Development.updateTemplate(name, code, templateId, Math.floor(topPosition), Math.floor(leftPosition), pageId).ajax({
 							success: function(data) {
-					    		alert(data);
+					    		//alert(data);
 					    		//$(clonedComponent).replaceWith(data);	
 
 					    		//draggableTemplate();	
@@ -240,7 +245,7 @@
 					    		//alert("templateId: " + templateId);
 					    		template.attr('id', templateId);
 
-					    		template.addClass("phil-test");
+					    		//template.addClass("phil-test");
 
 					    		template.find('.component-wrapper').each(
 									function(){
@@ -261,7 +266,7 @@
 										
 
 										/**/
-										var route = r = jsRoutes.controllers.Development.updateComponent(code, componentId, componentType, Math.floor(topPosition), Math.floor(leftPosition), width, height, templateId, pageId).ajax({
+										var route = r = jsRoutes.controllers.Development.updateComponent(code, componentId, componentType, width, height, templateId).ajax({
 											success: function(data) {
 									    		//alert(data);
 									    		//$(clonedComponent).replaceWith(data);	
@@ -273,7 +278,7 @@
 									    		//alert("componentId: " + componentId);
 									    		component.attr('id', componentId);
 
-									    		component.addClass("phil-test");
+									    		//component.addClass("phil-test");
 													    											    						    	
 										  	},
 										  	error: function() {
@@ -320,6 +325,7 @@
 			 	$(clonedComponent).detach();
 				$(clonedComponent).css('top', topPosition);
 				$(clonedComponent).css('left', leftPosition);	
+				$(clonedComponent).css('position', 'absolute')
 
 				
 				$(clonedComponent).draggable({
