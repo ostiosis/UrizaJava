@@ -356,13 +356,68 @@
 		$('.template-wrapper').each( function(index, event) {
 			if ($(event).attr('id'))
 			{
-				$(event).draggable({
-		            helper:         "original",
-		            containment:    "#result",
-		            tolerance:      "fit",
-		            cursor:         "move",
-		            snap:			".grid-cell"
-		        });
+				if ($(event).find('div.component-wrapper > ul.nav').length == 0)
+				{
+					$(event).draggable({
+			            helper:         'original',
+			            containment:    '#result',
+			            tolerance:      'fit',
+			            cursor:         'move',
+			            snap:			'.grid-cell',
+			            start: function(event, ui){
+			            	if ($(this).data('droppable'))
+		            		{
+				            	$(this).droppable( 'disable' );	            		
+		            		}
+			            },
+			            stop: function(event, ui){
+			            	if ($(this).data('droppable'))
+		            		{
+				            	$(this).droppable( 'enable' );	            		
+		            		}
+			            }
+			        });
+				}
+				else
+				{
+					$(event).find('div.component-wrapper > ul.nav').each( function(index, e) {
+						
+						var parentElement = e;
+						
+						$(parentElement).draggable({
+				            helper:         'original',
+				            containment:    '#result',
+				            tolerance:      'fit',
+				            cursor:         'move',
+				            snap:			'.grid-cell',
+				            scope: 			'menu-element',
+				            start: function(event, ui){
+				            	if ($(this).data('droppable'))
+			            		{
+					            	$(this).droppable( 'disable' );	            		
+			            		}
+				            },
+				            stop: function(event, ui){
+				            	if ($(this).data('droppable'))
+			            		{
+					            	$(this).droppable( 'enable' );	            		
+			            		}
+				            }
+				        });
+	
+						
+						$(parentElement).droppable({
+							greedy: true,
+							hoverClass: 'Phil-Test',
+							//accept: '.template-wrapper',
+							scope: 'menu-element',	
+							drop: function(event, ui){
+								//$(parentElement).addClass('Phil-Test');
+								alert("Drop test");
+							}
+						});
+					});
+				}
 			}
         });
 	}
