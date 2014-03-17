@@ -1,6 +1,8 @@
 <script type="text/javascript" >
 	$(document).ready(function(){
-	
+
+		mouseCheck();
+		
 		$(document).on('click', '.btn-success', function(event){
 	
 	    	var name = $('#name').val();
@@ -88,7 +90,7 @@
   		dropZone.addEventListener('dragover', handleDragOver, false);
   		dropZone.addEventListener('drop', handleFileSelect, false);
 
-		mediaThumbnails(event);
+		mediaThumbnails();
 
 		resizeTargets();
 		createGrid();
@@ -159,7 +161,7 @@
             cache: false,
             type: 'POST',
 			success: function(data) {
-				mediaThumbnails(event);
+				mediaThumbnails();
 		  	},
 		  	error: function() {
 		    	alert("Error!");
@@ -167,7 +169,7 @@
 		});	    
     }
 	
-	function mediaThumbnails(event){
+	function mediaThumbnails(){
 		var route = r = jsRoutes.controllers.Development.showImageThumbnails("medium").ajax({
 			success: function(data) {
 				//alert(data);
@@ -342,6 +344,7 @@
 
 	    		draggableTemplate();	
 	    		editText();
+	    		mouseCheck();
 			}
 		});
 		
@@ -350,12 +353,17 @@
 	
 	function draggableTemplate()
 	{
-		$('.template-wrapper').draggable({
-            helper:         "original",
-            containment:    "#result",
-            tolerance:      "fit",
-            cursor:         "move",
-            snap:			".grid-cell"
+		$('.template-wrapper').each( function(index, event) {
+			if ($(event).attr('id'))
+			{
+				$(event).draggable({
+		            helper:         "original",
+		            containment:    "#result",
+		            tolerance:      "fit",
+		            cursor:         "move",
+		            snap:			".grid-cell"
+		        });
+			}
         });
 	}
 	
@@ -365,7 +373,7 @@
             helper:			function(event){
 				var result = $(this).clone();
 
-				alert($(result).find('img').attr('parentId'));
+				//alert($(result).find('img').attr('parentId'));
 				
 				var img = $(result).find('img');
             	
@@ -373,7 +381,7 @@
 					success: function(data) {
 
 						
-						alert(data);
+						//alert(data);
 						img.replaceWith(data);
 			    		//$(result).html(data);					    	
 				  	},
@@ -461,8 +469,22 @@
 		$('.editable-text').mouseleave(function() 
 		{
 			$(this).parents('.ui-draggable').draggable('enable');
-		});
-		
+		});		
 
+	}
+
+	function mouseCheck()
+	{
+		$('*').on('mouseenter', function() { 
+			var hoverElement = this; 
+			var navElement = $(hoverElement).children('div.component-wrapper > ul.nav');
+			//$(hoverElement).find('div.component-wrapper > ul.nav').each(function()
+			//{
+				//alert("PHIL TEST");
+				//$(hoverElement).append("test").stop();
+				$('#test-msg').html($(hoverElement).attr('id'));
+			//});
+
+		});
 	}
 </script>

@@ -13,21 +13,42 @@
 	      
 	        <div id="collapse-one" class="panel-collapse collapse in">
 	            <div class="panel-body">
-	                <ul class="nav nav-pills nav-stacked">
-	                    
-	                </ul>
+					<script type="text/javascript">
+						$('document').ready( function(){
+							$('.draggable-menu').draggable({
+				            	helper:			"clone",
+					            containment:    "#result",
+					            tolerance:      "fit",
+					            cursor:         "move",
+					            revert:			true,
+					            snap:			".col-xs-1"
+				      	  	});
+						});
+	                </script>	
+					<div class="draggable-menu">
+	                	<div class="template-wrapper">
+	                		<div class="component-wrapper" type="menu" >
+		                		<ul class="nav nav-pills">
+									<li class="active"><a href="#">Menu Element</a></li>
+								</ul>
+	                		</div>
+	                	</div>
+	                </div>	    
+	                <br>
+	                <br>
+	                            
 	                <script type="text/javascript">
-					$('document').ready( function(){$('.test-parent').draggable({
-		            	handle:			"i",
-		            	helper:			"clone",
-			            containment:    "#result",
-			            tolerance:      "fit",
-			            cursor:         "move",
-			            revert:			true,
-			            snap:			".col-xs-1"
-		      	  	});
-					}
-					);
+					$('document').ready( function(){
+						$('.test-parent').draggable({
+			            	handle:			"i",
+			            	helper:			"clone",
+				            containment:    "#result",
+				            tolerance:      "fit",
+				            cursor:         "move",
+				            revert:			true,
+				            snap:			".col-xs-1"
+			      	  	});
+					});
 	                </script>	
 	                <div class="test-parent">
 	                	<i class=" fa fa-font fa-lg "></i>
@@ -53,23 +74,24 @@
 	                <br>
 	                <script type="text/javascript">
 	                
-					$('document').ready( function(){$('.draggable-text').draggable({
-	            	helper:			"clone",
-		            containment:    "#result",
-		            tolerance:      "fit",
-		            cursor:         "move",
-		            revert:			true,
-		            snap:			".col-xs-1"
-		      	  	});
-					}
-					);
+					$('document').ready( function(){
+						$('.draggable-text').draggable({
+			            	helper:			"clone",
+				            containment:    "#result",
+				            tolerance:      "fit",
+				            cursor:         "move",
+				            revert:			true,
+				            snap:			".col-xs-1"
+			      	  	});
+					});
 	                </script>
 	                <br><div class="draggable-text component-item" type="textBox" >Dragwithme<textarea>Touchme</textarea></div>
-					<br>test
+					<br>
 					<div id="media-thumbnails">
 					
 					</div>
-					test<br>
+					<br>
+					<br>
 					<!-- Drag and drop upload area -->
 			    	<input type="file" name="picture">
 			    	
