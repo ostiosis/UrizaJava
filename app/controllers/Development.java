@@ -143,7 +143,7 @@ public class Development extends Controller
 	    	break;
     	}
     }
-    /**/
+    /**
 
     public static Result updateTemplate(String name, String code, Long templateId, Long topPosition, Long leftPosition, Long pageId)
     {
@@ -178,9 +178,10 @@ public class Development extends Controller
     		getTemplate.save();
     	}
     	
-		/**/
+		
     	return ok(views.html.utility.longresult.render(getTemplate.id));
     }
+    /**/
     
     public static Result updateComponent(String code, Long componentId, String componentType, Long width, Long height, Long templateId)
     {

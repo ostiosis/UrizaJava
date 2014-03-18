@@ -401,6 +401,16 @@
 			}
         });
 	}
+	//recursive test function
+	function test(elem)
+	{
+	    $(elem).children('.component-wrapper').each(function(){
+	        //alert('test');
+	        test($(this));
+	    });
+	}
+
+	test($('body'));
 	
 	function draggableThumbnail()
 	{

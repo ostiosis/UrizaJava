@@ -31,12 +31,9 @@ public class Page extends Model
 	public Timestamp dateCreated;
 	public Timestamp dateModified;
 	
-	@ManyToMany
-	@JoinTable(
-		      name="page_template",
-		      joinColumns={@JoinColumn(name="page_id", referencedColumnName="id")},
-		      inverseJoinColumns={@JoinColumn(name="template_id", referencedColumnName="id")})
-	public List<Template> templates;
+	@OneToMany(cascade=CascadeType.ALL)
+	@OrderBy("display_order")
+	public List<Component> components;
 
 	public Page(String name, String title, String description)
 	{

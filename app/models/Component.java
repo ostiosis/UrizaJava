@@ -24,6 +24,7 @@ public class Component extends Model
 
 	@Id
 	public Long id;
+	public Long displayOrder;
 	
 	public String name;
 	
@@ -44,23 +45,9 @@ public class Component extends Model
 	public Timestamp dateCreated;
 	public Timestamp dateModified;
 	
-	/**/
-	@ManyToMany
-	@JoinTable(
-		      name="template_component",
-		      joinColumns={@JoinColumn(name="template_id", referencedColumnName="id")},
-		      inverseJoinColumns={@JoinColumn(name="component_id", referencedColumnName="id")})
-	public List<Template> templates;
-	/**/
-	
-	/**
-	@ManyToMany
-	@JoinTable(
-		      name="row_component",
-		      joinColumns={@JoinColumn(name="row_id", referencedColumnName="id")},
-		      inverseJoinColumns={@JoinColumn(name="component_id", referencedColumnName="id")})
-	public List<Row> rows;
-	/**/
+	@OneToMany(cascade=CascadeType.ALL)
+	@OrderBy("display_order")
+	public List<Component> children;
 
 	public Component(String name, String code, String componentType, Long width, Long height)
 	{
