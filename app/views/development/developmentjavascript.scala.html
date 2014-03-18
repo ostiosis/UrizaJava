@@ -356,68 +356,48 @@
 		$('.template-wrapper').each( function(index, event) {
 			if ($(event).attr('id'))
 			{
-				if ($(event).find('div.component-wrapper > ul.nav').length == 0)
-				{
-					$(event).draggable({
-			            helper:         'original',
-			            containment:    '#result',
-			            tolerance:      'fit',
-			            cursor:         'move',
-			            snap:			'.grid-cell',
-			            start: function(event, ui){
-			            	if ($(this).data('droppable'))
-		            		{
-				            	$(this).droppable( 'disable' );	            		
-		            		}
-			            },
-			            stop: function(event, ui){
-			            	if ($(this).data('droppable'))
-		            		{
-				            	$(this).droppable( 'enable' );	            		
-		            		}
-			            }
-			        });
-				}
-				else
-				{
-					$(event).find('div.component-wrapper > ul.nav').each( function(index, e) {
-						
-						var parentElement = e;
-						
-						$(parentElement).draggable({
-				            helper:         'original',
-				            containment:    '#result',
-				            tolerance:      'fit',
-				            cursor:         'move',
-				            snap:			'.grid-cell',
-				            scope: 			'menu-element',
-				            start: function(event, ui){
-				            	if ($(this).data('droppable'))
-			            		{
-					            	$(this).droppable( 'disable' );	            		
-			            		}
-				            },
-				            stop: function(event, ui){
-				            	if ($(this).data('droppable'))
-			            		{
-					            	$(this).droppable( 'enable' );	            		
-			            		}
-				            }
-				        });
-	
-						
-						$(parentElement).droppable({
-							greedy: true,
-							hoverClass: 'Phil-Test',
-							//accept: '.template-wrapper',
-							scope: 'menu-element',	
-							drop: function(event, ui){
-								//$(parentElement).addClass('Phil-Test');
-								alert("Drop test");
-							}
-						});
+
+				$(event).draggable({
+		            helper:         'original',
+		            containment:    '#result',
+		            tolerance:      'fit',
+		            cursor:         'move',
+		            snap:			'.grid-cell',
+		            start: function(event, ui){
+		            	if ($(this).data('droppable'))
+	            		{
+			            	$(this).droppable( 'disable' );	            		
+	            		}
+		            },
+		            stop: function(event, ui){
+		            	if ($(this).data('droppable'))
+	            		{
+			            	$(this).droppable( 'enable' );	            		
+	            		}
+		            }
+		        });
+
+				$(event).find('div.component-wrapper > ul.nav').each( function(index, e) {
+					
+					var parentElement = e;
+
+					//$('#test-msg').html($(hoverElement).attr('id'));
+					
+					$(parentElement).droppable({
+						greedy: true,
+						hoverClass: 'Phil-Test',
+						activate: function(event, ui){
+							$('#test-msg').html("top: " + ui.position.top + ", left: " + ui.position.left);
+						},
+						//accept: '.template-wrapper',
+						scope: 'menu-element',	
+						drop: function(event, ui){
+							//$(parentElement).addClass('Phil-Test');
+							alert("Drop test");
+						}
 					});
-				}
+				});
+				
 			}
         });
 	}
@@ -537,7 +517,9 @@
 			//{
 				//alert("PHIL TEST");
 				//$(hoverElement).append("test").stop();
-				$('#test-msg').html($(hoverElement).attr('id'));
+				
+				//$('#test-msg').html($(hoverElement).attr('id'));
+				
 			//});
 
 		});
