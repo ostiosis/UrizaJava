@@ -1,4 +1,12 @@
 @(component: Component)
-	<div class="component-wrapper" id="@component.id" type="@component.componentType">
-		@Html(component.code)
-	</div>
+	
+	@renderComponent(component: Component) = {
+			<div class="component-wrapper" id="@component.id" type="@component.componentType">
+				@Html(component.code)
+				
+				@for(child <- component.children) {
+					renderComponent(child)		
+				}
+			</div>		
+		}
+	

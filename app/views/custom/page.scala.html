@@ -1,6 +1,6 @@
 @(page: Page)
 	<div class="custom-page" id="@page.id" />		
-		@for(template <- page.templates) {
-			@views.html.custom.template(template)		
+		@for(component <- page.components) {
+			@views.html.custom.component(component)		
 		}
 	</div>
