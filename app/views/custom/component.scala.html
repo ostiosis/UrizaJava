@@ -1,12 +1,12 @@
 @(component: Component)
 	
 	@renderComponent(component: Component) = {
-			<div class="component-wrapper" id="@component.id" type="@component.componentType">
-				@Html(component.code)
-				
-				@for(child <- component.children) {
-					renderComponent(child)		
-				}
-			</div>		
-		}
+		<div class="component-wrapper" id="@component.id" type="@component.componentType">
+			@Html(component.code)
+			
+			@for(child <- component.children) {
+				renderComponent(child)		
+			}
+		</div>		
+	}
 	
