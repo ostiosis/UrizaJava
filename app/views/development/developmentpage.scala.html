@@ -1,6 +1,7 @@
 @(page: Page)
+
 	<div class="custom-page" id="@page.id" />
-	</div>	
 		@for(component <- page.components) {
-			@views.html.development.developmentcomponent(component)		
+			@views.html.custom.component(component)		
 		}
+	</div>

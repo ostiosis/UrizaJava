@@ -1,37 +1,30 @@
 @(component: Component)
-
+	
+	@renderComponent(component)
+	
+	
 	@renderComponent(component: Component) = {
-		<div class="component-wrapper" id="@component.id" type="@component.componentType">
+		<div class="@component.classes" id="@component.id" type="@component.componentType">
+		
 			@component.componentType match {
-				case ("text") => {
-					<i class=" fa fa-font fa-lg "></i> 
-					<div id="@component.id" class="editable-text component-wrapper" type="@component.componentType" contenteditable="true">
+				case ("row") => {
+					<div class="row clearfix">
 						@Html(component.code)
+						
+						@for(child <- component.children) {
+							@renderComponent(child)		
+						}					
 					</div>
 				}
 				
-				case ("image") => {
-					<div id="@component.id" class="component-wrapper" type="@component.componentType" >
-						@Html(component.code)
-					</div>		
-				}	
-				
-				case ("menu") => {
-					<div id="@component.id" class="component-wrapper" type="@component.componentType" >
-						@Html(component.code)
-					</div>		
-				}	
-				
 				case _ => {
-					Html("<br>not working<br>")
-				}
-			}
+					@Html(component.code)
 			
-			@for(child <- component.children) {
-				renderComponent(child)		
-			}
+					@for(child <- component.children) {
+						@renderComponent(child)		
+					}
+				}
+			}	
 		</div>		
 	}
-
-
-		
+	

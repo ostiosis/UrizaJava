@@ -1,7 +1,7 @@
 
 	<div class="panel-group" id="accordion">
 	    <!-- Basic HTML Elements -->
-	    <div class="panel panel-default">
+	    <div class="panel panel-default sidebar-nav">
 	        <div class="panel-heading">
 	        
 	            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-one">
@@ -11,29 +11,70 @@
 	            </a>
 	        </div>
 	      
+			<div class="component-wrapper component-element" type="row">
+				<div class="row clearfix">
+					<div class="col-md-12 column component-element" type="column"></div>
+				</div>
+			</div>
+	      
+			<div class="component-wrapper component-element" type="row">
+				<div class="row clearfix">
+					<div class="col-md-6 column component-element" type="column"></div>
+					<div class="col-md-6 column component-element" type="column"></div>
+				</div>
+			</div>
+			
+			<div class="component-element design-element" type="menu" >
+				<ul class="nav nav-pills">
+					<li class="active"><a href="#" contenteditable="true">Menu Element</a></li>
+				</ul>
+            </div>
+	      
 	        <div id="collapse-one" class="panel-collapse collapse in">
 	            <div class="panel-body">
+	            
 					<script type="text/javascript">
 						$('document').ready( function(){
 							$('.draggable-menu').draggable({
 				            	helper:			"clone",
-					            containment:    "#result",
+				            	connectToSortable: ".test-sort-class",
 					            tolerance:      "fit",
 					            cursor:         "move",
-					            revert:			true,
-					            snap:			".col-xs-1"
+					            revert:			true
 				      	  	});
 						});
 	                </script>	
-					<div class="draggable-menu">
-	                	<div class="template-wrapper">
-	                		<div class="component-wrapper" type="menu" >
-		                		<ul class="nav nav-pills">
-									<li class="active"><a href="#">Menu Element</a></li>
-								</ul>
-	                		</div>
-	                	</div>
-	                </div>	    
+               		
+               		<!-- Menu element drag example -->
+               		<div class="component-wrapper draggable-menu" type="menu" >
+                		<ul class="nav nav-pills">
+							<li class="active"><a href="#" contenteditable="true">Menu Element</a></li>
+						</ul>
+               		</div>
+	    
+	                <br>
+	                <br>
+	                            
+					<script type="text/javascript">
+						$('document').ready( function(){
+							$('.draggable-row').draggable({
+				            	helper:			"clone",
+				            	connectToSortable: ".test-sort-class",
+					            tolerance:      "fit",
+					            cursor:         "move"
+				      	  	});
+						});
+	                </script>	
+               		
+               		<!-- Menu element drag example -->
+               		<div class="draggable-row row clearfix" >
+                		<div class="col-md-6 droppable-column">test</div>
+                		<div class="col-md-6 droppable-column">test</div>
+               		</div>
+               		
+        		    <div class="draggable-row droppable-row test-row row" >
+               		</div>
+	    
 	                <br>
 	                <br>
 	                            

@@ -1,12 +1,30 @@
 @(component: Component)
 	
+	@renderComponent(component)
+	
+	
 	@renderComponent(component: Component) = {
-		<div class="component-wrapper" id="@component.id" type="@component.componentType">
-			@Html(component.code)
+		<div class="@component.classes" id="@component.id" type="@component.componentType">
+		
+			@component.componentType match {
+				case ("row") => {
+					<div class="row clearfix">
+						@Html(component.code)
+						
+						@for(child <- component.children) {
+							@renderComponent(child)		
+						}					
+					</div>
+				}
+				
+				case _ => {
+					@Html(component.code)
 			
-			@for(child <- component.children) {
-				renderComponent(child)		
-			}
+					@for(child <- component.children) {
+						@renderComponent(child)		
+					}
+				}
+			}	
 		</div>		
 	}
 	

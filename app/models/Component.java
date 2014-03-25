@@ -1,17 +1,23 @@
 package models;
 
 
-import javax.persistence.*;
-
-import org.apache.commons.lang3.StringEscapeUtils;
-
-import play.Logger;
-import play.db.ebean.*;
-import utility.UrizaHelpers;
-
-import java.sql.Date;
+import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import play.db.ebean.Model;
+import utility.UrizaHelpers;
 
 @Entity
 public class Component extends Model 
@@ -23,13 +29,15 @@ public class Component extends Model
 	private static final long serialVersionUID = -7757858881784856402L;
 
 	@Id
-	public Long id;
-	public Long displayOrder;
+	public Integer id;
 	
 	public String name;
 	
 	@Column(columnDefinition = "text")
 	public String code;
+	
+	@Column(columnDefinition = "text")
+	public String classes;
 	
 	public String componentType;
 	
@@ -44,10 +52,6 @@ public class Component extends Model
 	
 	public Timestamp dateCreated;
 	public Timestamp dateModified;
-	
-	@OneToMany(cascade=CascadeType.ALL)
-	@OrderBy("display_order")
-	public List<Component> children;
 
 	public Component(String name, String code, String componentType, Long width, Long height)
 	{
@@ -60,15 +64,23 @@ public class Component extends Model
 		this.height = height;
 	}
 	
-	public static Finder<Long, Component> find 
-	= new Finder<Long, Component>(Long.class, Component.class);
-
-	public static Component create(String name, String code, String componentType, Long width, Long height)
+	public Component(String name, String code, String componentType, String classes)
 	{
-		Component component = new Component(name, code, componentType, width, height);
+		this.name = name;
+		this.code = code;
+		this.classes = classes;
+		
+		this.componentType = componentType.toLowerCase();
+	}
+	
+	public static Finder<Integer, Component> find 
+	= new Finder<Integer, Component>(Integer.class, Component.class);
+
+	public static Component create(String name, String code, String componentType, String classes)
+	{
+		Component component = new Component(name, code, componentType, classes);
 		component.dateCreated = UrizaHelpers.getTime();
 		component.save();
-		component.saveManyToManyAssociations("templates");
 		
 		return component;
 	}
@@ -93,6 +105,15 @@ public class Component extends Model
 		
 		this.dateModified = UrizaHelpers.getTime();
 	}
+	
+	public void update(String code, String classes)
+	{
+		this.code = code;
+		this.classes = classes;
+						
+		this.dateModified = UrizaHelpers.getTime();
+	}
+
 
 	public void update(Long width, Long height)
 	{
@@ -101,4 +122,20 @@ public class Component extends Model
 		
 		this.dateModified = UrizaHelpers.getTime();
 	}
+	
+	public List<Component> children() throws SQLException
+	{
+		
+		List<Component> children = new ArrayList<Component>();
+		
+		List<ChildComponent> childIds = ChildComponent.find.where().eq("parent_id", this.id).orderBy("display_order asc").findList();
+		
+		for (ChildComponent c: childIds)
+		{
+			children.add(Component.find.byId(c.childId));
+		}
+	
+		return children;	
+	}
+
 }

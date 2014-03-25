@@ -5,19 +5,25 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 
+import models.ChildComponent;
 import models.Component;
 import models.MediaObject;
 import models.MediaObjectThumbnail;
 import models.Page;
+import models.PageComponent;
 import models.Template;
 import play.Logger;
+import play.db.DB;
 import play.mvc.*;
 import utility.MediaHelpers;
+import utility.UrizaHelpers;
 
 public class Development extends Controller
 {
@@ -183,46 +189,234 @@ public class Development extends Controller
     }
     /**/
     
-    public static Result updateComponent(String code, Long componentId, String componentType, Long width, Long height, Long templateId)
+    public static Result updateComponent(Integer componentId, Integer parentId, String componentType, String classes, String code, Integer displayOrder)
     {
     	code = code.trim();
+    	classes = UrizaHelpers.classCleanup(classes.trim());
     	
-    	
-    	Template getTemplate = null;
     	Component getComponent = null;
     	
     	Logger.info("\nBegin Row");
     	Logger.info("code: " + code.trim());
+    	Logger.info("classes: " + classes.trim());
+    	
+    	Logger.info("parentId: " + parentId);
     	Logger.info("componentId: " + componentId);
-    	Logger.info("componentType: " + componentType);
-    	Logger.info("width: " + width);
-    	Logger.info("height: " + height);
-    	
-    	Logger.info("templateId: " + templateId);
-    	
+    	Logger.info("componentType: " + componentType);  	
     	Logger.info("\nEnd Row");
 
-		getTemplate = Template.find.byId(templateId);
-   	
     	/**/
 		
 		//getPage.save();
 		
     	if (componentId <= 0)
     	{
-    		getComponent = Component.create("", code, componentType, width, height);
-    		getTemplate.components.add(getComponent);
-        	getTemplate.saveManyToManyAssociations("components");
+    		getComponent = Component.create("", code, componentType, classes);
+    		getComponent.save();
     	}
     	else
     	{
     		getComponent = Component.find.byId(componentId);
-    		getComponent.update(code, width, height);
+    		getComponent.update(code, classes);
     		getComponent.save();
     	}
 		/**/
-    	//return ok(views.html.development.developmenttemplate.render(getTemplate));
-    	return ok(views.html.utility.longresult.render(getComponent.id));
+
+    	ChildComponent childComponent = ChildComponent
+    			.find
+    			.where()
+    			.eq("child_id", getComponent.id)
+    			.findUnique();
+    	
+    	if (childComponent != null)
+    	{
+    		childComponent.update(parentId, getComponent.id, displayOrder);
+    		childComponent.save();
+    	}
+    	else
+    	{
+    		childComponent = ChildComponent.create(parentId, getComponent.id, displayOrder);
+    		childComponent.save();
+    	}
+    	
+    	childComponent.parentId = parentId;
+    	
+    	PageComponent pageComponent = PageComponent
+    			.find
+    			.where()
+    			.eq("component_id", getComponent.id)
+    			.findUnique();
+    	if (pageComponent != null)
+    	{
+    		pageComponent.delete();
+    	}
+    	
+    	return ok(views.html.utility.integerresult.render(getComponent.id));
+    }
+    
+    public static Result updateTopLevelComponent(Integer componentId, Integer pageId, String componentType, String classes, String code, Integer displayOrder)
+    {
+    	code = code.trim();
+    	classes = UrizaHelpers.classCleanup(classes.trim());
+    	
+    	Component getComponent = null;
+    	
+    	Logger.info("\nBegin Row");
+    	Logger.info("code: " + code.trim());
+    	Logger.info("classes: " + classes.trim());
+    	
+    	Logger.info("pageId: " + pageId);
+    	Logger.info("componentId: " + componentId);
+    	Logger.info("componentType: " + componentType);  	
+    	Logger.info("\nEnd Row");
+
+    	/**/
+		
+		//getPage.save();
+		
+    	if (componentId <= 0)
+    	{
+    		getComponent = Component.create("", code, componentType, classes);
+    		getComponent.save();
+    	}
+    	else
+    	{
+    		getComponent = Component.find.byId(componentId);
+    		getComponent.update(code, classes);
+    		getComponent.save();
+    	}
+		/**/
+    	
+    	ChildComponent childComponent = ChildComponent
+    			.find
+    			.where()
+    			.eq("child_id", getComponent.id)
+    			.findUnique();
+    	
+    	if (childComponent != null)
+    	{
+    		childComponent.delete();
+    	}
+    	
+    	PageComponent pageComponent = PageComponent
+    			.find
+    			.where()
+    			.eq("component_id", getComponent.id)
+    			.findUnique();
+    	
+    	if (pageComponent != null)
+    	{
+    		pageComponent.update(pageId, getComponent.id, displayOrder);
+    		pageComponent.save();
+    	}
+    	else
+    	{
+    		pageComponent = PageComponent.create(pageId, getComponent.id, displayOrder);
+    		pageComponent.save();
+    	}
+    	
+    	return ok(views.html.utility.integerresult.render(getComponent.id));
+    }
+    
+    public static Result updateOrder(String parentType, Integer parentId, String order) throws SQLException
+    {
+    	
+    	Logger.info("parentType: " + parentType);
+    	Logger.info("parentId: " + parentId);
+    	Logger.info("order: " + order);
+    	
+    	Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		
+		String table = null;
+		String parentIdName = null;
+		String childIdName = null;
+		
+		String elements[] = order.split(",");
+    	
+    	switch (parentType.toLowerCase())
+    	{
+			case "page":
+			{
+				table = "page_component";
+				parentIdName = "page_id";
+				break;
+			}
+			case "component":
+			{
+				table = "child_component";
+
+				parentIdName = "parent_id";
+				
+				break;
+			}
+    	}
+    	
+		try
+		{
+			connection = DB.getConnection();
+			
+			String clear = "DELETE FROM " + table + " WHERE " + parentIdName + " = ?";
+			preparedStatement = connection.prepareStatement(clear);
+			preparedStatement.setLong(1, parentId);
+			
+			preparedStatement.executeUpdate();
+			
+			preparedStatement.close();			
+		}
+		catch (SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		finally
+		{
+			if (preparedStatement != null)
+			{
+				preparedStatement.close();
+			}
+			
+			if (connection != null)
+			{
+				connection.close();
+			}
+		}
+		
+		for(int i = 0; i < elements.length; i++)
+		{
+			try
+			{
+				Integer value = Integer.parseInt(elements[i]);
+				if ( value != null)
+				{
+					Logger.info("value: " + value);
+			    	switch (parentType.toLowerCase())
+			    	{
+						case "page":
+						{
+							PageComponent c = new PageComponent(parentId, value, i);
+							c.save();
+							Logger.info("c" + c.toString());
+							break;
+						}
+						case "component":
+						{
+							ChildComponent c = new ChildComponent(parentId, value, i);
+							c.save();
+							Logger.info("c" + c.toString());
+							break;
+						}
+			    	}
+					//create(Integer pageId, Integer componentId, Integer displayOrder)
+					
+				}
+			}
+			catch(Exception e)
+			{
+				
+			}
+		}
+    	
+    	return ok("updated");
     }
 
 }

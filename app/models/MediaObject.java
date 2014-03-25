@@ -45,13 +45,7 @@ public class MediaObject extends Model
 	
 	public Timestamp dateCreated;
 	public Timestamp dateModified;
-	
-	@ManyToMany
-	@JoinTable(
-		      name="component_mediaobject",
-		      joinColumns={@JoinColumn(name="component_id", referencedColumnName="id")},
-		      inverseJoinColumns={@JoinColumn(name="mediaobject_id", referencedColumnName="id")})
-	public List<Component> components;
+
 	
 	public static Finder<Long, MediaObject> find 
 	= new Finder<Long, MediaObject>(Long.class, MediaObject.class);

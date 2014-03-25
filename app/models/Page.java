@@ -1,7 +1,9 @@
 package models;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -30,10 +32,6 @@ public class Page extends Model
 	
 	public Timestamp dateCreated;
 	public Timestamp dateModified;
-	
-	@OneToMany(cascade=CascadeType.ALL)
-	@OrderBy("display_order")
-	public List<Component> components;
 
 	public Page(String name, String title, String description)
 	{
@@ -59,7 +57,6 @@ public class Page extends Model
 		Page page = new Page(name, title, description);
 		page.dateCreated = UrizaHelpers.getTime();
 		page.save();
-		page.saveManyToManyAssociations("templates");
 		
 		return page;
 	}
@@ -67,5 +64,23 @@ public class Page extends Model
 	public static List<Page> pages()
 	{
 		return find.findList();
+	}
+	
+	public List<Component> components()
+	{			
+		List<Component> components = new ArrayList<Component>();
+		
+		List<PageComponent> componentIds = PageComponent.find.where().eq("page_id", this.id).orderBy("display_order asc").findList();
+		
+		Logger.info("Phil Test: " + componentIds.size());
+		
+		for (PageComponent c: componentIds)
+		{
+			components.add(Component.find.byId(c.componentId));
+		}
+		
+		//Logger.info("Phil Test2: " + components.get(0).classes);
+		
+		return components;	
 	}
 }

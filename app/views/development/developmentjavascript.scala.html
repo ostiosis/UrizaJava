@@ -26,7 +26,7 @@
 					}
 					else
 					{
-				    	var route = r = jsRoutes.controllers.Development.addPage(name, title, description).ajax({
+				    	jsRoutes.controllers.Development.addPage(name, title, description).ajax({
 							success: function(data) {
 								//alert(data)
 						    	//$('#result').html(data);
@@ -56,7 +56,7 @@
 	
 		$(document).on('click', '#open-menu', function(event){
 	
-	    	var route = r = jsRoutes.controllers.Development.openMenu().ajax({
+	    	jsRoutes.controllers.Development.openMenu().ajax({
 	    		success: function(data) {
 					//alert(data);
 					
@@ -92,63 +92,13 @@
 
 		mediaThumbnails();
 
-		resizeTargets();
-		createGrid();
 		setDroppable();
-		
-		$(window).resize(function(){
-			resizeTargets();
-			createGrid();
-		});
 		
 		draggableTemplate();
 		
 		editText();
 					
 	});
-	
-	function createGrid()
-	{
-		var length = $("#grid-display > .row").length;
-		var height = $("#grid-display > .row").height();
-		
-		var htmlRow = ['<div class="row">',
-	    		'<div class="col-xs-1 grid-cell"></div>',
-	    		'<div class="col-xs-1 grid-cell"></div>',
-	    		'<div class="col-xs-1 grid-cell"></div>',
-	    		'<div class="col-xs-1 grid-cell"></div>',
-	    		'<div class="col-xs-1 grid-cell"></div>',
-	    		'<div class="col-xs-1 grid-cell"></div>',
-	    		'<div class="col-xs-1 grid-cell"></div>',
-	    		'<div class="col-xs-1 grid-cell"></div>',
-	    		'<div class="col-xs-1 grid-cell"></div>',
-	    		'<div class="col-xs-1 grid-cell"></div>',
-	    		'<div class="col-xs-1 grid-cell"></div>',
-	    		'<div class="col-xs-1 grid-cell"></div>',
-	    	'</div>'].join('\n');
-		
-		while (length * height < $('#result').height())
-		{
-			$('#grid-display').append(htmlRow);
-			resizeTargets()
-			length = $("#grid-display > .row").length;			
-		}
-		
-
-	}
-	
-	function resizeTargets()
-	{
-		var length = ($("#overlay").width() / 12);
-		
-		$('.col-xs-1').each(function(){
-			$(this).css('height', length);
-	   	});
-	   
-	   	$('#grid-display > .row').each(function(){
-		   	$(this).css('height', length);   
-	   	});
-	}
 	
 	//Functions
     function uploadFile(file)
@@ -181,174 +131,155 @@
 		  	}
 		});
 	}
-	//TODO
-	//this needs to be updated so set template and set all template children
-	function setDroppable()
+
+
+	
+	function updateComponent(element)
 	{
-		$('#result').droppable({
-			drop:		function(event, ui){
-				//alert('drop');
-				var gridWidth = $('#overlay').width() / 12;
-				var gridHeight = gridWidth;
-				
-				var helperOffset = ui.helper.offset();
-				var clonedComponent = ui.helper.clone();
-				
-				var offsetTop = helperOffset.top - $("#result").offset().top;
-				var offsetLeft = helperOffset.left - $("#result").offset().left;
-				
-				var divTop = parseInt((offsetTop + 5) / gridHeight);
-				var divLeft = parseInt((offsetLeft + 5) / gridWidth);
+		var childIds = [];
+		var componentType = $(element).attr('type');
+		var classes = $(element).attr('class');
+		var code = "";
+		var componentId = 0;
+		var displayOrder = $(element).index();
+		
+		var parent = $(element).parent().closest('.component-element, .custom-page');
+		var parentId = $(parent).attr('id');
 
-				var topPosition = divTop * gridHeight;
-				var leftPosition = divLeft * gridWidth;
-				
-				var width = 0;
-				var height = 0;
+		if ($(element).attr('id'))
+		{
+			componentId = $(element).attr('id');
+		}
 
-				var componentId = 0;
-				
-				var componentType = "image";
-				var name = "test";
-				var code = "";
-
-				var elementCheck = document.createElement('element');
-
-				var templateId = 0;				
-				var pageId = $('.custom-page').attr('id');
-				
-				//if (clonedComponent.find('.component-wrapper').length > 0)
-				//{
-				clonedComponent.find('.template-wrapper').addBack('.template-wrapper').each(
-					function(){
-
-						var template = $(this);
-						
-						//alert("test");
-						templateId = 0
-						attr = template.attr('id');
-
-						if (typeof attr !== 'undefined' && attr !== false)
-						{
-							templateId = template.attr('id');
-						}	
-
-						var route = r = jsRoutes.controllers.Development.updateTemplate(name, code, templateId, Math.floor(topPosition), Math.floor(leftPosition), pageId).ajax({
-							success: function(data) {
-					    		//alert(data);
-					    		//$(clonedComponent).replaceWith(data);	
-
-					    		//draggableTemplate();	
-					    		//editText();
-					    		
-					    		
-					    		templateId = data;
-
-					    		//alert("templateId: " + templateId);
-					    		template.attr('id', templateId);
-
-					    		//template.addClass("phil-test");
-
-					    		template.find('.component-wrapper').each(
-									function(){
-
-										var component = $(this);
-										
-										//alert("Hello, World!");
-										//alert("test2: " + templateId);
-										componentId = 0;
-										attr = component.attr('id');
-
-										if (typeof attr !== 'undefined' && attr !== false)
-										{
-											componentId = component.attr('id');
-										}							
-										code = component.html();
-										componentType = component.attr('type');
-										
-
-										/**/
-										var route = r = jsRoutes.controllers.Development.updateComponent(code, componentId, componentType, width, height, templateId).ajax({
-											success: function(data) {
-									    		//alert(data);
-									    		//$(clonedComponent).replaceWith(data);	
-
-									    		//draggableTemplate();	
-									    		//editText();
-									    		componentId = data;
-
-									    		//alert("componentId: " + componentId);
-									    		component.attr('id', componentId);
-
-									    		//component.addClass("phil-test");
-													    											    						    	
-										  	},
-										  	error: function() {
-										    	alert("Error!");
-										  	}
-										});
-										/**/
-									}
-								);	
-					    						    	
-						  	},
-						  	error: function() {
-						    	alert("Error!");
-						  	}
-						});					
-												
-						
-
-
-				
-					}
-				);					
-				//}
-
-				//TODO: clonedComponent.find( 'component-item' ) for multiple components
-				if (clonedComponent.hasClass('component-item'))
+		if (componentType != "row" && componentType != "column")
+		{
+			code = $(element).html();
+		}
+		
+		if ($(parent).hasClass('custom-page'))
+		{
+			jsRoutes.controllers.Development.updateTopLevelComponent(componentId, parentId, componentType, classes, code, displayOrder).ajax({
+				async: false,
+				success: function(data) 
 				{
-					code = clonedComponent.html();
-					componentType = clonedComponent.attr('type');
-					//alert("2code: " + code);
-				}
-				
-				//if (clonedComponent.hasClass("template-wrapper"))
-				//{
-				//	templateId = clonedComponent.attr('id');
-				//}
-				
-				ui.helper.remove();
-				
-				
-				
-			 	
-				
-			 	$(clonedComponent).detach();
-				$(clonedComponent).css('top', topPosition);
-				$(clonedComponent).css('left', leftPosition);	
-				$(clonedComponent).css('position', 'absolute')
-
-				
-				$(clonedComponent).draggable({
-                    helper:         "original",
-                    containment:    "#result",
-                    tolerance:      "fit",
-                    cursor:         "move",
-                    snap:			".grid-cell"
-                });
-
-				
-				
-				$(clonedComponent).appendTo( "#result" );
-
-	    		draggableTemplate();	
-	    		editText();
-	    		mouseCheck();
-			}
+					//alert("data: " + data);
+		    		componentId = data;					    											    						    	
+			  	},
+			  	error: function() 
+			  	{
+			    	alert("Error!");
+			  	}
+			});	
+		}
+		else
+		{
+			jsRoutes.controllers.Development.updateComponent(componentId, parentId, componentType, classes, code, displayOrder).ajax({
+				async: false,
+				success: function(data) 
+				{
+		    		componentId = data;					    											    						    	
+			  	},
+			  	error: function() 
+			  	{
+			    	alert("Error!");
+			  	}
+			});		
+		}
+		
+		$(element).attr('id', componentId);
+		
+		$(element).find('.component-element').each(function(index, value){
+			childIds.push( updateComponent(value) );
 		});
 		
+		return componentId;		
+	}
+
+	function updateOrder(element)
+	{
+		var parentType = "component";
+		var parentId = $(element).attr('id');
+		var order = $(element).sortable('toArray');
+
+		if ($(element).hasClass('custom-page'))
+		{
+			parentType = "page";
+		}
+
+		jsRoutes.controllers.Development.updateOrder(parentType, parentId, order).ajax({
+			async: false,
+			success: function(data) 
+			{
+		  	},
+		  	error: function() 
+		  	{
+		    	alert("Error!");
+		  	}
+		});		
+	}
+	
+	function setDroppable()
+	{
+		var id = 5;
+		var testItem;
 		
+		$(".custom-page, .custom-page .column").sortable({
+			placeholder: "test-row-clone",
+	        connectWith: ".column",
+            revert:			true,
+	        opacity: .50,
+	        beforeStop: function(event, ui)
+	        {
+	        	testItem = ui.item;
+	        },
+	        receive: function(event, ui)
+	        {
+	        	updateComponent(testItem);
+	        },
+	        update: function(event, ui)
+	        {
+	        	if (this === ui.item.parent()[0]) 
+	        	{
+		        	updateOrder(this);
+				}
+	        }
+	        //handle: ".drag"
+	    });
+	    $(".sidebar-nav .component-wrapper").draggable({
+	        connectToSortable: ".custom-page",
+	        helper: "clone",
+	        stop: function (event, ui) 
+	        {
+	            $(".custom-page .column").sortable({
+	    			placeholder: "test-row-clone",
+	    	        connectWith: ".column",
+	    	        opacity: .50,
+	    	        beforeStop: function(event, ui)
+	    	        {
+	    	        	testItem = ui.item;
+	    	        },
+	    	        receive: function(event, ui)
+	    	        {
+	    	        	updateComponent(testItem); 	        
+    	        	},
+    		        update: function(event, ui)
+    		        {
+    		        	if (this === ui.item.parent()[0]) 
+       		        	{
+    			        	updateOrder(this);
+    					}
+    		        }
+	            });
+	        }
+	    });
+	    $(".sidebar-nav .design-element").draggable({
+	        connectToSortable: ".column",
+	        helper: "clone",
+	        //handle: ".drag",
+	        drag: function (event, ui) {
+	            ui.helper.width(500)
+	        }
+	    });
 	}
 	
 	function draggableTemplate()
@@ -359,7 +290,7 @@
 
 				$(event).draggable({
 		            helper:         'original',
-		            containment:    '#result',
+		            containment:    '.custom-page',
 		            tolerance:      'fit',
 		            cursor:         'move',
 		            snap:			'.grid-cell',
@@ -437,7 +368,7 @@
 				
 				return $(result);		            
             },
-            containment:    "#result",
+            containment:    ".custom-page",
             tolerance:      "fit",
             cursor:         "move",
             revert:			true,
