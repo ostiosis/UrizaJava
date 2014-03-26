@@ -3,8 +3,6 @@ package models;
 import javax.persistence.*;
 
 import play.db.ebean.Model;
-import play.db.ebean.Model.Finder;
-import utility.UrizaHelpers;
 
 @Entity
 public class ChildComponent extends Model

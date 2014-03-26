@@ -16,9 +16,6 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import play.Play;

@@ -6,7 +6,6 @@ import javax.persistence.*;
 import play.db.ebean.*;
 import utility.UrizaHelpers;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 

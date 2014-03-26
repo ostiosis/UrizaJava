@@ -35,8 +35,7 @@ GET		/development/getImage								controllers.Development.getImage(imageId: Long
 POST	/development/uploadAjax								controllers.Development.uploadAjax(name: String)
 
 POST	/development/updateComponent						controllers.Development.updateComponent(componentId: Integer, parentId: Integer, componentType: String, classes: String, code: String, displayOrder: Integer)
-POST	/development/updateTopLevelComponent				controllers.Development.updateTopLevelComponent(componentId: Integer, pageId: Integer, componentType: String, classes: String, code: String, displayOrder: Integer)
-POST	/development/updateOrder							controllers.Development.updateOrder(parentType: String, parentId: Integer, order: String)
+POST	/development/updateOrder							controllers.Development.updateOrder(parentId: Integer, order: String)
 
 #Order Matters here
 GET		/development										controllers.Development.development(name = "")

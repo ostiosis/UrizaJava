@@ -156,35 +156,19 @@
 			code = $(element).html();
 		}
 		
-		if ($(parent).hasClass('custom-page'))
-		{
-			jsRoutes.controllers.Development.updateTopLevelComponent(componentId, parentId, componentType, classes, code, displayOrder).ajax({
-				async: false,
-				success: function(data) 
-				{
-					//alert("data: " + data);
-		    		componentId = data;					    											    						    	
-			  	},
-			  	error: function() 
-			  	{
-			    	alert("Error!");
-			  	}
-			});	
-		}
-		else
-		{
-			jsRoutes.controllers.Development.updateComponent(componentId, parentId, componentType, classes, code, displayOrder).ajax({
-				async: false,
-				success: function(data) 
-				{
-		    		componentId = data;					    											    						    	
-			  	},
-			  	error: function() 
-			  	{
-			    	alert("Error!");
-			  	}
-			});		
-		}
+		//if ($(parent).hasClass('custom-page'))
+
+		jsRoutes.controllers.Development.updateComponent(componentId, parentId, componentType, classes, code, displayOrder).ajax({
+			async: false,
+			success: function(data) 
+			{
+	    		componentId = data;					    											    						    	
+		  	},
+		  	error: function() 
+		  	{
+		    	alert("Error!");
+		  	}
+		});				
 		
 		$(element).attr('id', componentId);
 		
@@ -197,16 +181,10 @@
 
 	function updateOrder(element)
 	{
-		var parentType = "component";
 		var parentId = $(element).attr('id');
 		var order = $(element).sortable('toArray');
 
-		if ($(element).hasClass('custom-page'))
-		{
-			parentType = "page";
-		}
-
-		jsRoutes.controllers.Development.updateOrder(parentType, parentId, order).ajax({
+		jsRoutes.controllers.Development.updateOrder(parentId, order).ajax({
 			async: false,
 			success: function(data) 
 			{

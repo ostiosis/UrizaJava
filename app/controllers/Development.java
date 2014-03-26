@@ -18,7 +18,6 @@ import models.MediaObject;
 import models.MediaObjectThumbnail;
 import models.Page;
 import models.PageComponent;
-import models.Template;
 import play.Logger;
 import play.db.DB;
 import play.mvc.*;
@@ -55,37 +54,23 @@ public class Development extends Controller
 			description
 		);
 		
-		//return ok(editor.render(newPage));
     	return ok(views.html.development.development.render(newPage, "Dev Menu"));        
 
 	}
     
-	/**/
     public static Result openMenu()
     {
     	return ok(views.html.development.open.render(Page.pages()));
     }
-    
-    /**
-    public static Result open(Long pageId)
-    {
-    	Page getPage = Page.find.byId(pageId);
-    	
-    	return ok(views.html.custom.page.render(getPage));
-    }
-    
-    /**/
+
     public static Result uploadAjax(String fileName) throws IOException
     {    	   	
-    	Logger.info("uploadAjax");
-    	
     	String extension = FilenameUtils.getExtension(fileName);
     	String name = FilenameUtils.removeExtension(fileName);
     	
     	File file = null;
 
 		file = request().body().asRaw().asFile();
-		Logger.info("TEST2");
 		   	
     	InputStream is = null;
     	
@@ -100,9 +85,8 @@ public class Development extends Controller
 		{
 			MediaObject.create(name, extension, file);
 		}
-		//file.renameTo(upload);
+
 		file.delete();
-    	//Logger.info("file: " + new MimetypesFileTypeMap().getContentType(upload).toString());
 
 		return ok("File uploaded");    	
 		
@@ -149,45 +133,6 @@ public class Development extends Controller
 	    	break;
     	}
     }
-    /**
-
-    public static Result updateTemplate(String name, String code, Long templateId, Long topPosition, Long leftPosition, Long pageId)
-    {
-    	name = name.trim();
-    	code = code.trim();
-    	
-    	Logger.info("\nBegin Row");
-    	Logger.info("name: " + name);
-    	Logger.info("code: " + code);
-    	Logger.info("topPosition: " + topPosition);
-    	Logger.info("leftPosition: " + leftPosition);
-    	
-    	Logger.info("templateId: " + templateId);
-    	Logger.info("pageId: " + pageId);
-    	
-    	Logger.info("\nEnd Row");
-    	
-    	Page getPage = Page.find.byId(pageId);
-    	
-    	Template getTemplate = null;
-    	
-    	if (templateId <= 0)
-    	{
-    		getTemplate = Template.create("", "", topPosition, leftPosition);
-    		getPage.templates.add(getTemplate);
-    		getPage.saveManyToManyAssociations("templates");
-    	}    	
-    	else
-    	{
-    		getTemplate = Template.find.byId(templateId);
-    		getTemplate.update(topPosition, leftPosition);   
-    		getTemplate.save();
-    	}
-    	
-		
-    	return ok(views.html.utility.longresult.render(getTemplate.id));
-    }
-    /**/
     
     public static Result updateComponent(Integer componentId, Integer parentId, String componentType, String classes, String code, Integer displayOrder)
     {
@@ -205,14 +150,9 @@ public class Development extends Controller
     	Logger.info("componentType: " + componentType);  	
     	Logger.info("\nEnd Row");
 
-    	/**/
-		
-		//getPage.save();
-		
     	if (componentId <= 0)
     	{
     		getComponent = Component.create("", code, componentType, classes);
-    		getComponent.save();
     	}
     	else
     	{
@@ -253,110 +193,22 @@ public class Development extends Controller
     	
     	return ok(views.html.utility.integerresult.render(getComponent.id));
     }
-    
-    public static Result updateTopLevelComponent(Integer componentId, Integer pageId, String componentType, String classes, String code, Integer displayOrder)
-    {
-    	code = code.trim();
-    	classes = UrizaHelpers.classCleanup(classes.trim());
-    	
-    	Component getComponent = null;
-    	
-    	Logger.info("\nBegin Row");
-    	Logger.info("code: " + code.trim());
-    	Logger.info("classes: " + classes.trim());
-    	
-    	Logger.info("pageId: " + pageId);
-    	Logger.info("componentId: " + componentId);
-    	Logger.info("componentType: " + componentType);  	
-    	Logger.info("\nEnd Row");
 
-    	/**/
-		
-		//getPage.save();
-		
-    	if (componentId <= 0)
-    	{
-    		getComponent = Component.create("", code, componentType, classes);
-    		getComponent.save();
-    	}
-    	else
-    	{
-    		getComponent = Component.find.byId(componentId);
-    		getComponent.update(code, classes);
-    		getComponent.save();
-    	}
-		/**/
-    	
-    	ChildComponent childComponent = ChildComponent
-    			.find
-    			.where()
-    			.eq("child_id", getComponent.id)
-    			.findUnique();
-    	
-    	if (childComponent != null)
-    	{
-    		childComponent.delete();
-    	}
-    	
-    	PageComponent pageComponent = PageComponent
-    			.find
-    			.where()
-    			.eq("component_id", getComponent.id)
-    			.findUnique();
-    	
-    	if (pageComponent != null)
-    	{
-    		pageComponent.update(pageId, getComponent.id, displayOrder);
-    		pageComponent.save();
-    	}
-    	else
-    	{
-    		pageComponent = PageComponent.create(pageId, getComponent.id, displayOrder);
-    		pageComponent.save();
-    	}
-    	
-    	return ok(views.html.utility.integerresult.render(getComponent.id));
-    }
-    
-    public static Result updateOrder(String parentType, Integer parentId, String order) throws SQLException
-    {
-    	
-    	Logger.info("parentType: " + parentType);
+    public static Result updateOrder(Integer parentId, String order) throws SQLException
+    {    	
     	Logger.info("parentId: " + parentId);
     	Logger.info("order: " + order);
     	
     	Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		
-		String table = null;
-		String parentIdName = null;
-		String childIdName = null;
-		
 		String elements[] = order.split(",");
-    	
-    	switch (parentType.toLowerCase())
-    	{
-			case "page":
-			{
-				table = "page_component";
-				parentIdName = "page_id";
-				break;
-			}
-			case "component":
-			{
-				table = "child_component";
 
-				parentIdName = "parent_id";
-				
-				break;
-			}
-    	}
-    	
 		try
 		{
 			connection = DB.getConnection();
 			
-			String clear = "DELETE FROM " + table + " WHERE " + parentIdName + " = ?";
+			String clear = "DELETE FROM child_component WHERE parent_id = ?";
 			preparedStatement = connection.prepareStatement(clear);
 			preparedStatement.setLong(1, parentId);
 			
@@ -388,26 +240,8 @@ public class Development extends Controller
 				Integer value = Integer.parseInt(elements[i]);
 				if ( value != null)
 				{
-					Logger.info("value: " + value);
-			    	switch (parentType.toLowerCase())
-			    	{
-						case "page":
-						{
-							PageComponent c = new PageComponent(parentId, value, i);
-							c.save();
-							Logger.info("c" + c.toString());
-							break;
-						}
-						case "component":
-						{
-							ChildComponent c = new ChildComponent(parentId, value, i);
-							c.save();
-							Logger.info("c" + c.toString());
-							break;
-						}
-			    	}
-					//create(Integer pageId, Integer componentId, Integer displayOrder)
-					
+					ChildComponent c = new ChildComponent(parentId, value, i);
+					c.save();
 				}
 			}
 			catch(Exception e)

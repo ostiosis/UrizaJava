@@ -1,7 +1,5 @@
 package models;
 
-import java.sql.Date;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +19,7 @@ public class Page extends Model
 	private static final long serialVersionUID = 9065865930662266632L;
 
 	@Id
-	public Long id;
+	public Integer id;
 	
 	public String name;
 	public String title;
@@ -58,6 +56,10 @@ public class Page extends Model
 		page.dateCreated = UrizaHelpers.getTime();
 		page.save();
 		
+		//String name, String code, String componentType, String classes
+		Component main = Component.create(name + "Component", "", "page", "custom-page");
+		PageComponent.create(page.id, main.id);
+		
 		return page;
 	}
 	
@@ -70,7 +72,7 @@ public class Page extends Model
 	{			
 		List<Component> components = new ArrayList<Component>();
 		
-		List<PageComponent> componentIds = PageComponent.find.where().eq("page_id", this.id).orderBy("display_order asc").findList();
+		List<PageComponent> componentIds = PageComponent.find.where().eq("page_id", this.id).findList();
 		
 		Logger.info("Phil Test: " + componentIds.size());
 		
@@ -78,9 +80,6 @@ public class Page extends Model
 		{
 			components.add(Component.find.byId(c.componentId));
 		}
-		
-		//Logger.info("Phil Test2: " + components.get(0).classes);
-		
 		return components;	
 	}
 }

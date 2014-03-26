@@ -9,8 +9,21 @@
 # Pages
 
 - &test !!models.Page
-    name: test
+    id: 1
+    name: "test"
     title: "Test Page"
     description: "This is a test page."
     dateCreated: "2011-11-11 00:00:00"    
     dateModified: "2011-11-11 00:00:00"
+    
+- &testComponent !!models.Component
+    id: 1
+    name : "testComponent"
+    classes: "custom-page"
+    componentType: "page"
+    code: ""
+    
+- &testPageComponent !!models.PageComponent
+    pageId: 1
+    componentId: 1
+    

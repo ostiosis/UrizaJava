@@ -1,6 +1,6 @@
 @(page: Page)
     <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/development.css")">
-	<div class="custom-page container" id="@page.id" />
+	<div class="container" id="page_@page.id" />
 		@for(component <- page.components) {
 			@views.html.custom.component(component)		
 		}

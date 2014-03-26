@@ -6,7 +6,6 @@ import play.db.DB;
 import play.db.ebean.*;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;

@@ -3,7 +3,6 @@ package models;
 import javax.persistence.*;
 
 import play.db.ebean.Model;
-import play.db.ebean.Model.Finder;
 
 @Entity
 public class PageComponent extends Model
@@ -18,31 +17,24 @@ public class PageComponent extends Model
 	@Id
 	public Integer componentId;
 	
-	public Integer displayOrder;
-	
-	
 	public static Finder<Integer, PageComponent> find 
 	= new Finder<Integer, PageComponent>(Integer.class, PageComponent.class);
 	
-	public PageComponent(Integer pageId, Integer componentId, Integer displayOrder)
+	public PageComponent(Integer pageId, Integer componentId)
 	{
 		this.pageId = pageId;
 		this.componentId = componentId;
-		
-		this.displayOrder = displayOrder;
 	}
 	
-	public void update(Integer pageId, Integer componentId, Integer displayOrder)
+	public void update(Integer pageId, Integer componentId)
 	{
 		this.pageId = pageId;
-		this.componentId = componentId;		
-		
-		this.displayOrder = displayOrder;
+		this.componentId = componentId;	
 	}
 	
-	public static PageComponent create(Integer pageId, Integer componentId, Integer displayOrder)
+	public static PageComponent create(Integer pageId, Integer componentId)
 	{
-		PageComponent component = new PageComponent(pageId, componentId, displayOrder);
+		PageComponent component = new PageComponent(pageId, componentId);
 		component.save();
 		
 		return component;

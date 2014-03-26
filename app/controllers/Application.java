@@ -30,13 +30,11 @@ public class Application extends Controller
     			controllers.routes.javascript.Development.addPage(),
     			controllers.routes.javascript.Development.validatePage(),
     			controllers.routes.javascript.Development.openMenu(),
-    			//controllers.routes.javascript.Development.open(),
     			controllers.routes.javascript.Development.uploadAjax(),
     			controllers.routes.javascript.Development.showImageThumbnails(),
     			controllers.routes.javascript.Development.development(),
     			controllers.routes.javascript.Development.getImage(),
     			controllers.routes.javascript.Development.updateComponent(),
-    			controllers.routes.javascript.Development.updateTopLevelComponent(),
     			controllers.routes.javascript.Development.updateOrder()
 		));
     }
