@@ -390,13 +390,13 @@
 
 		$('.editable-text').focusin(function() 
 		{
-			currentVal = $(this).text();
+			currentVal = $(this).html();
 		});
 						
 		
-		$('.editable-text').focusout(function() 
+		$('.editable-text').off('blur').on('blur', function() 
 		{
-			if ($(this).closest('.ui-draggable').attr('id') && $(this).text() != currentVal)
+			if ($(this).closest('.ui-draggable').attr('id') && $(this).html() != currentVal)
 			{
 				updateComponent($(this).closest('.ui-draggable'));
 			}
