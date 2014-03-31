@@ -30,7 +30,7 @@ public class Development extends Controller
     public static Result development(String name) 
 	{
     	Page getPage = Page.getPage(name);
-    	return ok(views.html.development.development.render(getPage, "Dev Menu"));        
+    	return ok(views.html.development.development.render(getPage));        
     }
     
     /**/
@@ -54,7 +54,7 @@ public class Development extends Controller
 			description
 		);
 		
-    	return ok(views.html.development.development.render(newPage, "Dev Menu"));        
+    	return ok(views.html.development.development.render(newPage));        
 
 	}
     

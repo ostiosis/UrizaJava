@@ -31,6 +31,19 @@
 					}
 					
 				}
+				
+				case ("jumbotron") => {
+					<div class="development-menu">
+						<i class="drag fa fa-square-o"></i>				
+					</div>
+					@Html(component.code)
+					
+					@for(child <- component.children) {
+						@renderComponent(child)		
+					}
+					
+				}
+				
 				case ("menu") => {
 					<div class="development-menu">
 						<i class="drag fa fa-square-o"></i>				

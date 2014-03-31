@@ -388,13 +388,13 @@
 		
 		$('.editable-text').popline();
 
-		$('.editable-text').mouseenter(function() 
+		$('.editable-text').focusin(function() 
 		{
 			currentVal = $(this).text();
 		});
 						
 		
-		$('.editable-text').mouseleave(function() 
+		$('.editable-text').focusout(function() 
 		{
 			if ($(this).closest('.ui-draggable').attr('id') && $(this).text() != currentVal)
 			{

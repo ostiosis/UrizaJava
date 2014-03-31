@@ -1,34 +1,14 @@
-.draggable-row 
+body 
 { 
-	
-	div
-	{
-		border: 2px solid blue;
-		padding: 20px;
-	}
-	
+	padding-top: 50px;
 }
 
-.philtest 
-{ 
-	border: 2px solid red;
-	padding: 20px;
-	
-	div > div
-	{
-		border: 2px solid blue;
-		padding: 20px;
-	}
-	
-}
-
-.Phil-Test
+.page-wrapper, .custom-page, .full-height
 {
-	border: 2px dotted grey;
-	padding: 25px;
+    height:100vh;
 }
 
-.test-row, .component-wrapper
+.component-wrapper
 {
 	border: 2px dotted red;
 	padding: 25px;
@@ -40,7 +20,8 @@
 	padding: 25px;
 }
 
-.column {
+.column 
+{
 	background-color: #FFFFFF;
 	border: 1px solid black;
 	margin: 15px 0;
@@ -48,5 +29,16 @@
 	position: relative;
 }
 
+.column .design-element:hover 
+{ 
+	z-index:1001;
+}
+.navbar-nav > li >a:hover
+{
 
-.column .design-element:hover { z-index:1001;}
+}
+
+.editable-text:focus
+{
+
+}
