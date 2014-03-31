@@ -94,7 +94,7 @@
 
 		setDroppable();
 		
-		draggableTemplate();
+		//draggableTemplate();
 		
 		editText();
 					
@@ -104,7 +104,7 @@
     function uploadFile(file)
     {
 		//this only uploads raw file
-    	var route = r = jsRoutes.controllers.Development.uploadAjax(file.name).ajax({
+    	jsRoutes.controllers.Development.uploadAjax(file.name).ajax({
 	    	data: file,
 	    	processData: false,
             contentType: false,
@@ -120,7 +120,7 @@
     }
 	
 	function mediaThumbnails(){
-		var route = r = jsRoutes.controllers.Development.showImageThumbnails("medium").ajax({
+		jsRoutes.controllers.Development.showImageThumbnails("medium").ajax({
 			success: function(data) {
 				//alert(data);
 		    	$('#media-thumbnails').html(data);
@@ -134,8 +134,35 @@
 
 
 	
-	function updateComponent(element)
+	function getCode(element, type)
 	{
+		var code = "";
+		var codeElement = $(element).clone();
+		
+		$(codeElement).find('.development-menu').remove();
+
+		switch (type.toLowerCase())
+		{
+			case "row":
+			{
+				
+			}
+			case "column":
+			{
+				break;
+			}
+			default:
+			{
+
+				code = $(codeElement).html();
+			}
+		}
+
+		return code;
+	}
+
+	function updateComponent(element)
+	{				
 		var childIds = [];
 		var componentType = $(element).attr('type');
 		var classes = $(element).attr('class');
@@ -146,17 +173,20 @@
 		var parent = $(element).parent().closest('.component-element, .custom-page');
 		var parentId = $(parent).attr('id');
 
+		var codeElement = $(element).clone();
+
+		$(element).find('.thumbnail-component').remove();
+		$(element).find(".hide").removeClass('hide');
+		$(element).find('.editable-text').attr('contentEditable', 'false');
+
 		if ($(element).attr('id'))
 		{
 			componentId = $(element).attr('id');
 		}
 
-		if (componentType != "row" && componentType != "column")
-		{
-			code = $(element).html();
-		}
-		
-		//if ($(parent).hasClass('custom-page'))
+		code = getCode(element, componentType);
+
+
 
 		jsRoutes.controllers.Development.updateComponent(componentId, parentId, componentType, classes, code, displayOrder).ajax({
 			async: false,
@@ -172,9 +202,12 @@
 		
 		$(element).attr('id', componentId);
 		
-		$(element).find('.component-element').each(function(index, value){
+		$(element).find('.component-element').each(function(index, value)
+		{
 			childIds.push( updateComponent(value) );
 		});
+
+		editText();
 		
 		return componentId;		
 	}
@@ -198,53 +231,64 @@
 	
 	function setDroppable()
 	{
-		var id = 5;
-		var testItem;
+		var element;
 		
 		$(".custom-page, .custom-page .column").sortable({
-			placeholder: "test-row-clone",
+			placeholder: "placeholder-element",
 	        connectWith: ".column",
             revert:			true,
 	        opacity: .50,
+	        handle: ".drag",
 	        beforeStop: function(event, ui)
 	        {
-	        	testItem = ui.item;
+	        	element = ui.item;
 	        },
 	        receive: function(event, ui)
 	        {
-	        	updateComponent(testItem);
+	        	updateComponent(element);
 	        },
 	        update: function(event, ui)
 	        {
 	        	if (this === ui.item.parent()[0]) 
 	        	{
 		        	updateOrder(this);
+		        	editText();
 				}
 	        }
-	        //handle: ".drag"
 	    });
 	    $(".sidebar-nav .component-wrapper").draggable({
 	        connectToSortable: ".custom-page",
-	        helper: "clone",
+	        handle: ".drag",
+    	    helper: function (event)
+	        {
+				var clonedElement = $(this).clone();
+
+				$(clonedElement).find('.thumbnail-component').remove();
+				$(clonedElement).find(".hide").removeClass('hide');
+				
+				return clonedElement;
+	        },
 	        stop: function (event, ui) 
 	        {
 	            $(".custom-page .column").sortable({
-	    			placeholder: "test-row-clone",
+	    			placeholder: "placeholder-element",
 	    	        connectWith: ".column",
 	    	        opacity: .50,
+	    	        handle: ".drag",
 	    	        beforeStop: function(event, ui)
 	    	        {
-	    	        	testItem = ui.item;
+	    	        	element = ui.item;
 	    	        },
 	    	        receive: function(event, ui)
 	    	        {
-	    	        	updateComponent(testItem); 	        
+	    	        	updateComponent(element); 	        
     	        	},
     		        update: function(event, ui)
     		        {
     		        	if (this === ui.item.parent()[0]) 
        		        	{
     			        	updateOrder(this);
+    			        	editText();
     					}
     		        }
 	            });
@@ -252,94 +296,37 @@
 	    });
 	    $(".sidebar-nav .design-element").draggable({
 	        connectToSortable: ".column",
-	        helper: "clone",
-	        //handle: ".drag",
+	        handle: ".drag",
+	        //helper: "clone",
+    	    helper: function (event)
+	        {
+				var clonedElement = $(this).clone();
+
+				$(clonedElement).find('.thumbnail-component').remove();
+				$(clonedElement).find(".hide").removeClass('hide');
+				
+				return clonedElement;
+	        },	        
 	        drag: function (event, ui) {
 	            ui.helper.width(500)
 	        }
 	    });
 	}
 	
-	function draggableTemplate()
-	{
-		$('.template-wrapper').each( function(index, event) {
-			if ($(event).attr('id'))
-			{
-
-				$(event).draggable({
-		            helper:         'original',
-		            containment:    '.custom-page',
-		            tolerance:      'fit',
-		            cursor:         'move',
-		            snap:			'.grid-cell',
-		            start: function(event, ui){
-		            	if ($(this).data('droppable'))
-	            		{
-			            	$(this).droppable( 'disable' );	            		
-	            		}
-		            },
-		            stop: function(event, ui){
-		            	if ($(this).data('droppable'))
-	            		{
-			            	$(this).droppable( 'enable' );	            		
-	            		}
-		            }
-		        });
-
-				$(event).find('div.component-wrapper > ul.nav').each( function(index, e) {
-					
-					var parentElement = e;
-
-					//$('#test-msg').html($(hoverElement).attr('id'));
-					
-					$(parentElement).droppable({
-						greedy: true,
-						hoverClass: 'Phil-Test',
-						activate: function(event, ui){
-							$('#test-msg').html("top: " + ui.position.top + ", left: " + ui.position.left);
-						},
-						//accept: '.template-wrapper',
-						scope: 'menu-element',	
-						drop: function(event, ui){
-							//$(parentElement).addClass('Phil-Test');
-							alert("Drop test");
-						}
-					});
-				});
-				
-			}
-        });
-	}
-	//recursive test function
-	function test(elem)
-	{
-	    $(elem).children('.component-wrapper').each(function(){
-	        //alert('test');
-	        test($(this));
-	    });
-	}
-
-	test($('body'));
-	
 	function draggableThumbnail()
 	{
         $('.draggable-thumbnail').draggable({
             helper:			function(event){
 				var result = $(this).clone();
-
-				//alert($(result).find('img').attr('parentId'));
-				
 				var img = $(result).find('img');
             	
-			 	var route = r = jsRoutes.controllers.Development.getImage(img.attr('parentId'), "large").ajax({
-					success: function(data) {
-
-						
-						//alert(data);
-						img.replaceWith(data);
-			    		//$(result).html(data);					    	
+			 	jsRoutes.controllers.Development.getImage(img.attr('parentId'), "large").ajax({
+					success: function(data) 
+					{
+						img.replaceWith(data);			    	
 				  	},
-				  	error: function() {
+				  	error: function() 
+				  	{
 				    	alert("Error!");
 				  	}
 				});
@@ -350,29 +337,11 @@
             tolerance:      "fit",
             cursor:         "move",
             revert:			true,
-            snap:			".col-xs-1",
-            /**
-            drag: function( event, ui ) {
-                var snapTolerance = $(this).draggable('option', 'snapTolerance');
-                var topRemainder = ui.position.top % 68;
-                var leftRemainder = ui.position.left % 63;
-                
-                if (topRemainder <= snapTolerance) {
-                    ui.position.top = ui.position.top - topRemainder;
-                }
-                
-                if (leftRemainder <= snapTolerance) {
-                    ui.position.left = ui.position.left - leftRemainder;
-                }
-            }, 
-            /**/
-            start:  function( event, ui ){
-                //zIndexTemp = $(this).zIndex();
-                //$(this).zIndex( 9999 );
+            start:  function( event, ui )
+            {
             },
-            stop:   function( event, ui ){
-                //zIndexTemp = $(this).zIndex();
-                //$(this).zIndex( zIndexTemp );
+            stop:   function( event, ui )
+            {
             }
 
         });
@@ -412,18 +381,27 @@
 	
 	function editText()
 	{
+		var currentVal = "";
 
+		$('.editable-text').attr('contentEditable', 'true');
+		
+		
 		$('.editable-text').popline();
+
 		$('.editable-text').mouseenter(function() 
 		{
-			$(this).parents('.ui-draggable').draggable('disable');
-			//alet('mouse enter');
+			currentVal = $(this).text();
 		});
+						
 		
 		$('.editable-text').mouseleave(function() 
 		{
-			$(this).parents('.ui-draggable').draggable('enable');
+			if ($(this).closest('.ui-draggable').attr('id') && $(this).text() != currentVal)
+			{
+				updateComponent($(this).closest('.ui-draggable'));
+			}
 		});		
+		
 
 	}
 

@@ -8,6 +8,9 @@
 		
 			@component.componentType match {
 				case ("row") => {
+					<div class="development-menu">
+						<i class="drag fa fa-square-o"></i>				
+					</div>
 					<div class="row clearfix">
 						@Html(component.code)
 						
@@ -17,9 +20,32 @@
 					</div>
 				}
 				
-				case _ => {
+				case ("page-header") => {
+					<div class="development-menu">
+						<i class="drag fa fa-square-o"></i>				
+					</div>
 					@Html(component.code)
-			
+					
+					@for(child <- component.children) {
+						@renderComponent(child)		
+					}
+					
+				}
+				case ("menu") => {
+					<div class="development-menu">
+						<i class="drag fa fa-square-o"></i>				
+					</div>
+					@Html(component.code)
+					
+					@for(child <- component.children) {
+						@renderComponent(child)		
+					}
+				}
+				
+				case _ => {
+
+					@Html(component.code)
+					
 					@for(child <- component.children) {
 						@renderComponent(child)		
 					}

@@ -16,7 +16,8 @@ public class Custom extends Controller
 			return ok(index.render("Page " + pageName + " not found."));
 		}
 		
-		return ok(custom.render(page));
+		//return ok(custom.render(page));
+		return ok(views.html.custom.page.render(page));
 	}
 	
 	/**

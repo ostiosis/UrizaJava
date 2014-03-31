@@ -42,7 +42,6 @@ public class MediaObject extends Model
 	
 	public Timestamp dateCreated;
 	public Timestamp dateModified;
-
 	
 	public static Finder<Long, MediaObject> find 
 	= new Finder<Long, MediaObject>(Long.class, MediaObject.class);
@@ -76,7 +75,6 @@ public class MediaObject extends Model
 			
 			MediaObject mediaObject = new MediaObject(fullFileName, fullFileName);
 			mediaObject.save();
-			mediaObject.saveManyToManyAssociations("components");
 			
 			Long parentId = mediaObject.id;
 			
@@ -108,7 +106,6 @@ public class MediaObject extends Model
 		{
 			MediaObject mediaObject = new MediaObject(thumbnailFileName, thumbnailFileName);
 			mediaObject.save();
-			mediaObject.saveManyToManyAssociations("components");
 						
 			MediaObjectThumbnail objectThumbnail = new MediaObjectThumbnail(parentId, thumbnailType.name(), mediaObject.id);
 			objectThumbnail.save();
