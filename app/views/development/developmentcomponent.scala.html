@@ -53,6 +53,17 @@
 					</div>
 				}
 				
+				case ("image") => {
+					@views.html.development.componentmenu(component.componentType)
+					<div class="component-interior">
+					@Html(component.code)
+					
+					@for(child <- component.children) {
+						@renderComponent(child)		
+					}
+					</div>
+				}
+				
 				case _ => {
 
 					@Html(component.code)

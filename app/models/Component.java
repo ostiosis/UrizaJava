@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.SqlUpdate;
 
+import play.Logger;
 import play.db.DB;
 import play.db.ebean.Model;
 import utility.UrizaHelpers;
@@ -88,25 +89,55 @@ public class Component extends Model
 	
 	public static void delete(Component component) throws SQLException
 	{	
+		List<Integer> ids = new ArrayList<Integer>();
+		
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		
-		for(Component child: component.children())
-		{
-			delete(child);
-		}
+		ids.addAll(relatedIds(component.id));
 		
+		Logger.info("ids: " + ids.toString());
+			
 		connection = DB.getConnection();
 		
 		String down = "DELETE FROM child_component WHERE parent_id = ? OR child_id = ?";
 		preparedStatement = connection.prepareStatement(down);
-		preparedStatement.setLong(1, component.id);
-		preparedStatement.setLong(2, component.id);
 		
+		for (int i = 0; i < ids.size(); i++)
+		{
+			preparedStatement.setLong(1, ids.get(i));
+			preparedStatement.setLong(2, ids.get(i));	
+			preparedStatement.addBatch();
+		}
 		preparedStatement.executeUpdate();
 		
-		component.delete();	
+		down = "DELETE FROM component WHERE id = ?";
+		preparedStatement = connection.prepareStatement(down);
+		
+		for (int i = 0; i < ids.size(); i++)
+		{
+			preparedStatement.setLong(1, ids.get(i));	
+			preparedStatement.addBatch();
+		}
+		preparedStatement.executeUpdate();
 	}
+	
+	public static List<Integer> relatedIds(Integer parentId)
+	{
+		List<Integer> ids = new ArrayList<Integer>();
+		
+		List<ChildComponent> childIds = ChildComponent.find.where().eq("parent_id", parentId).findList();
+		
+		for(ChildComponent c: childIds)
+		{
+			ids.addAll(relatedIds(c.childId));
+		}
+		
+		ids.add(parentId);
+		
+		return ids;
+	}
+	
 	
 	public void update(String name, String code, Long width, Long height)
 	{

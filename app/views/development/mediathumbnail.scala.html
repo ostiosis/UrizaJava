@@ -1,11 +1,14 @@
 @(thumbnails: List[MediaObject])
 
 @for(thumbnail <- thumbnails) {
-		<div class="template-wrapper draggable-thumbnail ui-widget-content ">
-			<div class="component-wrapper" type="image">
-				@views.html.element.imagethumbnail(thumbnail)
-			</div>
+
+		
+		<div class="component-element design-element" type="image" >
+			@views.html.development.componentmenu("image")									
+			<div class="thumbnail-component">@views.html.element.imagethumbnail(thumbnail)</div>
+			<div class="component-interior hide">
+				@views.html.element.image(thumbnail.parent())
+            </div>
 		</div>
-		@thumbnail.parent().name				
 
 }

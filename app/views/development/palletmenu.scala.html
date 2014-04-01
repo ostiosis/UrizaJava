@@ -74,122 +74,26 @@
 					<div class="component-element design-element" type="jumbotron" >
 						@views.html.development.componentmenu("jumbotron")						
 						<div class="thumbnail-component">Jumbotron</div>
-						<div class="component-interior">
-							<div class="jumbotron editable-text hide">
+						<div class="component-interior hide">
+							<div class="jumbotron editable-text ">
 								<h1>Hello, world!</h1>
 								<p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
 								<p><a class="btn btn-primary btn-lg" role="button">Learn more</a></p>
 							</div>					
 						</div>					
 		            </div>
-		      
-	
-		            <div class="panel-body">
 		            
-						<script type="text/javascript">
-							$('document').ready( function(){
-								$('.draggable-menu').draggable({
-					            	helper:			"clone",
-					            	connectToSortable: ".test-sort-class",
-						            tolerance:      "fit",
-						            cursor:         "move",
-						            revert:			true
-					      	  	});
-							});
-		                </script>	
-	               		
-	               		<!-- Menu element drag example -->
-	               		<div class="component-wrapper draggable-menu" type="menu" >
-	                		<ul class="nav nav-pills">
-								<li class="active"><a href="#" contenteditable="true">Menu Element</a></li>
-							</ul>
-	               		</div>
-		    
-		                <br>
-		                <br>
-		                            
-						<script type="text/javascript">
-							$('document').ready( function(){
-								$('.draggable-row').draggable({
-					            	helper:			"clone",
-					            	connectToSortable: ".test-sort-class",
-						            tolerance:      "fit",
-						            cursor:         "move"
-					      	  	});
-							});
-		                </script>	
-	               		
-	               		<!-- Menu element drag example -->
-	               		<div class="draggable-row row clearfix" >
-	                		<div class="col-md-6 droppable-column">test</div>
-	                		<div class="col-md-6 droppable-column">test</div>
-	               		</div>
-	               		
-	        		    <div class="draggable-row droppable-row test-row row" >
-	               		</div>
-		    
-		                <br>
-		                <br>
-		                            
-		                <script type="text/javascript">
-						$('document').ready( function(){
-							$('.test-parent').draggable({
-				            	handle:			"i",
-				            	helper:			"clone",
-					            containment:    "#result",
-					            tolerance:      "fit",
-					            cursor:         "move",
-					            revert:			true,
-					            snap:			".col-xs-1"
-				      	  	});
-						});
-		                </script>	
-		                <div class="test-parent">
-		                	<i class=" fa fa-font fa-lg "></i>
-		                	<div class="template-wrapper">
-		                		
-				                <div class="draggable-header " style="float: left;">
-				                
-									<div style="float: left; width: 40px;">
-									      
-									</div>     
-															  
-					                <div style="float: right; width: 200px;" class="editable-text component-wrapper" type="text" contenteditable="true">	                	
-											<h3>Header3</h3>							
-									</div>
-								</div>
-							</div>
-						</div>
-						<br>
-		                <br>
-		                <script type="text/javascript">
-		                
-						$('document').ready( function(){
-							$('.draggable-text').draggable({
-				            	helper:			"clone",
-					            containment:    "#result",
-					            tolerance:      "fit",
-					            cursor:         "move",
-					            revert:			true,
-					            snap:			".col-xs-1"
-				      	  	});
-						});
-		                </script>
-		                <br><div class="draggable-text component-item" type="textBox" >Dragwithme<textarea>Touchme</textarea></div>
-						<br>
-						<div id="media-thumbnails">
-						
-						</div>
-						<br>
-						<br>
-						<!-- Drag and drop upload area -->
-				    	<input type="file" name="picture">
-				    	
-				    	
-				    	<div id="drop-zone" style="width: 200px; height: 100px; border: 1px solid grey;">Drop files here</div>
-						<output id="list"></output>
-	            	<script type = "text/javascript">$('.editable-text').popline();</script>
-	            	</div>
+					<div id="media-thumbnails">
+					
+					</div>
+		      
+					<!-- Drag and drop upload area -->
+			    	<input type="file" name="picture">
+			    	
+			    	
+			    	<div id="drop-zone" style="width: 200px; height: 100px; border: 1px solid grey;">Drop files here</div>
+					<output id="list"></output>
+
 		        </div>
 		    </div>	
 		</div>
