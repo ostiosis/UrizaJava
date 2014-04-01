@@ -35,7 +35,8 @@ public class Application extends Controller
     			controllers.routes.javascript.Development.development(),
     			controllers.routes.javascript.Development.getImage(),
     			controllers.routes.javascript.Development.updateComponent(),
-    			controllers.routes.javascript.Development.updateOrder()
+    			controllers.routes.javascript.Development.updateOrder(),
+    			controllers.routes.javascript.Development.deleteComponent()
 		));
     }
     	

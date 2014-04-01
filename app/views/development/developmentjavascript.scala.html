@@ -97,7 +97,7 @@
 		//draggableTemplate();
 		
 		editText();
-					
+		deleteComponent();			
 	});
 	
 	//Functions
@@ -132,14 +132,38 @@
 		});
 	}
 
+	function deleteComponent()
+	{
+		$('.delete').click(function(){
 
+			if ($(this).closest('.component-element').attr('id'))
+			{
+				var elementId = $(this).closest('.component-element').attr('id');
+				
+				jsRoutes.controllers.Development.deleteComponent(elementId).ajax({
+					success: function(data)
+					{
+						alert("worked");
+					},
+					error: function()
+					{
+						alert("Error!");
+					}
+				});
+				
+				$(this).closest('.component-element').remove();
+			}
+
+		});
+	}
 	
 	function getCode(element, type)
 	{
 		var code = "";
 		var codeElement = $(element).clone();
 		
-		$(codeElement).find('.development-menu').remove();
+		$(codeElement).find('.component-menu').remove();
+		$(codeElement).find('.component-interior').replaceWith($(codeElement).find('.component-interior').html());
 
 		switch (type.toLowerCase())
 		{
@@ -208,6 +232,7 @@
 		});
 
 		editText();
+		deleteComponent();	
 		
 		return componentId;		
 	}
@@ -239,6 +264,7 @@
             revert:			true,
 	        opacity: .50,
 	        handle: ".drag",
+	        tolerance: "pointer",
 	        beforeStop: function(event, ui)
 	        {
 	        	element = ui.item;
@@ -258,7 +284,7 @@
 	    });
 	    $(".sidebar-nav .component-wrapper").draggable({
 	        connectToSortable: ".custom-page",
-	        handle: ".drag",
+	        //handle: ".drag",
     	    helper: function (event)
 	        {
 				var clonedElement = $(this).clone();
@@ -296,7 +322,7 @@
 	    });
 	    $(".sidebar-nav .design-element").draggable({
 	        connectToSortable: ".column",
-	        handle: ".drag",
+	        //handle: ".drag",
 	        //helper: "clone",
     	    helper: function (event)
 	        {

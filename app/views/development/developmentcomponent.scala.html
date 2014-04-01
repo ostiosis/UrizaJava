@@ -8,51 +8,49 @@
 		
 			@component.componentType match {
 				case ("row") => {
-					<div class="development-menu">
-						<i class="drag fa fa-square-o"></i>				
-					</div>
-					<div class="row clearfix">
-						@Html(component.code)
-						
-						@for(child <- component.children) {
-							@renderComponent(child)		
-						}					
+					@views.html.development.componentmenu(component.componentType)
+					<div class="component-interior">
+						<div class="row clearfix">
+							@Html(component.code)
+							
+							@for(child <- component.children) {
+								@renderComponent(child)		
+							}					
+						</div>
 					</div>
 				}
 				
 				case ("page-header") => {
-					<div class="development-menu">
-						<i class="drag fa fa-square-o"></i>				
+					@views.html.development.componentmenu(component.componentType)
+					<div class="component-interior">
+						@Html(component.code)
+						
+						@for(child <- component.children) {
+							@renderComponent(child)		
+						}
 					</div>
-					@Html(component.code)
-					
-					@for(child <- component.children) {
-						@renderComponent(child)		
-					}
-					
 				}
 				
 				case ("jumbotron") => {
-					<div class="development-menu">
-						<i class="drag fa fa-square-o"></i>				
-					</div>
+					@views.html.development.componentmenu(component.componentType)
+					<div class="component-interior">
 					@Html(component.code)
 					
 					@for(child <- component.children) {
 						@renderComponent(child)		
 					}
-					
+					</div>
 				}
 				
 				case ("menu") => {
-					<div class="development-menu">
-						<i class="drag fa fa-square-o"></i>				
-					</div>
+					@views.html.development.componentmenu(component.componentType)
+					<div class="component-interior">
 					@Html(component.code)
 					
 					@for(child <- component.children) {
 						@renderComponent(child)		
 					}
+					</div>
 				}
 				
 				case _ => {

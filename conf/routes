@@ -36,6 +36,7 @@ POST	/development/uploadAjax								controllers.Development.uploadAjax(name: Str
 
 POST	/development/updateComponent						controllers.Development.updateComponent(componentId: Integer, parentId: Integer, componentType: String, classes: String, code: String, displayOrder: Integer)
 POST	/development/updateOrder							controllers.Development.updateOrder(parentId: Integer, order: String)
+POST	/development/deleteComponent						controllers.Development.deleteComponent(id: Integer)
 
 #Order Matters here
 GET		/development										controllers.Development.development(name = "")

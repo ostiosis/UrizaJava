@@ -1,4 +1,13 @@
 @(page: Page)
+
+<script type="text/javascript" >
+	$(document).ready(function(){
+		$('.panel').each(function(){
+			$(this).find('.component-menu').addClass('hide');
+		});
+				
+	});
+</script>
     <!-- Basic HTML Elements -->
     <div class="panel panel-default sidebar-nav">
 		<div class="panel-body" id="development-menu-info">		
@@ -22,55 +31,55 @@
 		        <div id="collapse-one" class="panel-collapse collapse in">
 		        	      
 					<div class="component-wrapper component-element" type="row">
-						<div class="development-menu">
-							<i class="drag fa fa-square-o"></i>				
-						</div>
-						<div class="thumbnail-component">test</div>
-						<div class="row clearfix hide">
-							<div class="col-md-12 column component-element" type="column"></div>
+						@views.html.development.componentmenu("row")
+						<div class="thumbnail-component">12 row</div>
+						<div class="component-interior hide">
+							<div class="row clearfix ">
+								<div class="col-md-12 column component-element" type="column"></div>
+							</div>
 						</div>
 					</div>
 			      
 					<div class="component-wrapper component-element" type="row">
-						<div class="development-menu">
-							<i class="drag fa fa-square-o"></i>				
-						</div>
-						<div class="thumbnail-component">test</div>
-						<div class="row clearfix hide">
-							<div class="col-md-6 column component-element" type="column"></div>
-							<div class="col-md-6 column component-element" type="column"></div>
+						@views.html.development.componentmenu("row")
+						<div class="thumbnail-component">6.6 row</div>
+						<div class="component-interior hide">
+							<div class="row clearfix ">
+								<div class="col-md-6 column component-element" type="column"></div>
+								<div class="col-md-6 column component-element" type="column"></div>
+							</div>
 						</div>
 					</div>
 					
 					<div class="component-element design-element" type="menu" >
-						<div class="development-menu">
-							<i class="drag fa fa-square-o"></i>				
-						</div>				
-						<div class="thumbnail-component">test</div>
-						<ul class="nav nav-pills hide">
-							<li class="active"><a href="#" class="editable-text">Menu Element</a></li>
-						</ul>
+						@views.html.development.componentmenu("menu")									
+						<div class="thumbnail-component">menu</div>
+						<div class="component-interior hide">
+							<ul class="nav nav-pills ">
+								<li class="active"><a href="#" class="editable-text">Menu Element</a></li>
+							</ul>
+			            </div>
 		            </div>
 			      
 					<div class="component-element design-element" type="page-header" >
-						<div class="development-menu">
-							<i class="drag fa fa-square-o"></i>				
-						</div>
+						@views.html.development.componentmenu("page-header")	
 						<div class="thumbnail-component">Header</div>
-						<div class="page-header editable-text hide">
-		  					<h1>Example page header <small>Subtext for header</small></h1>
+						<div class="component-interior hide">
+							<div class="page-header editable-text ">
+			  					<h1>Example page header <small>Subtext for header</small></h1>
+							</div>
 						</div>
 		            </div>
 		      
 					<div class="component-element design-element" type="jumbotron" >
-						<div class="development-menu">
-							<i class="drag fa fa-square-o"></i>				
-						</div>
+						@views.html.development.componentmenu("jumbotron")						
 						<div class="thumbnail-component">Jumbotron</div>
-						<div class="jumbotron editable-text hide">
-							<h1>Hello, world!</h1>
-							<p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-							<p><a class="btn btn-primary btn-lg" role="button">Learn more</a></p>
+						<div class="component-interior">
+							<div class="jumbotron editable-text hide">
+								<h1>Hello, world!</h1>
+								<p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+								<p><a class="btn btn-primary btn-lg" role="button">Learn more</a></p>
+							</div>					
 						</div>					
 		            </div>
 		      

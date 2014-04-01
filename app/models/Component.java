@@ -1,14 +1,22 @@
 package models;
 
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.SqlUpdate;
+
+import play.db.DB;
 import play.db.ebean.Model;
 import utility.UrizaHelpers;
 
@@ -76,6 +84,28 @@ public class Component extends Model
 		component.save();
 		
 		return component;
+	}
+	
+	public static void delete(Component component) throws SQLException
+	{	
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		
+		for(Component child: component.children())
+		{
+			delete(child);
+		}
+		
+		connection = DB.getConnection();
+		
+		String down = "DELETE FROM child_component WHERE parent_id = ? OR child_id = ?";
+		preparedStatement = connection.prepareStatement(down);
+		preparedStatement.setLong(1, component.id);
+		preparedStatement.setLong(2, component.id);
+		
+		preparedStatement.executeUpdate();
+		
+		component.delete();	
 	}
 	
 	public void update(String name, String code, Long width, Long height)

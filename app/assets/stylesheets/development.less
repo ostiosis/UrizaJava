@@ -8,37 +8,57 @@ body
     height:100vh;
 }
 
-.component-wrapper
+.row
 {
-	border: 2px dotted red;
-	padding: 25px;
+	//border: 2px dotted red;
+	padding: 0px;
+	margin: 0px;	
 }
 
 .placeholder-element
 {
-	border: 2px dotted green;
+	border: 1px dotted rgba(86, 61, 124, 1.0);
 	padding: 25px;
 }
 
 .column 
 {
 	background-color: #FFFFFF;
-	border: 1px solid black;
+	border: 1px solid rgba(86, 61, 124, 0.4);
 	margin: 15px 0;
 	padding: 39px 19px 24px;
 	position: relative;
+}
+
+.column:hover
+{
+	//border: 2px solid rgba(86, 61, 124, 0.6);
+
 }
 
 .column .design-element:hover 
 { 
 	z-index:1001;
 }
-.navbar-nav > li >a:hover
-{
 
+.component-element
+{
+	margin-top: 5px;
+}
+.component-interior
+{
+	padding: 5px;
+	border-left: 1px solid #dddddd;	
+	border-right: 1px solid #dddddd;	
+	border-bottom: 1px solid #dddddd;	
+}
+.component-wrapper
+{
+	//margin-top: 5px;
+	//padding: 5px;
 }
 
-.editable-text:focus
+.component-menu
 {
 
 }

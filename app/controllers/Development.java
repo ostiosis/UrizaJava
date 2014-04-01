@@ -122,18 +122,6 @@ public class Development extends Controller
     	return ok(views.html.development.image.render(findImage));
     }
     
-    /**/
-    public void processUpload(String fileName, String fileType, File file)
-    {
-    	switch (fileType)
-    	{
-	    	case "image/jpeg":
-	    	case "image/gif":
-	    	case "image/png":
-	    	break;
-    	}
-    }
-    
     public static Result updateComponent(Integer componentId, Integer parentId, String componentType, String classes, String code, Integer displayOrder)
     {
     	code = code.trim();
@@ -181,16 +169,6 @@ public class Development extends Controller
     	
     	childComponent.parentId = parentId;
     	
-    	PageComponent pageComponent = PageComponent
-    			.find
-    			.where()
-    			.eq("component_id", getComponent.id)
-    			.findUnique();
-    	if (pageComponent != null)
-    	{
-    		pageComponent.delete();
-    	}
-    	
     	return ok(views.html.utility.integerresult.render(getComponent.id));
     }
 
@@ -235,20 +213,22 @@ public class Development extends Controller
 		
 		for(int i = 0; i < elements.length; i++)
 		{
-			try
+			Integer value = Integer.parseInt(elements[i]);
+			if ( value != null)
 			{
-				Integer value = Integer.parseInt(elements[i]);
-				if ( value != null)
-				{
-					ChildComponent c = new ChildComponent(parentId, value, i);
-					c.save();
-				}
-			}
-			catch(Exception e)
-			{
-				
+				ChildComponent c = new ChildComponent(parentId, value, i);
+				c.save();
 			}
 		}
+    	
+    	return ok("updated");
+    }
+    
+    public static Result deleteComponent(Integer id) throws SQLException
+    {
+    	Component component = Component.find.byId(id);
+    	
+    	Component.delete(component);
     	
     	return ok("updated");
     }
