@@ -14,6 +14,8 @@ public class MailerTest
 	@Test
 	public void sendApacheEmailTest()
 	{
+		
+		
 		try
 		{				
 			String host = ConfigFactory.load().getString("smtp.host");
@@ -33,7 +35,7 @@ public class MailerTest
 			email.setFrom("philip.lipman@gmail.com");
 			email.setSubject("TestMail");
 			email.setMsg("This is a test mail ... :-)");
-			email.addTo("philip.lipman@gmail.com");
+			email.addTo("treclickostiosis@yahoo.com");
 			email.send();
 		
 			assertTrue(true);

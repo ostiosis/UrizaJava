@@ -50,41 +50,38 @@ public class User extends Model
 	}
 	
 	public static void resetPassword(String email, String password) throws SQLException
-	{
+	{	
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		
+		User user = User.find.where().eq("email", email).findUnique();
+		String sql = "UPDATE user SET password_hash = ? WHERE id = ?";
+		
+		try
 		{
-			Connection connection = null;
-			PreparedStatement preparedStatement = null;
+			connection = DB.getConnection();
+			preparedStatement = connection.prepareStatement(sql);
 			
-			User user = User.find.where().eq("email", email).findUnique();
-			String sql = "UPDATE user SET password_hash = ? WHERE id = ?";
+			preparedStatement.setString(1, password);
+			preparedStatement.setLong(2, user.id);
 			
-			try
+			preparedStatement.executeUpdate();
+		}
+		catch (SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		finally
+		{
+			if (preparedStatement != null)
 			{
-				connection = DB.getConnection();
-				preparedStatement = connection.prepareStatement(sql);
-				
-				preparedStatement.setString(1, password);
-				preparedStatement.setLong(2, user.id);
-				
-				preparedStatement.executeUpdate();
+				preparedStatement.close();
 			}
-			catch (SQLException e)
+			
+			if (connection != null)
 			{
-				System.out.println(e.getMessage());
-			}
-			finally
-			{
-				if (preparedStatement != null)
-				{
-					preparedStatement.close();
-				}
-				
-				if (connection != null)
-				{
-					connection.close();
-				}
+				connection.close();
 			}
 		}
 	}
-
 }

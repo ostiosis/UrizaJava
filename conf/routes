@@ -12,6 +12,9 @@ POST	/login												controllers.Application.authenticate()
 
 GET		/logout												controllers.Application.logout()
 
+GET		/formtest											controllers.Custom.formtest()
+POST	/formtest											controllers.Custom.dynamicForm()
+
 # Password Reset
 GET		/reset												controllers.Application.reset()
 POST	/reset												controllers.Application.resetForm()
@@ -21,8 +24,6 @@ POST	/token												controllers.Application.tokenForm()
 
 GET		/password											controllers.Application.password()
 POST	/password											controllers.Application.passwordForm()
-
-
 
 POST	/development/validatePage/:name						controllers.Development.validatePage(name: String)
 POST	/development/addPage/:name/:title/:description		controllers.Development.addPage(name: String, title: String, description: String)

@@ -1,5 +1,10 @@
+import java.util.List;
+
 import org.junit.*;
 
+import com.avaje.ebean.Ebean;
+
+import play.libs.Yaml;
 import play.mvc.*;
 import static play.test.Helpers.*;
 import static org.fest.assertions.Assertions.*;
@@ -11,16 +16,25 @@ import static org.fest.assertions.Assertions.*;
 * If you are interested in mocking a whole application, see the wiki for more details.
 *
 */
-public class ApplicationTest {
-
-    @Test
-    public void simpleCheck() {
+public class ApplicationTest 
+{
+	@Before
+	public void setUp()
+	{
+		start(fakeApplication(inMemoryDatabase(), fakeGlobal()));
+		Ebean.save((List) Yaml.load("test-data.yml"));
+	}
+    
+	@Test
+    public void simpleCheck() 
+    {
         int a = 1 + 1;
         assertThat(a).isEqualTo(2);
     }
 
     @Test
-    public void renderTemplate() {
+    public void renderTemplate() 
+    {
         Content html = views.html.index.render("Your new application is ready.");
         assertThat(contentType(html)).isEqualTo("text/html");
         assertThat(contentAsString(html)).contains("Your new application is ready.");
