@@ -8,10 +8,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.SqlUpdate;
@@ -54,7 +51,18 @@ public class Component extends Model
 	
 	public Timestamp dateCreated;
 	public Timestamp dateModified;
+	
+	/**
+	@ManyToMany
+	@JoinTable ( name = "parent_child_component" , 
+	                    joinColumns = @JoinColumn ( name = "child_id" , referencedColumnName = "id" ),
+	                    inverseJoinColumns = @JoinColumn ( name = "parent_id" , referencedColumnName = "id" ))
+	private List<Component> parentComponents = new ArrayList<Component>();
 
+	@ManyToMany (mappedBy = "parentComponents" ) 
+	private List<Component> childComponents = new ArrayList<Component>();
+	/**/
+	
 	public Component(String name, String code, String componentType, Long width, Long height)
 	{
 		this.name = name;

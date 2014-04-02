@@ -4,7 +4,10 @@ import javax.persistence.*;
 
 import play.db.DB;
 import play.db.ebean.*;
+import utility.PasswordHash;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -28,14 +31,18 @@ public class User extends Model
 	public static Finder<Long, User> find 
 		= new Finder<Long, User>(Long.class, User.class);
 	
-	public User(String username, String email, String password)
+	public User(String username, String email, String password) throws NoSuchAlgorithmException, InvalidKeySpecException
 	{
 		this.username = username;
 		this.email = email;
+		
+		this.passwordHash = PasswordHash.createHash(password);
 	}
 	
 	public static User authenticate(String email, String passwordHash)
 	{
+		
+		
 		return find.where()
 				.eq("email", email)
 				.eq("password_hash", passwordHash)
@@ -49,10 +56,12 @@ public class User extends Model
 				.findUnique();
 	}
 	
-	public static void resetPassword(String email, String password) throws SQLException
+	public static void resetPassword(String email, String password) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException
 	{	
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
+		
+		password = PasswordHash.createHash(password);
 		
 		User user = User.find.where().eq("email", email).findUnique();
 		String sql = "UPDATE user SET password_hash = ? WHERE id = ?";

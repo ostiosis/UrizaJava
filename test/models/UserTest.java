@@ -1,23 +1,19 @@
 package models;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static play.test.Helpers.callAction;
+import static org.junit.Assert.*;
 import static play.test.Helpers.fakeApplication;
-import static play.test.Helpers.fakeRequest;
-import static play.test.Helpers.header;
 import static play.test.Helpers.inMemoryDatabase;
-import static play.test.Helpers.session;
-import static play.test.Helpers.status;
+
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.sql.SQLException;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.common.collect.ImmutableMap;
-
-import play.mvc.Result;
+import play.Logger;
 import play.test.WithApplication;
+import utility.PasswordHash;
 
 public class UserTest extends WithApplication
 {
@@ -28,7 +24,7 @@ public class UserTest extends WithApplication
 	}
 	
 	@Test
-	public void createAndRetrieveUser()
+	public void createAndRetrieveUser() throws NoSuchAlgorithmException, InvalidKeySpecException
 	{
 		new User("Bob", "bob@gmail.com", "secret").save();
 		
@@ -41,40 +37,30 @@ public class UserTest extends WithApplication
 	}
 	
 	@Test
-	public void authenticateFailure()
+	public void resetPassword() throws NoSuchAlgorithmException, InvalidKeySpecException
 	{
-		Result result = callAction(
-			controllers.routes.ref.Application.authenticate(),
-			fakeRequest().withFormUrlEncodedBody(ImmutableMap.of(
-				"email", "bob@example.com",
-				"password", "badpassword"
-			))			
-		);
+		new User("Bob", "bob@gmail.com", "secret").save();
+				
+		try
+		{
+			User.resetPassword("bob@gmail.com", "new-secret");
+		} 
+		catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		assertEquals(400, status(result));
-		assertNull(session(result).get("email"));
+		User bob = User.find.where()
+			.eq("email", "bob@gmail.com")
+			.findUnique();
+		
+		Logger.info(bob.passwordHash);
+		
+		assertTrue(PasswordHash.validatePassword("new-secret", bob.passwordHash));
+		
 	}
+
 	
-	@Test
-	public void authenticated()
-	{
-		Result result = callAction(
-			controllers.routes.ref.Application.index(),
-			fakeRequest().withSession("email", "bob@example.com")
-		);
-		
-		assertEquals(200, status(result));	
-	}
-	
-	@Test
-	public void notAuthenticated()
-	{
-		Result result = callAction(
-				controllers.routes.ref.Application.index(),
-				fakeRequest()
-		);
-		
-		assertEquals(303, status(result));
-		assertEquals("/login", header("Location", result));
-	}
+
 }

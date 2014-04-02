@@ -27,14 +27,14 @@ public class CustomTest extends WithApplication
 	}
 	
 	@Test
-	public void customTest()
+	public void custom()
 	{
 		Result result = callAction(controllers.routes.ref.Custom.custom("test"));	
 		assertEquals(200, status(result));
 	}
 	
 	@Test
-	public void dynamicFormTest()
+	public void dynamicForm()
 	{
 		Result result = callAction(
 			controllers.routes.ref.Custom.dynamicForm(),

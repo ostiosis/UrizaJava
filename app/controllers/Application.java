@@ -1,5 +1,7 @@
 package controllers;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 
 import org.apache.commons.mail.EmailException;
@@ -10,6 +12,7 @@ import play.*;
 import play.data.Form;
 import play.mvc.*;
 import utility.Mailer;
+import utility.PasswordHash;
 import views.html.*;
 
 public class Application extends Controller 
@@ -212,9 +215,11 @@ public class Application extends Controller
     }
     
     
-    public static Result passwordForm()
+    public static Result passwordForm() throws NoSuchAlgorithmException, InvalidKeySpecException
     {    	    	
     	Form<Password> passwordForm = Form.form(Password.class).bindFromRequest();    	   	
+    	
+    	
     	
     	if (passwordForm.hasErrors())
     	{
@@ -227,7 +232,9 @@ public class Application extends Controller
         	
         	try
 			{
-				User.resetPassword(session().get("email"), passwordForm.field("password").value());
+        		String email = session().get("email");
+        		String passwordHash = PasswordHash.createHash(PasswordHash.createHash(passwordForm.field("password").value()));
+				User.resetPassword(email, passwordHash);
 			} 
     		catch (SQLException e)
 			{

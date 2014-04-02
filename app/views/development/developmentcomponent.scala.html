@@ -20,6 +20,14 @@
 					</div>
 				}
 				
+				case ("page") => {
+					@Html(component.code)
+					
+					@for(child <- component.children) {
+						@renderComponent(child)		
+					}					
+				}
+				
 				case ("page-header") => {
 					@views.html.development.componentmenu(component.componentType)
 					<div class="component-interior">
@@ -65,12 +73,14 @@
 				}
 				
 				case _ => {
-
+					@views.html.development.componentmenu(component.componentType)
+					<div class="component-interior">
 					@Html(component.code)
 					
 					@for(child <- component.children) {
 						@renderComponent(child)		
 					}
+					</div>
 				}
 			}	
 		</div>		
