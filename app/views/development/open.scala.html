@@ -1,11 +1,11 @@
 @(pages: List[Page])
 
-@for(page <- pages) {
-		<span>
-			<a href="#" class="open-page" id="@page.id">
-				Name: @page.name
-			</a>
-			<a href="@routes.Development.development(page.name)">Test Link</a>
-		</span>
-		<br/>		
-}
+	<ul class="nav nav-pills nav-stacked">
+		@for(page <- pages) {	
+			<li>
+				<a href="@routes.Development.development(page.name)">
+					<i class="fa fa-file"></i> @page.name
+				</a>
+			</li>	
+		}
+	</ul>

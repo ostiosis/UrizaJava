@@ -64,12 +64,19 @@
 		$(document).on('click', '#open-menu', function(event){
 	
 	    	jsRoutes.controllers.Development.openMenu().ajax({
+	    		beforeSend: function() {
+	    			$('#open-menu').find('.modal-loading').show();
+	    			$('#open-menu').find('.open-result').hide();
+	    		},
 	    		success: function(data) {
 					//alert(data);
-					
+					$('#open-menu').find('.modal-loading').hide();
+	    			$('#open-menu').find('.open-result').show();	
 					$('#open-result').html(data);			    				    	
 			  	},
 			  	error: function() {
+			  		$('#open-menu').find('.modal-loading').hide();
+	    			$('#open-menu').find('.open-result').show();	
 			    	alert("Error!")
 			  	}
 			});

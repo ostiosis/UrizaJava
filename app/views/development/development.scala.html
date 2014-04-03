@@ -111,6 +111,17 @@
                 <div id="open-result">
 
                 </div>
+                <div class="modal-loading">
+                	<div class="loading-frame">
+	                	@for(i <- 1 to 25){
+	                		<div class="dot"></div>
+	                	}                   	
+                	</div>
+                	<div style="margin: auto; text-align: center;">
+                		<h3 style="">Loading...</h3>
+               		</div>
+                </div>
+                
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
