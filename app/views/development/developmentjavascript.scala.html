@@ -28,14 +28,7 @@
 					{
 				    	jsRoutes.controllers.Development.addPage(name, title, description).ajax({
 							success: function(data) {
-								//alert(data)
-						    	//$('#result').html(data);
-
-						    	window.setTimeout(function(){
-						    		window.location.replace("/development/" + name);
-						        }, 5000);
-
-								
+					    		window.location.replace("/development/" + name);
 						  	},
 						  	error: function() {
 				    			$('#modalNew').find('.modal-loading').hide();
@@ -46,12 +39,26 @@
 					}
 				},
 				error:		function(){
-					alert("Error!");
+
+					var error;
+					if (!name)
+					{
+						error = "You must enter a name."
+					}
+					
+					$('#modalNew').find('.modal-error').css('padding-left', '15px');
+					$('#modalNew').find('.modal-error').css('padding-right', '15px');
+					$('#modalNew').find('.modal-error').html("<div class='alert alert-danger'>" + error + "</div>");
+	    			$('#modalNew').find('.modal-loading').hide();
+	    			$('#modalNew').find('.modal-form').show();
+					
 				}
 	    	});
-	    	
+		});
 
-	    	
+		$('#modalNew').on('hidden.bs.modal', function () {
+			  // do something…
+			  $('#modalNew').find('.modal-error').empty();
 		});
 	
 		$(document).on('click', '#open-menu', function(event){
@@ -290,6 +297,14 @@
 		        	updateOrder(this);
 		        	editText();
 				}
+	        },
+	        start: function (event, ui)
+	        {
+	        	$(ui.item).appendTo(this).addClass("dragging");
+	        },
+	        stop: function (event, ui)
+	        {
+	        	$(ui.item).removeClass("dragging");
 	        }
 	    });
 	    $(".sidebar-nav .component-wrapper").draggable({
@@ -304,8 +319,13 @@
 				
 				return clonedElement;
 	        },
+	        start: function (event, ui)
+	        {
+	        	
+	        },
 	        stop: function (event, ui) 
 	        {
+	        	
 	            $(".custom-page .column").sortable({
 	    			placeholder: "placeholder-element",
 	    	        connectWith: ".column",
@@ -326,6 +346,14 @@
     			        	updateOrder(this);
     			        	editText();
     					}
+    		        },
+    		        start: function (event, ui)
+    		        {
+    		        	$(ui.item).appendTo(this).addClass("dragging");
+    		        },
+    		        stop: function (event, ui)
+    		        {
+    		        	$(ui.item).removeClass("dragging");
     		        }
 	            });
 	        }
@@ -340,6 +368,7 @@
 
 				$(clonedElement).find('.thumbnail-component').remove();
 				$(clonedElement).find(".hide").removeClass('hide');
+				//alert($(clonedElement).attr('class'));
 				
 				return clonedElement;
 	        },	        

@@ -13,8 +13,9 @@ public class UrizaHelpers
 	
 	public static String classCleanup(String classes)
 	{
-		classes.replace("ui-draggable", "");
-		classes.replace("ui-sortable", "");
+		classes = classes.replace("ui-draggable", "");
+		classes = classes.replace("ui-sortable", "");
+		classes = classes.replace("dragging", "");
 		
 		return classes;
 	}
