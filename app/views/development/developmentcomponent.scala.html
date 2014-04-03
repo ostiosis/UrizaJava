@@ -7,6 +7,15 @@
 		<div class="@component.classes" id="@component.id" type="@component.componentType">
 		
 			@component.componentType match {
+				
+				case ("page") | ("column") => {
+					@Html(component.code)
+					
+					@for(child <- component.children) {
+						@renderComponent(child)		
+					}					
+				}
+				
 				case ("row") => {
 					@views.html.development.componentmenu(component.componentType)
 					<div class="component-interior">
@@ -19,15 +28,7 @@
 						</div>
 					</div>
 				}
-				
-				case ("page") => {
-					@Html(component.code)
-					
-					@for(child <- component.children) {
-						@renderComponent(child)		
-					}					
-				}
-				
+			
 				case ("page-header") => {
 					@views.html.development.componentmenu(component.componentType)
 					<div class="component-interior">
