@@ -1,9 +1,7 @@
 <script type="text/javascript" >
 	$(document).ready(function(){
 
-		mouseCheck();
-		
-		$(document).on('click', '.btn-success', function(event){
+		$(document).on('click', '#modalNew .btn-success', function(event){
 	
 	    	var name = $('#name').val();
 	    	var title = $('#title').val();
@@ -57,7 +55,7 @@
 		});
 
 		$('#modalNew').on('hidden.bs.modal', function () {
-			  // do something…
+			  // do somethingï¿½
 			  $('#modalNew').find('.modal-error').empty();
 		});
 	
@@ -83,43 +81,39 @@
 	    	
 		});
 
-	    $('input[type=file]').change(function() {
-			var file = this.files[0];
-			uploadFile(file);
-	    });
+		developmentInitialize();
+
+				
+	});
+
 	
-		if (Modernizr.draganddrop) 
-		{
-			// Browser supports HTML5 DnD.
-		  	//alert("drag and drop");
-		} 
-		else 
-		{
-		  	// Fallback to a library solution.
-			//alert("no drag and drop");
-		}
+	
+	function fileUploader()
+	{
+	    $('input[type=file]').validate({
+			accept: "image/*",
+			success: function()
+			{
+				var file = this.files[0];
+				uploadFile(file);
+			},
+			error: function()
+			{
+				alert("images only");
+			}
+	    });
 		
   		// Setup the dnd listeners.
   		var dropZone = document.getElementById('drop-zone');
   		dropZone.addEventListener('dragover', handleDragOver, false);
   		dropZone.addEventListener('drop', handleFileSelect, false);
-
-		mediaThumbnails();
-
-    	hidePanelMenu();
-
-		setDroppable();
-		
-		//draggableTemplate();
-		
-		editText();
-		deleteComponent();			
-	});
+	}
 	
 	//Functions
     function uploadFile(file)
     {
 		//this only uploads raw file
+		//alert(file.type);
     	jsRoutes.controllers.Development.uploadAjax(file.name).ajax({
 	    	data: file,
 	    	processData: false,
@@ -201,7 +195,6 @@
 			}
 			default:
 			{
-
 				code = $(codeElement).html();
 			}
 		}
@@ -234,8 +227,6 @@
 
 		code = getCode(element, componentType);
 
-
-
 		jsRoutes.controllers.Development.updateComponent(componentId, parentId, componentType, classes, code, displayOrder).ajax({
 			async: false,
 			success: function(data) 
@@ -255,9 +246,8 @@
 			childIds.push( updateComponent(value) );
 		});
 
-		editText();
-		deleteComponent();	
-		
+		developmentInitialize();
+				
 		return componentId;		
 	}
 
@@ -433,12 +423,20 @@
   		
   		for (var i = 0, f; f = files[i]; i++) 
   		{
-   			uploadFile(f);
-   			
-   			output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
-         			f.size, ' bytes, last modified: ',
-               	f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
-               	'</li>');
+
+
+   			if (~f.type.indexOf("image")) 
+   			{
+   	   			uploadFile(f);
+	   			output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+	         			f.size, ' bytes, last modified: ',
+	               	f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
+	               	'</li>');
+   			}
+   			else
+   			{
+				output.push('<li><strong>Images only</strong></li>');
+  	   		}
 		}
  			
   		document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
@@ -471,20 +469,167 @@
 
 	}
 
-	function mouseCheck()
+
+	function developmentMenuInfo()
 	{
-		$('*').on('mouseenter', function() { 
-			var hoverElement = this; 
-			var navElement = $(hoverElement).children('div.component-wrapper > ul.nav');
-			//$(hoverElement).find('div.component-wrapper > ul.nav').each(function()
-			//{
-				//alert("PHIL TEST");
-				//$(hoverElement).append("test").stop();
-				
-				//$('#test-msg').html($(hoverElement).attr('id'));
-				
-			//});
+	
+		$('.page-wrapper .btn').unbind('click').on('click', function(event){
+		 	event.preventDefault();
+			var id = $(event.currentTarget).closest('.component-element').attr('id');
+
+			buttonDevelopmentMenu(event.currentTarget);
 
 		});
+	}
+
+	function buttonDevelopmentMenu(element)
+	{
+		//alert($('#' + id + ' .btn').attr('class'));
+		//var element = $('#' + id + ' .btn');
+		
+		buttonColor(element);
+		buttonSize(element);
+		buttonBlock(element);
+		
+		$('#button-href').val($(element).attr('href'));
+		$(this).next().html($(element).attr('href'));
+		$('#button-href').bind('input', function() {
+		    $(this).next().html('[input event fired!]: ' + $(this).val());
+		    $(element).attr('href', $(this).val());
+		    updateComponent($(element).closest('.component-element'));
+		});
+
+	}
+
+	function buttonBlock(element)
+	{
+		if ($(element).hasClass('btn-block'))
+		{
+			$('.button-toggle-development-menu button').addClass('active');
+		}
+		else
+		{
+			$('.button-toggle-development-menu button').removeClass('active');
+
+		}
+		
+		$('.button-toggle-development-menu button').unbind('click').on('click', function(){
+			event.preventDefault();
+			if ($(event.currentTarget).hasClass('active'))
+			{
+				$(event.currentTarget).removeClass('active');
+				$(element).removeClass('btn-block');
+			}
+			else
+			{
+				$(event.currentTarget).addClass('active');
+				$(element).addClass('btn-block');
+				//alert('test1');
+			}
+
+			updateComponent($(element).closest('.component-element'));	
+		});
+	}
+
+	function buttonSize(element)
+	{
+		var buttonSizeMenu = $('.button-size-development-menu');
+		var currentButtonSizeClass = "btn-md";
+		var selectedButtonSizeClass;
+		var buttonSizeClasses = new Array("btn-lg", "btn-sm", "btn-xs", "btn-md")
+
+		for (var i = 0; i < buttonSizeClasses.length; i++)
+		{
+			if ($(element).hasClass(buttonSizeClasses[i]))
+			{
+				currentButtonSizeClass = buttonSizeClasses[i];
+				$(buttonSizeMenu).find('.' + buttonSizeClasses[i]).closest('li').addClass('active').siblings().removeClass('active');
+				defaultSize = false;
+				break;
+			}
+		}
+
+		$('.button-size-development-menu .dropdown-menu a, .button-size-development-menu .dropdown-menu a button').unbind('click').on('click', function(){
+			//alert($(this).find('button').attr('class'));
+			
+			for (var i = 0; i < buttonSizeClasses.length; i++)
+			{
+				if ($(this).find('button').hasClass(buttonSizeClasses[i]))
+				{
+					selectedButtonSizeClass = buttonSizeClasses[i];
+					$(this).closest('li').addClass('active').siblings().removeClass('active');
+
+					//alert("remove this: " + currentButtonTypeClass);
+					
+					$(element).removeClass(currentButtonSizeClass);
+					$(element).addClass(selectedButtonSizeClass);			
+
+					currentButtonSizeClass = selectedButtonSizeClass;
+							
+					break;
+				}
+			}
+
+			updateComponent($(element).closest('.component-element'));		
+		});
+	}
+	
+	function buttonColor(element)
+	{
+		var buttonTypeMenu = $('.button-color-development-menu');
+		var currentButtonTypeClass;
+		var selectedButtonTypeClass;
+		var buttonTypeClasses = new Array("btn-default", "btn-primary", "btn-success", "btn-info", "btn-warning", "btn-danger", "btn-link")
+
+		for (var i = 0; i < buttonTypeClasses.length; i++)
+		{
+			if ($(element).hasClass(buttonTypeClasses[i]))
+			{
+				currentButtonTypeClass = buttonTypeClasses[i];
+				$(buttonTypeMenu).find('.' + buttonTypeClasses[i]).closest('li').addClass('active').siblings().removeClass('active');
+				break;
+			}
+		}
+
+		$('.button-color-development-menu .dropdown-menu a, .button-color-development-menu .dropdown-menu a button').unbind('click').on('click', function(){
+			//alert($(this).find('button').attr('class'));
+			
+			for (var i = 0; i < buttonTypeClasses.length; i++)
+			{
+				if ($(this).find('button').hasClass(buttonTypeClasses[i]))
+				{
+					selectedButtonTypeClass = buttonTypeClasses[i];
+					$(this).closest('li').addClass('active').siblings().removeClass('active');
+
+					//alert("remove this: " + currentButtonTypeClass);
+					
+					$(element).removeClass(currentButtonTypeClass);
+					$(element).addClass(selectedButtonTypeClass);			
+
+					currentButtonTypeClass = selectedButtonTypeClass;
+							
+					break;
+				}
+			}
+
+			updateComponent($(element).closest('.component-element'));		
+		});
+	}
+	
+	function developmentInitialize()
+	{
+		mediaThumbnails();
+
+    	hidePanelMenu();
+
+		setDroppable();
+		
+		editText();
+		
+		deleteComponent();		
+
+		fileUploader();	
+
+		developmentMenuInfo();
 	}
 </script>
