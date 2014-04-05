@@ -67,7 +67,6 @@
 	    			$('#open-menu').find('.open-result').hide();
 	    		},
 	    		success: function(data) {
-					//alert(data);
 					$('#open-menu').find('.modal-loading').hide();
 	    			$('#open-menu').find('.open-result').show();	
 					$('#open-result').html(data);			    				    	
@@ -103,7 +102,6 @@
 			}
 	    });
 		
-  		// Setup the dnd listeners.
   		var dropZone = document.getElementById('drop-zone');
   		dropZone.addEventListener('dragover', handleDragOver, false);
   		dropZone.addEventListener('drop', handleFileSelect, false);
@@ -112,8 +110,6 @@
 	//Functions
     function uploadFile(file)
     {
-		//this only uploads raw file
-		//alert(file.type);
     	jsRoutes.controllers.Development.uploadAjax(file.name).ajax({
 	    	data: file,
 	    	processData: false,
@@ -132,7 +128,6 @@
 	function mediaThumbnails(){
 		jsRoutes.controllers.Development.showImageThumbnails("medium").ajax({
 			success: function(data) {
-				//alert(data);
 		    	$('#media-thumbnails').html(data);
 		    	draggableThumbnail();
 		    	hidePanelMenu();		    	
@@ -177,6 +172,7 @@
 	
 	function getCode(element, type)
 	{
+
 		var code = "";
 		var codeElement = $(element).clone();
 		
@@ -227,6 +223,8 @@
 
 		code = getCode(element, componentType);
 
+
+
 		jsRoutes.controllers.Development.updateComponent(componentId, parentId, componentType, classes, code, displayOrder).ajax({
 			async: false,
 			success: function(data) 
@@ -246,10 +244,11 @@
 			childIds.push( updateComponent(value) );
 		});
 
-		developmentInitialize();
-				
+		editText();
+		deleteComponent();	
+		
 		return componentId;		
-	}
+	}	
 
 	function updateOrder(element)
 	{
@@ -472,21 +471,32 @@
 
 	function developmentMenuInfo()
 	{
-	
+
+		
 		$('.page-wrapper .btn').unbind('click').on('click', function(event){
 		 	event.preventDefault();
+
+		 	if ($('.button-development-menu').css('display') == "none")
+		 	{
+		 		$('.button-development-menu').slideToggle("fast");
+		 	}
 			var id = $(event.currentTarget).closest('.component-element').attr('id');
 
 			buttonDevelopmentMenu(event.currentTarget);
-
 		});
+
+		$('.button-development-menu-close').unbind('click').on('click', function(event){
+		 	if ($('.button-development-menu').css('display') == "block")
+		 	{
+		 		$('.button-development-menu').slideToggle("fast");
+		 	}
+
+			});
+
 	}
 
 	function buttonDevelopmentMenu(element)
 	{
-		//alert($('#' + id + ' .btn').attr('class'));
-		//var element = $('#' + id + ' .btn');
-		
 		buttonColor(element);
 		buttonSize(element);
 		buttonBlock(element);
@@ -496,6 +506,7 @@
 		$('#button-href').bind('input', function() {
 		    $(this).next().html('[input event fired!]: ' + $(this).val());
 		    $(element).attr('href', $(this).val());
+			//remove comment
 		    updateComponent($(element).closest('.component-element'));
 		});
 
@@ -510,7 +521,6 @@
 		else
 		{
 			$('.button-toggle-development-menu button').removeClass('active');
-
 		}
 		
 		$('.button-toggle-development-menu button').unbind('click').on('click', function(){
@@ -518,16 +528,36 @@
 			if ($(event.currentTarget).hasClass('active'))
 			{
 				$(event.currentTarget).removeClass('active');
-				$(element).removeClass('btn-block');
+
+				$( element ).switchClass( 
+						'btn-block', 
+						'', 
+						1000, 
+						"easeOutBounce",
+						function(){
+							$(element).removeClass('btn-block');
+							$( element ).attr('style', '');
+							//remove comment
+							updateComponent($(element).closest('.component-element'));								
+				});
+				
 			}
 			else
 			{
 				$(event.currentTarget).addClass('active');
-				$(element).addClass('btn-block');
-				//alert('test1');
-			}
 
-			updateComponent($(element).closest('.component-element'));	
+				$( element ).switchClass( 
+						'', 
+						'btn-block', 
+						1000, 
+						"easeOutBounce",
+						function(){
+							$(element).addClass('btn-block');		
+							$( element ).attr('style', '');
+							//remove comment
+							updateComponent($(element).closest('.component-element'));	
+				});
+			}
 		});
 	}
 
@@ -559,18 +589,28 @@
 					selectedButtonSizeClass = buttonSizeClasses[i];
 					$(this).closest('li').addClass('active').siblings().removeClass('active');
 
-					//alert("remove this: " + currentButtonTypeClass);
-					
-					$(element).removeClass(currentButtonSizeClass);
-					$(element).addClass(selectedButtonSizeClass);			
+					$( element ).switchClass( 
+							currentButtonSizeClass, 
+							selectedButtonSizeClass, 
+							1000, 
+							"easeOutBounce",
+							function(){
+								$(element).removeClass(currentButtonSizeClass);
+								$(element).addClass(selectedButtonSizeClass);		
+								$( element ).attr('style', '');
+								//remove comment
+								updateComponent($(element).closest('.component-element'));	
+									
+								}
+							 );
 
 					currentButtonSizeClass = selectedButtonSizeClass;
-							
+						
 					break;
 				}
 			}
 
-			updateComponent($(element).closest('.component-element'));		
+				
 		});
 	}
 	
@@ -603,8 +643,21 @@
 
 					//alert("remove this: " + currentButtonTypeClass);
 					
-					$(element).removeClass(currentButtonTypeClass);
-					$(element).addClass(selectedButtonTypeClass);			
+
+					$( element ).switchClass( 
+							currentButtonTypeClass, 
+							selectedButtonTypeClass, 
+							1000, 
+							"easeOutExpo",
+							function(){
+								$(element).removeClass(currentButtonTypeClass);
+								$(element).addClass(selectedButtonTypeClass);	
+								$( element ).attr('style', '');	
+								//remove comment
+								updateComponent($(element).closest('.component-element'));
+								}
+							 );
+							
 
 					currentButtonTypeClass = selectedButtonTypeClass;
 							
@@ -612,7 +665,7 @@
 				}
 			}
 
-			updateComponent($(element).closest('.component-element'));		
+					
 		});
 	}
 	
