@@ -8,7 +8,7 @@ body
     height:100vh;
 }
 
-.row
+.page-wrapper .row
 {
 	//border: 2px dotted red;
 	padding: 0px;
@@ -23,7 +23,7 @@ body
 	height: 100px;
 }
 
-.column 
+.page-wrapper .column 
 {
 	background-color: #FFFFFF;
 	border: 1px solid rgba(86, 61, 124, 0.4);
@@ -32,7 +32,7 @@ body
 	position: relative;
 }
 
-.column:hover
+.page-wrapper .column:hover
 {
 	//border: 2px solid rgba(86, 61, 124, 0.6);
 }
@@ -108,4 +108,11 @@ body
 .panel-heading a
 {
 	text-decoration: none;
+}
+
+*:not(img)
+{
+  -webkit-border-radius: 0 !important;
+     -moz-border-radius: 0 !important;
+          border-radius: 0 !important;
 }

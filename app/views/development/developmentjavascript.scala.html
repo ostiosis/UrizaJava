@@ -80,6 +80,93 @@
 	    	
 		});
 
+		$('#development-preview').on('click', function(){
+
+			var fadeInTime = 1500;
+			var pageId = $('.main-page-container').attr('id').replace('page_', '');
+
+
+			
+			if ($(this).hasClass('show'))
+			{
+				$(this).removeClass('show');
+
+				$('#development-preview').html(''); // clear the contents - do not chain this with the next .html()
+				$('#development-preview').html('<span><i class="fa fa-desktop"></i> Preview</span>'); // add new contents - do not chain the next hide() as the element must be parsed in the DOM correctly first
+				$('#development-preview span').hide().fadeIn(fadeInTime);
+				
+				$( this ).switchClass( 
+					'btn-success', 
+					'btn-primary', 
+					fadeInTime, 
+					"easeOutExpo",
+					function()
+					{
+							
+					}
+				);
+
+		    	jsRoutes.controllers.Development.open(pageId, false).ajax({
+					async: false,
+					success: function(data) {
+
+						$('#page-render').html(''); // clear the contents - do not chain this with the next .html()
+		                $('#page-render').html(data); // add new contents - do not chain the next hide() as the element must be parsed in the DOM correctly first
+		                $('#page-render').hide().fadeIn(fadeInTime);
+						
+						//$('#page-render').html(data);
+				    	//alert(data);
+				  	},
+				  	error: function() {
+				    	alert("Error!")
+				  	}
+				});
+		    	developmentInitialize();
+			}
+			else
+			{
+				$('.button-development-menu').css('display', 'none');
+
+				$(this).addClass('show');
+				
+				$('#development-preview').html();
+				$('#development-preview').html(''); // clear the contents - do not chain this with the next .html()
+				$('#development-preview').html('<span><i class="fa fa-edit"></i> Edit</span>'); // add new contents - do not chain the next hide() as the element must be parsed in the DOM correctly first
+
+				$('#development-preview span').hide().fadeIn(fadeInTime);
+
+				$( this ).switchClass( 
+					'btn-primary', 
+					'btn-success', 
+					fadeInTime, 
+					"easeOutExpo",
+					function()
+					{
+
+	
+							
+					}
+				);
+
+		    	jsRoutes.controllers.Development.open(pageId, true).ajax({
+					async: false,
+					success: function(data) {
+
+						$('#page-render').html(''); // clear the contents - do not chain this with the next .html()
+		                $('#page-render').html(data); // add new contents - do not chain the next hide() as the element must be parsed in the DOM correctly first
+		                $('#page-render').hide().fadeIn(fadeInTime);
+						
+				    	//$('#page-render').html(data);
+				    	//alert(data);
+				  	},
+				  	error: function() {
+				    	alert("Error!")
+				  	}
+				});				
+					
+			}
+		});
+		
 		developmentInitialize();
 
 				
@@ -244,8 +331,7 @@
 			childIds.push( updateComponent(value) );
 		});
 
-		editText();
-		deleteComponent();	
+		updateInitialize();
 		
 		return componentId;		
 	}	
@@ -590,19 +676,20 @@
 					$(this).closest('li').addClass('active').siblings().removeClass('active');
 
 					$( element ).switchClass( 
-							currentButtonSizeClass, 
-							selectedButtonSizeClass, 
-							1000, 
-							"easeOutBounce",
-							function(){
-								$(element).removeClass(currentButtonSizeClass);
-								$(element).addClass(selectedButtonSizeClass);		
-								$( element ).attr('style', '');
-								//remove comment
-								updateComponent($(element).closest('.component-element'));	
-									
-								}
-							 );
+						currentButtonSizeClass, 
+						selectedButtonSizeClass, 
+						1000, 
+						"easeOutExpo",
+						function()
+						{
+							$(element).removeClass(currentButtonSizeClass);
+							$(element).addClass(selectedButtonSizeClass);		
+							$( element ).attr('style', '');
+							//remove comment
+							updateComponent($(element).closest('.component-element'));	
+								
+						}
+					);
 
 					currentButtonSizeClass = selectedButtonSizeClass;
 						
@@ -668,21 +755,26 @@
 					
 		});
 	}
-	
-	function developmentInitialize()
+
+	function updateInitialize()
 	{
-		mediaThumbnails();
-
-    	hidePanelMenu();
-
-		setDroppable();
-		
 		editText();
 		
 		deleteComponent();		
 
-		fileUploader();	
-
 		developmentMenuInfo();
+	}
+	
+	function developmentInitialize()
+	{
+		updateInitialize();
+
+		mediaThumbnails();
+
+    	hidePanelMenu();
+
+		setDroppable();	
+
+		fileUploader();	
 	}
 </script>

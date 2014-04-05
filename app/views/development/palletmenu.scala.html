@@ -14,7 +14,8 @@
 			@if(page != null) {
 				<h4>Name: @page.name</h4>
 				<h4>Title: @page.title</h4>
-				<h4>Description: @page.description</h4>					  	
+				<h4>Description: @page.description</h4>		
+				<button type="button" id="development-preview" class="btn btn-primary btn-block"><span><i class="fa fa-desktop"></i> Preview</span></button>			  	
 			}
 		</div>	
 		@views.html.development.buttonpalletmenu()
@@ -52,6 +53,18 @@
 						</div>
 					</div>
 					
+					<div class="component-wrapper component-element" type="row">
+						@views.html.development.componentmenu("row")
+						<div class="thumbnail-component">4.4.4 row</div>
+						<div class="component-interior hide">
+							<div class="row clearfix ">
+								<div class="col-md-4 column component-element" type="column"></div>
+								<div class="col-md-4 column component-element" type="column"></div>
+								<div class="col-md-4 column component-element" type="column"></div>
+							</div>
+						</div>
+					</div>
+					
 					<div class="component-element design-element" type="menu" >
 						@views.html.development.componentmenu("menu")									
 						<div class="thumbnail-component">menu</div>
@@ -68,6 +81,27 @@
 						<div class="component-interior hide">
 							<div class="page-header editable-text ">
 			  					<h1>Example page header <small>Subtext for header</small></h1>
+							</div>
+						</div>
+		            </div>
+		            
+   					<div class="component-element design-element" type="body-copy" >
+						@views.html.development.componentmenu("page-header")	
+						<div class="thumbnail-component">Paragraph</div>
+						<div class="component-interior hide">
+							<div class="editable-text ">
+			  					<p class="lead">
+			  						Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus.
+		  						</p>
+							    <p>
+									Lorem ipsum dolor sit amet, nec ad feugiat maiorum concludaturque, ad sea scripta temporibus. No vix liber intellegat interpretaris, in quodsi eruditi mei. Decore instructior te his, ei his case petentium. Ne his utroque maiorum gloriatur, vide accusata urbanitas cu eam. Pro no sale inani omnes.
+								</p>
+							    <p>
+							    	Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec ullamcorper nulla non metus auctor fringilla. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Donec ullamcorper nulla non metus auctor fringilla.
+						    	</p>
+							    <p>
+							    	Maecenas sed diam eget risus varius blandit sit amet non magna. Donec id elit non mi porta gravida at eget metus. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
+						    	</p>			  					
 							</div>
 						</div>
 		            </div>

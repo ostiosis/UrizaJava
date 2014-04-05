@@ -1,0 +1,7 @@
+@(page: Page)
+
+	<div class="main-page-container" id="page_@page.id" >
+		@for(component <- page.components) {
+			@views.html.custom.component(component)		
+		}
+	</div>

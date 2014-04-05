@@ -1,6 +1,6 @@
 @(page: Page)
 
-	<div class="page-wrapper" id="page_@page.id" />
+	<div class="page-wrapper main-page-container" id="page_@page.id" >
 		@for(component <- page.components) {
 			@views.html.development.developmentcomponent(component)		
 		}

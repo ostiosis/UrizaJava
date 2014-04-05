@@ -232,5 +232,19 @@ public class Development extends Controller
     	
     	return ok("updated");
     }
+    
+    public static Result open(Long pageId, Boolean preview)
+    {
+    	Page getPage = Page.find.byId(pageId);
+    	
+    	if (preview)
+    	{
+        	return ok(views.html.development.developmentpreview.render(getPage));
+    		
+    	}   	
+    	
+    	return ok(views.html.development.developmentpage.render(getPage));
+
+    }
 
 }
