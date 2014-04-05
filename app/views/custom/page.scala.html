@@ -2,7 +2,7 @@
 
 @views.html.main(page.title) {
 
-	<div class="container main-page-container" id="page_@page.id" />
+	<div class="fluid-container main-page-container" id="page_@page.id" />
 		@for(component <- page.components) {
 			@views.html.custom.component(component)		
 		}

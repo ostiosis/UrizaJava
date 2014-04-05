@@ -79,7 +79,13 @@
 			});
 	    	
 		});
+		
+		developmentInitialize();
+		previewEditDevelopment();
+	});
 
+	function previewEditDevelopment()
+	{
 		$('#development-preview').on('click', function(){
 
 			var fadeInTime = 1500;
@@ -108,8 +114,11 @@
 
 		    	jsRoutes.controllers.Development.open(pageId, false).ajax({
 					async: false,
-					success: function(data) {
-
+					beforeSend: function() {
+						$('#page-render').html('Loading');
+		    		},
+		    		success: function(data) {
+						
 						$('#page-render').html(''); // clear the contents - do not chain this with the next .html()
 		                $('#page-render').html(data); // add new contents - do not chain the next hide() as the element must be parsed in the DOM correctly first
 		                $('#page-render').hide().fadeIn(fadeInTime);
@@ -150,8 +159,11 @@
 
 		    	jsRoutes.controllers.Development.open(pageId, true).ajax({
 					async: false,
+					beforeSend: function() {
+						$('#page-render').html('Loading');
+		    		},
 					success: function(data) {
-
+	
 						$('#page-render').html(''); // clear the contents - do not chain this with the next .html()
 		                $('#page-render').html(data); // add new contents - do not chain the next hide() as the element must be parsed in the DOM correctly first
 		                $('#page-render').hide().fadeIn(fadeInTime);
@@ -166,13 +178,7 @@
 					
 			}
 		});
-		
-		developmentInitialize();
-
-				
-	});
-
-	
+	}
 	
 	function fileUploader()
 	{
