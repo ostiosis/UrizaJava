@@ -34,6 +34,11 @@
 		                    Open
 		                </a>
 	                </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right" style="margin-right: 50px;">
+	                <li style="margin-top: 8px; width: 100px;">
+		                <button type="button" id="development-preview" class="btn btn-primary btn-block"><span><i class="fa fa-desktop"></i> Preview</span></button>
+	                </li>	                
 	          	</ul>
 	        </div>
 		</div>
@@ -42,10 +47,12 @@
     <!--  Main Editor Area -->
 	<div class="container-fluid full-height">            
 	    <div class="row" >
-   			<div id="palette-menu" class="col-sm-4 col-md-3 full-height">
-				@views.html.development.palletmenu(page)
+   			<div id="palette-menu" class="col-md-3 full-height">
+   				<div class="well sidebar-nav-fixed" id="sidebar">
+					@views.html.development.palletmenu(page)
+				</div>
 			</div>	  
- 			<div id="page-render" class="col-sm-8 col-md-9 full-height">			
+ 			<div id="page-render" class="col-md-9 full-height">			
 				@if(page != null) {
 				  	@views.html.development.developmentpage(page)
 				}	

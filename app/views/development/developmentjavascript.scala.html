@@ -80,6 +80,10 @@
 	    	
 		});
 		
+		$( window ).resize(function() {
+			$( '#sidebar' ).width( $( '#sidebar' ).parent().width() );
+		});
+		
 		developmentInitialize();
 		previewEditDevelopment();
 	});
@@ -90,13 +94,35 @@
 
 			var fadeInTime = 1500;
 			var pageId = $('.main-page-container').attr('id').replace('page_', '');
-
+			var menu = $('#palette-menu');
+			var display = $('#page-render');
 
 			
 			if ($(this).hasClass('show'))
 			{
-				$(this).removeClass('show');
+				$(menu).removeClass('animated slideOutLeft');
+				$(menu).addClass('animated slideInLeft');
+				$(menu).removeClass('hide');
+				
+				
+				$(menu).delay(2000).queue(function(next){
+					$(menu).removeClass('animated slideInLeft');
+					next();
+				});
+				
 
+					$(display).switchClass(
+						'col-md-12',
+						'col-md-9',
+						fadeInTime,
+						'easeOutExpo'
+					);
+				
+				$(this).removeClass('show');
+				$( '#sidebar' ).width( $( '#sidebar' ).parent().width() );
+				$( '#sidebar' ).css('position', 'fixed');
+				//$( '#sidebar' ).css('top', '0px');
+				//$( '#sidebar' ).css('left', '0px');
 				$('#development-preview').html(''); // clear the contents - do not chain this with the next .html()
 				$('#development-preview').html('<span><i class="fa fa-desktop"></i> Preview</span>'); // add new contents - do not chain the next hide() as the element must be parsed in the DOM correctly first
 				$('#development-preview span').hide().fadeIn(fadeInTime);
@@ -133,7 +159,20 @@
 		    	developmentInitialize();
 			}
 			else
-			{
+			{				
+				$(menu).addClass('animated slideOutLeft');
+				$(menu).delay(2000).queue(function(next){
+				    $(this).addClass('hide');
+				    next();
+				});
+				
+				$(display).switchClass(
+					'col-md-9',
+					'col-md-12',
+					fadeInTime,
+					'easeOutExpo'
+				);
+				
 				$('.button-development-menu').css('display', 'none');
 
 				$(this).addClass('show');
@@ -148,7 +187,7 @@
 					'btn-primary', 
 					'btn-success', 
 					fadeInTime, 
-					"easeOutExpo",
+					'easeOutExpo',
 					function()
 					{
 
@@ -613,7 +652,9 @@
 		}
 		
 		$('.button-toggle-development-menu button').unbind('click').on('click', function(){
+			
 			event.preventDefault();
+			
 			if ($(event.currentTarget).hasClass('active'))
 			{
 				$(event.currentTarget).removeClass('active');
@@ -670,6 +711,7 @@
 
 		$('.button-size-development-menu .dropdown-menu a, .button-size-development-menu .dropdown-menu a button').unbind('click').on('click', function(){
 			//alert($(this).find('button').attr('class'));
+			event.preventDefault();
 			
 			for (var i = 0; i < buttonSizeClasses.length; i++)
 			{
@@ -723,6 +765,8 @@
 
 		$('.button-color-development-menu .dropdown-menu a, .button-color-development-menu .dropdown-menu a button').unbind('click').on('click', function(){
 			//alert($(this).find('button').attr('class'));
+			
+			event.preventDefault();
 			
 			for (var i = 0; i < buttonTypeClasses.length; i++)
 			{
