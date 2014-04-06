@@ -181,18 +181,15 @@
 	}
 	
 	function fileUploader()
-	{
-	    $('input[type=file]').validate({
-			accept: "image/*",
-			success: function()
+	{	    
+	    $('input[type=file]').change(function() {
+			var file = this.files[0];		
+			
+			if (~file.type.indexOf("image"))
 			{
-				var file = this.files[0];
 				uploadFile(file);
-			},
-			error: function()
-			{
-				alert("images only");
 			}
+			
 	    });
 		
   		var dropZone = document.getElementById('drop-zone');
