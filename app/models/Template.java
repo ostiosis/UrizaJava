@@ -7,6 +7,7 @@ import play.db.ebean.*;
 import utility.UrizaHelpers;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,13 +19,10 @@ public class Template extends Model
 	private static final long serialVersionUID = -2150265888934939399L;
 
 	@Id
-	public Long id;
+	public Integer id;
 
 	public String name;
 	public String code;
-	
-	public Long topPosition;
-	public Long leftPosition;
 	
 	@ManyToOne
 	User user;
@@ -32,73 +30,54 @@ public class Template extends Model
 	public Timestamp dateCreated;
 	public Timestamp dateModified;
 	
-	/**/
-	@ManyToMany
-	@JoinTable(
-		      name="template_component",
-		      joinColumns={@JoinColumn(name="template_id", referencedColumnName="id")},
-		      inverseJoinColumns={@JoinColumn(name="component_id", referencedColumnName="id")})
-	public List<Component> components;
-	/**/
-	
-	/**
-	@ManyToMany
-	@JoinTable(
-		      name="page_template",
-		      joinColumns={@JoinColumn(name="template_id", referencedColumnName="id")},
-		      inverseJoinColumns={@JoinColumn(name="page_id", referencedColumnName="id")})
-	public List<Page> pages;
-	/**/
-	
-	public Template(String name, String code, Long topPosition, Long leftPosition) 
+	public Template(String name, String code) 
 	{
 		this.name = name;
 		this.code = code;
-		
-		this.topPosition = topPosition;
-		this.leftPosition = leftPosition;
 	}
 	
 	public static Finder<Long, Template> find 
 	= new Finder<Long, Template>(Long.class, Template.class);
 
-	public static Template create(String name, String code, Long topPosition, Long leftPosition)
+	public static Template create(String name, String code)
 	{
-		Template template = new Template(name, code, topPosition, leftPosition);
+		Template template = new Template(name, code);
 		template.dateCreated = UrizaHelpers.getTime();
 		template.save();
-		template.saveManyToManyAssociations("components");
+		
+		Component main = Component.create(name + "Component", "", "template", "custom-template");
+		TemplateComponent.create(template.id, main.id);
 		
 		return template;
 	}
 	
-	public void update(String name, String code, Long topPosition, Long leftPosition)
+	public void update(String name, String code)
 	{
 		this.name = name;
 		this.code = code;
 		
-		this.topPosition = topPosition;
-		this.leftPosition = leftPosition;
-		
 		this.dateModified = UrizaHelpers.getTime();
+	}
+
+	public static Template getTemplate(String name)
+	{		
+		/**/
+		return find.where()
+				.eq("name", name)
+				.findUnique();
+		/**/
 	}
 	
-	public void update(String code, Long topPosition, Long leftPosition)
-	{
-		this.code = code;
+	public List<Component> components()
+	{			
+		List<Component> components = new ArrayList<Component>();
 		
-		this.topPosition = topPosition;
-		this.leftPosition = leftPosition;
-		
-		this.dateModified = UrizaHelpers.getTime();
+		List<TemplateComponent> componentIds = TemplateComponent.find.where().eq("page_id", this.id).findList();
+				
+		for (TemplateComponent c: componentIds)
+		{
+			components.add(Component.find.byId(c.componentId));
+		}
+		return components;	
 	}
-
-	public void update(Long topPosition, Long leftPosition)
-	{
-		this.topPosition = topPosition;
-		this.leftPosition = leftPosition;
-		
-		this.dateModified = UrizaHelpers.getTime();
-	}
-
 }

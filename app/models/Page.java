@@ -73,9 +73,7 @@ public class Page extends Model
 		List<Component> components = new ArrayList<Component>();
 		
 		List<PageComponent> componentIds = PageComponent.find.where().eq("page_id", this.id).findList();
-		
-		Logger.info("Phil Test: " + componentIds.size());
-		
+				
 		for (PageComponent c: componentIds)
 		{
 			components.add(Component.find.byId(c.componentId));

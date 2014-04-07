@@ -1,0 +1,82 @@
+@(component: Component)
+	
+	@renderComponent(component)
+	
+	
+	@renderComponent(component: Component) = {
+		<div class="@component.classes" id="@component.id" type="@component.componentType">
+		
+			@component.componentType match {
+				
+				case ("page") | ("column") => {
+					@Html(component.code)
+					
+					@for(child <- component.children) {
+						@renderComponent(child)		
+					}					
+				}
+				
+				case ("row") => {
+					<div class="component-interior">
+						<div class="row clearfix">
+							@Html(component.code)
+							
+							@for(child <- component.children) {
+								@renderComponent(child)		
+							}					
+						</div>
+					</div>
+				}
+			
+				case ("page-header") => {
+					<div class="component-interior">
+						@Html(component.code)
+						
+						@for(child <- component.children) {
+							@renderComponent(child)		
+						}
+					</div>
+				}
+				
+				case ("jumbotron") => {
+					<div class="component-interior">
+					@Html(component.code)
+					
+					@for(child <- component.children) {
+						@renderComponent(child)		
+					}
+					</div>
+				}
+				
+				case ("menu") => {
+					<div class="component-interior">
+					@Html(component.code)
+					
+					@for(child <- component.children) {
+						@renderComponent(child)		
+					}
+					</div>
+				}
+				
+				case ("image") => {
+					<div class="component-interior">
+					@Html(component.code)
+					
+					@for(child <- component.children) {
+						@renderComponent(child)		
+					}
+					</div>
+				}
+				
+				case _ => {
+					<div class="component-interior">
+					@Html(component.code)
+					
+					@for(child <- component.children) {
+						@renderComponent(child)		
+					}
+					</div>
+				}
+			}	
+		</div>		
+	}

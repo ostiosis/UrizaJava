@@ -17,7 +17,6 @@ import models.Component;
 import models.MediaObject;
 import models.MediaObjectThumbnail;
 import models.Page;
-import models.PageComponent;
 import play.Logger;
 import play.db.DB;
 import play.mvc.*;

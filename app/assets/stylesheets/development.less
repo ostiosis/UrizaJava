@@ -111,16 +111,56 @@ body
 	text-decoration: none;
 }
 
-*:not(img)
-{
-  -webkit-border-radius: 0 !important;
-     -moz-border-radius: 0 !important;
-          border-radius: 0 !important;
-}
-
 #sidebar 
 {
 	padding: 9px 0;
     position: fixed;
 }
 
+@iterations: 25;
+
+.mixin-loop (@i) when (@i > 0)
+{
+	&:nth-child( @{i} ) 
+	{
+		background: hsl(2*@i+175,75%,50%);
+		-webkit-animation: load-animation .3s linear .1s*@i infinite alternate;
+		   -moz-animation: load-animation .3s linear .1s*@i infinite alternate;
+			 -o-animation: load-animation .3s linear .1s*@i infinite alternate;
+				animation: load-animation .3s linear .1s*@i infinite alternate;
+	}
+	.mixin-loop(@i - 1);
+}
+
+.loading-frame 
+{
+  	width: 100px; height: 100px;
+  	margin: auto;
+  	display: flex;
+  	flex-flow: row wrap;
+  	.dot
+	{
+		width: 20px; height: 20px;
+		//border-radius: 100%;
+		.mixin-loop(@iterations);
+		
+	}
+}
+
+.loading-animation-keyframes
+{
+	opacity: 0; 
+	transform: scale(0.5); 
+	
+}
+
+@-webkit-keyframes load-animation {100% {.loading-animation-keyframes;}}
+   @-moz-keyframes load-animation {100% {.loading-animation-keyframes;}}
+	@-ms-keyframes load-animation {100% {.loading-animation-keyframes;}}
+	 @-o-keyframes load-animation {100% {.loading-animation-keyframes;}}
+		@keyframes load-animation {100% {.loading-animation-keyframes;}}
+
+.modal-loading
+{
+	display: none;
+}

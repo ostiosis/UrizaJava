@@ -1,0 +1,7 @@
+@(template: Template)
+
+	<div class="template-wrapper main-page-container" id="template_@template.id" >
+		@for(component <- template.components) {
+			@views.html.content.templatecomponent(component)		
+		}
+	</div>

@@ -40,12 +40,6 @@ public class Component extends Model
 	
 	public String componentType;
 	
-	public Long topPosition;
-	public Long leftPosition;
-	
-	public Long width;
-	public Long height;
-	
 	@ManyToOne
 	User user;
 	
@@ -69,9 +63,6 @@ public class Component extends Model
 		this.code = code;
 		
 		this.componentType = componentType.toLowerCase();
-		
-		this.width = width;
-		this.height = height;
 	}
 	
 	public Component(String name, String code, String componentType, String classes)
@@ -152,18 +143,12 @@ public class Component extends Model
 		this.name = name;
 		this.code = code;
 		
-		this.width = width;
-		this.height = height;
-		
 		this.dateModified = UrizaHelpers.getTime();
 	}
 	
 	public void update(String code, Long width, Long height)
 	{
 		this.code = code;
-		
-		this.width = width;
-		this.height = height;
 		
 		this.dateModified = UrizaHelpers.getTime();
 	}
@@ -173,15 +158,6 @@ public class Component extends Model
 		this.code = code;
 		this.classes = classes;
 						
-		this.dateModified = UrizaHelpers.getTime();
-	}
-
-
-	public void update(Long width, Long height)
-	{
-		this.width = width;
-		this.height = height;
-		
 		this.dateModified = UrizaHelpers.getTime();
 	}
 	

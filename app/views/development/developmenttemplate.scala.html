@@ -1,7 +1,0 @@
-@(template: Template)
-
-<div class="template-wrapper ui-widget-content" id="@template.id" name="@template.name" style="top: @{template.topPosition + "px"}; left: @{template.leftPosition + "px"};" >
-	@for(component <- template.components) {
-		@views.html.development.developmentcomponent(component)		
-	}
-</div>
