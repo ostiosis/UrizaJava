@@ -10,7 +10,7 @@
 
 - &test !!models.Page
     id: 1
-    name: "testPage"
+    name: "test"
     title: "Test Page"
     description: "This is a test page."
     dateCreated: "2011-11-11 00:00:00"    
@@ -26,22 +26,3 @@
 - &testPageComponent !!models.PageComponent
     pageId: 1
     componentId: 1
-    
-- &test !!models.Template
-    id: 1
-    name: "testTemplate"
-    title: "Test Template"
-    description: "This is a test page."
-    dateCreated: "2011-11-11 00:00:00"    
-    dateModified: "2011-11-11 00:00:00"
-    
-- &testComponent !!models.Component
-    id: 2
-    name : "testTemplateComponent"
-    classes: "custom-template"
-    componentType: "template"
-    code: ""
- 
- - &testTemplateComponent !!models.TemplateComponent
-    templateId: 1
-    componentId: 2

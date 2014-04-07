@@ -232,7 +232,7 @@ public class Development extends Controller
     	return ok("updated");
     }
     
-    public static Result open(Long pageId, Boolean preview)
+    public static Result open(Integer pageId, Boolean preview)
     {
     	Page getPage = Page.find.byId(pageId);
     	

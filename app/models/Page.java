@@ -38,8 +38,8 @@ public class Page extends Model
 		this.description = description;
 	}
 	
-	public static Finder<Long, Page> find 
-	= new Finder<Long, Page>(Long.class, Page.class);
+	public static Finder<Integer, Page> find 
+	= new Finder<Integer, Page>(Integer.class, Page.class);
 	
 	public static Page getPage(String name)
 	{		

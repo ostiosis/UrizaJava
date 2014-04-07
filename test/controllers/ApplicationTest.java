@@ -3,11 +3,14 @@ package controllers;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static play.test.Helpers.callAction;
+import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.fakeRequest;
 import static play.test.Helpers.header;
+import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.session;
 import static play.test.Helpers.status;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.google.common.collect.ImmutableMap;
@@ -17,6 +20,12 @@ import play.test.WithApplication;
 
 public class ApplicationTest extends WithApplication
 {
+	@Before
+	public void setUp()
+	{
+		start(fakeApplication(inMemoryDatabase()));
+	}
+	
 	@Test
 	public void authenticated()
 	{

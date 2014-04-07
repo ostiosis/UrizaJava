@@ -1,6 +1,6 @@
-@(template: Template)
+@(blog: Blog)
 
-@views.html.main("template") {
+@views.html.main("blog") {
 
 
 
@@ -18,12 +18,12 @@
 	            	<span class="icon-bar"></span>
 	            	<span class="icon-bar"></span>
 	          	</button>
-	          	<a class="navbar-brand" href="#">Uriza</a>
+	          	<a class="navbar-brand" href="#">Uriza - Blog</a>
 			</div>
 	        <div class="navbar-collapse collapse" style="height: 1px;">
 	          	<ul class="nav navbar-nav ">
 	          		<li>
-	          			<a data-toggle="modal" href="template/blog" >
+	          			<a data-toggle="modal" href="#modalNew" >
 		                    <i class="fa fa-file"></i>
 		                    Blog
 		                </a>
@@ -47,9 +47,7 @@
 				</div>
 			</div>	  
  			<div id="page-render" class="col-md-9 full-height">			
-				@if(template != null) {
-				  	@views.html.content.templatepage(template)
-				}	
+	
 			</div>  
 	    </div>
     </div>
