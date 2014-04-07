@@ -33,7 +33,7 @@ public class BlogTest
 		assertEquals("This is a new blog post", blog.post);
 		
 		assertEquals("Buenos Aires", blog.tags.get(0));
-		assertEquals("Córdoba", blog.tags.get(1));
+		assertEquals("Cordoba", blog.tags.get(1));
 		assertEquals("La Plata", blog.tags.get(2));
 		
 	}
