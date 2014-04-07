@@ -21,7 +21,7 @@ public class BlogTest
 	@Test
 	public void createBlog()
 	{
-		List<String> tags = new ArrayList<String>(Arrays.asList("Buenos Aires", "Córdoba", "La Plata"));
+		List<String> tags = new ArrayList<String>(Arrays.asList("Buenos Aires", "Cordoba", "La Plata"));
 		Blog blog = Blog.create("This is a new blog", "This is a new blog post", null, tags);
 		
 		for(String t: blog.tags)
