@@ -587,15 +587,12 @@
 		
 		$('.editable-text').off('blur').on('blur', function() 
 		{
-			if ($(this).closest('.ui-draggable').attr('id') && $(this).html() != currentVal)
+			if ($(this).closest('.component-element').attr('id') && $(this).html() != currentVal)
 			{
-				updateComponent($(this).closest('.ui-draggable'));
+				updateComponent($(this).closest('.component-element'));
 			}
 		});		
-		
-
 	}
-
 
 	function developmentMenuInfo()
 	{
