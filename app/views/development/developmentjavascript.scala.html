@@ -79,60 +79,91 @@
 			});
 	    	
 		});
+
+		sideBarResize();
 		
 		$( window ).resize(function() {
-			$( '#sidebar' ).width( $( '#sidebar' ).parent().width() );
+			sideBarResize();
 		});
 		
 		developmentInitialize();
 		previewEditDevelopment();
 	});
 
+	function sideBarResize()
+	{
+		$( '#sidebar' ).width( $( '#sidebar' ).parent().width() );
+	}
+	
 	function previewEditDevelopment()
 	{
 		$('#development-preview').on('click', function(){
 
-			if (!$(this).hasClass('processing'))
+			var button = $(this);
+
+			if (!$(button).hasClass('processing'))
 			{				
-				var button = $(this);
-				var fadeInTime = 1500;
 				var pageId = $('.main-page-container').attr('id').replace('page_', '');
 				var menu = $('#palette-menu');
 				var display = $('#page-render');
+				var fadeInTime = 1500;
 					
 				$(button).addClass('processing');
+				$(button).button('loading');
 				
-				if ($(this).hasClass('show'))
+				if ($(button).hasClass('show'))
 				{
-					$(menu).removeClass('animated slideOutLeft');
-					$(menu).addClass('animated slideInLeft');
-					$(menu).removeClass('hide');
-					
-					
-					$(menu).delay(2000).queue(function(next){
-						$(menu).removeClass('animated slideInLeft');
-						next();
+					//$(button).removeClass('show');
+
+					$(display).addClass('animated slideOutRight').delay(fadeInTime).queue(function(){
+						 	$(display).removeClass('animated slideOutRight');
+
+
+						 	$(display).remove
+						 	jsRoutes.controllers.Development.open(pageId, false).ajax({
+								async: false,
+								beforeSend: function() 
+								{
+									$(display).html('Loading');
+					    		},
+					    		success: function(data) 
+					    		{						
+									$(display).html(''); // clear the contents - do not chain this with the next .html()
+					                $(display).html(data); // add new contents - do not chain the next hide() as the element must be parsed in the DOM correctly first
+									
+								 	$(display).addClass('animated slideInRight col-md-9').delay(fadeInTime).queue(function(){
+										$(this).removeClass('animated slideInRight col-md-12');
+										$(this).dequeue();
+									});	
+
+							    	developmentInitialize();
+							  	},
+							  	error: function() 
+							  	{
+							    	alert("Error!")
+							  	}
+							});						 	
+						 	$(this).dequeue();
 					});
-					
-	
-						$(display).switchClass(
-							'col-md-12',
-							'col-md-9',
+					 
+					 	
+
+					$(menu).switchClass(
+							'hide',
+							'col-md-3',
 							fadeInTime,
-							'easeOutExpo'
+							'easeOutExpo',
+							function(){
+								 $(this).addClass('animated slideInLeft').delay(fadeInTime).queue(function(){
+									$(this).removeClass('animated slideInLeft');
+								 	$(this).dequeue();
+								 });
+							}
+							
 						);
-					
-					$(this).removeClass('show');
-					$( '#sidebar' ).width( $( '#sidebar' ).parent().width() );
-					$( '#sidebar' ).css('position', 'fixed');
-					//$( '#sidebar' ).css('top', '0px');
-					//$( '#sidebar' ).css('left', '0px');
-					$('#development-preview').html(''); // clear the contents - do not chain this with the next .html()
-					$('#development-preview').html('<span><i class="fa fa-desktop"></i> Preview</span>'); // add new contents - do not chain the next hide() as the element must be parsed in the DOM correctly first
-					$('#development-preview span').hide().fadeIn(fadeInTime);
-					
-					$( this ).switchClass( 
-						'btn-success', 
+						
+					$(button).switchClass( 
+						'btn-success show', 
 						'btn-primary', 
 						fadeInTime, 
 						"easeOutExpo",
@@ -142,88 +173,69 @@
 						}
 					);
 	
-			    	jsRoutes.controllers.Development.open(pageId, false).ajax({
-						async: false,
-						beforeSend: function() {
-							$('#page-render').html('Loading');
-			    		},
-			    		success: function(data) {
-							
-							$('#page-render').html(''); // clear the contents - do not chain this with the next .html()
-			                $('#page-render').html(data); // add new contents - do not chain the next hide() as the element must be parsed in the DOM correctly first
-			                $('#page-render').hide().fadeIn(fadeInTime);
-							
-							//$('#page-render').html(data);
-					    	//alert(data);
-					  	},
-					  	error: function() {
-					    	alert("Error!")
-					  	}
-					});
-			    	developmentInitialize();
+
 				}
 				else
 				{				
-					$(menu).addClass('animated slideOutLeft');
-					$(menu).delay(2000).queue(function(next){
-					    $(this).addClass('hide');
-					    next();
+					$(display).addClass('animated slideOutRight').delay(fadeInTime).queue(function(){
+					 	$(display).removeClass('animated slideOutRight');
+
+
+					 	$(display).remove
+					 	jsRoutes.controllers.Development.open(pageId, true).ajax({
+							async: false,
+							beforeSend: function() 
+							{
+								$(display).html('Loading');
+				    		},
+				    		success: function(data) 
+				    		{						
+								$(display).html(''); // clear the contents - do not chain this with the next .html()
+				                $(display).html(data); // add new contents - do not chain the next hide() as the element must be parsed in the DOM correctly first
+								$(display).removeClass('col-md-9');
+							 	$(display).addClass('animated slideInRight col-md-12').delay(fadeInTime).queue(function(){
+									$(this).removeClass('animated slideInRight');
+									$(this).dequeue();
+								});	
+						  	},
+						  	error: function() 
+						  	{
+						    	alert("Error!")
+						  	}
+						});						 	
+					 	$(this).dequeue();
 					});
-					
-					$(display).switchClass(
-						'col-md-9',
-						'col-md-12',
-						fadeInTime,
-						'easeOutExpo'
-					);
-					
-					$('.button-development-menu').css('display', 'none');
-	
-					$(this).addClass('show');
-					
-					$('#development-preview').html();
-					$('#development-preview').html(''); // clear the contents - do not chain this with the next .html()
-					$('#development-preview').html('<span><i class="fa fa-edit"></i> Edit</span>'); // add new contents - do not chain the next hide() as the element must be parsed in the DOM correctly first
-	
-					$('#development-preview span').hide().fadeIn(fadeInTime);
-	
-					$( this ).switchClass( 
+
+
+				 	$(menu).addClass('animated slideOutLeft').delay(fadeInTime).queue(function(){
+					 	$(this).addClass('hide');
+						$(this).removeClass('animated slideOutLeft col-md-3');
+						$(this).dequeue();
+					});	
+
+		
+					$(button).switchClass( 
 						'btn-primary', 
-						'btn-success', 
+						'btn-success show', 
 						fadeInTime, 
 						'easeOutExpo',
 						function()
 						{
-	
-		
-								
-						}
-					);
-	
-			    	jsRoutes.controllers.Development.open(pageId, true).ajax({
-						async: false,
-						beforeSend: function() {
-							$('#page-render').html('Loading');
-			    		},
-						success: function(data) {
-		
-							$('#page-render').html(''); // clear the contents - do not chain this with the next .html()
-			                $('#page-render').html(data); // add new contents - do not chain the next hide() as the element must be parsed in the DOM correctly first
-			                $('#page-render').hide().fadeIn(fadeInTime);
 							
-					    	//$('#page-render').html(data);
-					    	//alert(data);
-					  	},
-					  	error: function() {
-					    	alert("Error!")
-					  	}
-					});				
-						
+						}
+					);							
 				}
 			}
 			
-			 $(this).delay(3000).queue(function() {  // Wait for 1 second.
-		            $(this).removeClass("processing").dequeue();
+			 $(button).delay(2000).queue(function() {  // Wait for 1 second.
+		            $(button).removeClass("processing").dequeue();
+		            $(button).button('reset');
+		            
+		            if ($(button).hasClass('show'))
+		            {
+		            	$(button).html('<span><i class="fa fa-edit"></i> Edit</span>');
+		            }
+
 		        });
 		});
 		
@@ -728,22 +740,24 @@
 					selectedButtonSizeClass = buttonSizeClasses[i];
 					$(this).closest('li').addClass('active').siblings().removeClass('active');
 
-					$( element ).switchClass( 
-						currentButtonSizeClass, 
-						selectedButtonSizeClass, 
-						1000, 
-						"easeOutExpo",
-						function()
-						{
-							$(element).removeClass(currentButtonSizeClass);
-							$(element).addClass(selectedButtonSizeClass);		
-							$( element ).attr('style', '');
-							//remove comment
-							updateComponent($(element).closest('.component-element'));	
-								
-						}
-					);
-
+					if (selectedButtonSizeClass != currentButtonSizeClass)
+					{
+						$( element ).switchClass( 
+							currentButtonSizeClass, 
+							selectedButtonSizeClass, 
+							1000, 
+							"easeOutExpo",
+							function()
+							{
+								$(element).removeClass(currentButtonSizeClass);
+								$(element).addClass(selectedButtonSizeClass);		
+								$( element ).attr('style', '');
+								//remove comment
+								updateComponent($(element).closest('.component-element'));	
+									
+							}
+						);
+					}
 					currentButtonSizeClass = selectedButtonSizeClass;
 						
 					break;
