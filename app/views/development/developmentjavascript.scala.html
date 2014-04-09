@@ -92,131 +92,142 @@
 	{
 		$('#development-preview').on('click', function(){
 
-			var fadeInTime = 1500;
-			var pageId = $('.main-page-container').attr('id').replace('page_', '');
-			var menu = $('#palette-menu');
-			var display = $('#page-render');
-
-			
-			if ($(this).hasClass('show'))
-			{
-				$(menu).removeClass('animated slideOutLeft');
-				$(menu).addClass('animated slideInLeft');
-				$(menu).removeClass('hide');
+			if (!$(this).hasClass('processing'))
+			{				
+				var button = $(this);
+				var fadeInTime = 1500;
+				var pageId = $('.main-page-container').attr('id').replace('page_', '');
+				var menu = $('#palette-menu');
+				var display = $('#page-render');
+					
+				$(button).addClass('processing');
 				
-				
-				$(menu).delay(2000).queue(function(next){
-					$(menu).removeClass('animated slideInLeft');
-					next();
-				});
-				
-
+				if ($(this).hasClass('show'))
+				{
+					$(menu).removeClass('animated slideOutLeft');
+					$(menu).addClass('animated slideInLeft');
+					$(menu).removeClass('hide');
+					
+					
+					$(menu).delay(2000).queue(function(next){
+						$(menu).removeClass('animated slideInLeft');
+						next();
+					});
+					
+	
+						$(display).switchClass(
+							'col-md-12',
+							'col-md-9',
+							fadeInTime,
+							'easeOutExpo'
+						);
+					
+					$(this).removeClass('show');
+					$( '#sidebar' ).width( $( '#sidebar' ).parent().width() );
+					$( '#sidebar' ).css('position', 'fixed');
+					//$( '#sidebar' ).css('top', '0px');
+					//$( '#sidebar' ).css('left', '0px');
+					$('#development-preview').html(''); // clear the contents - do not chain this with the next .html()
+					$('#development-preview').html('<span><i class="fa fa-desktop"></i> Preview</span>'); // add new contents - do not chain the next hide() as the element must be parsed in the DOM correctly first
+					$('#development-preview span').hide().fadeIn(fadeInTime);
+					
+					$( this ).switchClass( 
+						'btn-success', 
+						'btn-primary', 
+						fadeInTime, 
+						"easeOutExpo",
+						function()
+						{
+								
+						}
+					);
+	
+			    	jsRoutes.controllers.Development.open(pageId, false).ajax({
+						async: false,
+						beforeSend: function() {
+							$('#page-render').html('Loading');
+			    		},
+			    		success: function(data) {
+							
+							$('#page-render').html(''); // clear the contents - do not chain this with the next .html()
+			                $('#page-render').html(data); // add new contents - do not chain the next hide() as the element must be parsed in the DOM correctly first
+			                $('#page-render').hide().fadeIn(fadeInTime);
+							
+							//$('#page-render').html(data);
+					    	//alert(data);
+					  	},
+					  	error: function() {
+					    	alert("Error!")
+					  	}
+					});
+			    	developmentInitialize();
+				}
+				else
+				{				
+					$(menu).addClass('animated slideOutLeft');
+					$(menu).delay(2000).queue(function(next){
+					    $(this).addClass('hide');
+					    next();
+					});
+					
 					$(display).switchClass(
-						'col-md-12',
 						'col-md-9',
+						'col-md-12',
 						fadeInTime,
 						'easeOutExpo'
 					);
-				
-				$(this).removeClass('show');
-				$( '#sidebar' ).width( $( '#sidebar' ).parent().width() );
-				$( '#sidebar' ).css('position', 'fixed');
-				//$( '#sidebar' ).css('top', '0px');
-				//$( '#sidebar' ).css('left', '0px');
-				$('#development-preview').html(''); // clear the contents - do not chain this with the next .html()
-				$('#development-preview').html('<span><i class="fa fa-desktop"></i> Preview</span>'); // add new contents - do not chain the next hide() as the element must be parsed in the DOM correctly first
-				$('#development-preview span').hide().fadeIn(fadeInTime);
-				
-				$( this ).switchClass( 
-					'btn-success', 
-					'btn-primary', 
-					fadeInTime, 
-					"easeOutExpo",
-					function()
-					{
-							
-					}
-				);
-
-		    	jsRoutes.controllers.Development.open(pageId, false).ajax({
-					async: false,
-					beforeSend: function() {
-						$('#page-render').html('Loading');
-		    		},
-		    		success: function(data) {
-						
-						$('#page-render').html(''); // clear the contents - do not chain this with the next .html()
-		                $('#page-render').html(data); // add new contents - do not chain the next hide() as the element must be parsed in the DOM correctly first
-		                $('#page-render').hide().fadeIn(fadeInTime);
-						
-						//$('#page-render').html(data);
-				    	//alert(data);
-				  	},
-				  	error: function() {
-				    	alert("Error!")
-				  	}
-				});
-		    	developmentInitialize();
-			}
-			else
-			{				
-				$(menu).addClass('animated slideOutLeft');
-				$(menu).delay(2000).queue(function(next){
-				    $(this).addClass('hide');
-				    next();
-				});
-				
-				$(display).switchClass(
-					'col-md-9',
-					'col-md-12',
-					fadeInTime,
-					'easeOutExpo'
-				);
-				
-				$('.button-development-menu').css('display', 'none');
-
-				$(this).addClass('show');
-				
-				$('#development-preview').html();
-				$('#development-preview').html(''); // clear the contents - do not chain this with the next .html()
-				$('#development-preview').html('<span><i class="fa fa-edit"></i> Edit</span>'); // add new contents - do not chain the next hide() as the element must be parsed in the DOM correctly first
-
-				$('#development-preview span').hide().fadeIn(fadeInTime);
-
-				$( this ).switchClass( 
-					'btn-primary', 
-					'btn-success', 
-					fadeInTime, 
-					'easeOutExpo',
-					function()
-					{
-
-	
-							
-					}
-				);
-
-		    	jsRoutes.controllers.Development.open(pageId, true).ajax({
-					async: false,
-					beforeSend: function() {
-						$('#page-render').html('Loading');
-		    		},
-					success: function(data) {
-	
-						$('#page-render').html(''); // clear the contents - do not chain this with the next .html()
-		                $('#page-render').html(data); // add new contents - do not chain the next hide() as the element must be parsed in the DOM correctly first
-		                $('#page-render').hide().fadeIn(fadeInTime);
-						
-				    	//$('#page-render').html(data);
-				    	//alert(data);
-				  	},
-				  	error: function() {
-				    	alert("Error!")
-				  	}
-				});				
 					
+					$('.button-development-menu').css('display', 'none');
+	
+					$(this).addClass('show');
+					
+					$('#development-preview').html();
+					$('#development-preview').html(''); // clear the contents - do not chain this with the next .html()
+					$('#development-preview').html('<span><i class="fa fa-edit"></i> Edit</span>'); // add new contents - do not chain the next hide() as the element must be parsed in the DOM correctly first
+	
+					$('#development-preview span').hide().fadeIn(fadeInTime);
+	
+					$( this ).switchClass( 
+						'btn-primary', 
+						'btn-success', 
+						fadeInTime, 
+						'easeOutExpo',
+						function()
+						{
+	
+		
+								
+						}
+					);
+	
+			    	jsRoutes.controllers.Development.open(pageId, true).ajax({
+						async: false,
+						beforeSend: function() {
+							$('#page-render').html('Loading');
+			    		},
+						success: function(data) {
+		
+							$('#page-render').html(''); // clear the contents - do not chain this with the next .html()
+			                $('#page-render').html(data); // add new contents - do not chain the next hide() as the element must be parsed in the DOM correctly first
+			                $('#page-render').hide().fadeIn(fadeInTime);
+							
+					    	//$('#page-render').html(data);
+					    	//alert(data);
+					  	},
+					  	error: function() {
+					    	alert("Error!")
+					  	}
+					});				
+						
+				}
 			}
+			
+			 $(this).delay(3000).queue(function() {  // Wait for 1 second.
+		            $(this).removeClass("processing").dequeue();
+		        });
 		});
+		
+		
 	}
 	
 	function fileUploader()
@@ -276,8 +287,8 @@
 
 	function deleteComponent()
 	{
-		$('.delete-component').click(function(){
-
+		$('.delete-component').click(function(event){
+			event.preventDefault();
 			if ($(this).closest('.component-element').attr('id'))
 			{
 				var elementId = $(this).closest('.component-element').attr('id');
