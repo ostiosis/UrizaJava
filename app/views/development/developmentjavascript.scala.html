@@ -689,8 +689,8 @@
 
 			event.preventDefault();
 			$(this).parent('li').siblings().each(function(){
-				//alert("test: " + $(this).text());
-				if($(this).text() == "")
+				//alert("test: " + $(this).html());
+				if($(this).width() == "0")
 				{
 					$(this).remove();
 				}
@@ -1104,7 +1104,7 @@
 			e.preventDefault();
 		});
 
-		$('#page-render .component-interior ul.navbar-nav').append('<li class="nav-add-link"><a href="#">Plus</a></li>');
+		$('#page-render .component-interior ul.navbar-nav').append('<li class="nav-add-link"><a href="#"><i class="fa fa-plus-square-o"></i></a></li>');
 		
 	}
 </script>
