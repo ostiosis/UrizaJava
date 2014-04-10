@@ -3,9 +3,11 @@
 @views.html.main(page.title) {
 
 	<div class="fluid-container main-page-container" id="page_@page.id" />
-		@for(component <- page.components) {
-			@views.html.custom.component(component)		
-		}
+		<div class="row">
+			@for(component <- page.components) {
+				@views.html.custom.component(component)		
+			}
+		</div>
 	</div>
 		
 }
