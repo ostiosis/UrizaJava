@@ -780,22 +780,30 @@
 
 	function imageStyle(element)
 	{
+		var removeClass = "";
+
 		$('.image-style-development-menu .dropdown-menu li').each(function(){
 			if ($(this).attr('data-value') == $(element).removeClass('img-responsive').attr('class'))
 			{
 				$(this).addClass('active').siblings().removeClass('active');
+				removeClass += $(this).attr('data-value');
 			}
 			$(element).addClass('img-responsive')
 		});
+
 		$('.image-style-development-menu .dropdown-menu li').unbind('click').on('click', function(event){
 			event.preventDefault();
-			
-			$(element).attr('class', '');
-			$(element).addClass($(this).attr('data-value'));
-			$(element).addClass('img-responsive');
 
-			updateComponent($(element).closest('.component-element'));
-		
+			var value = $(this).attr('data-value');
+			
+			$(this).addClass('active').siblings().removeClass('active');
+			$(element).attr('class', '');
+			$(element).addClass('img-responsive');
+			$(element).addClass(value);
+
+			updateComponent($(element).closest('.component-element'));			
+//alert("removeClass: " + removeClass);
+//alert("$(this).attr('data-value'): " + $(this).attr('data-value'));
 		});
 	}
 
