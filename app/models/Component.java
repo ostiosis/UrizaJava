@@ -10,10 +10,6 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import com.avaje.ebean.Ebean;
-import com.avaje.ebean.SqlUpdate;
-
-import play.Logger;
 import play.db.DB;
 import play.db.ebean.Model;
 import utility.UrizaHelpers;
@@ -21,10 +17,6 @@ import utility.UrizaHelpers;
 @Entity
 public class Component extends Model 
 {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -7757858881784856402L;
 
 	@Id
@@ -47,17 +39,12 @@ public class Component extends Model
 	public Timestamp dateModified;
 	
 	/**
-	@ManyToMany
-	@JoinTable ( name = "parent_child_component" , 
-	                    joinColumns = @JoinColumn ( name = "child_id" , referencedColumnName = "id" ),
-	                    inverseJoinColumns = @JoinColumn ( name = "parent_id" , referencedColumnName = "id" ))
-	private List<Component> parentComponents = new ArrayList<Component>();
-
-	@ManyToMany (mappedBy = "parentComponents" ) 
-	private List<Component> childComponents = new ArrayList<Component>();
-	/**/
-	
-	public Component(String name, String code, String componentType, Long width, Long height)
+	 * 
+	 * @param name
+	 * @param code
+	 * @param componentType
+	 */
+	public Component(String name, String code, String componentType)
 	{
 		this.name = name;
 		this.code = code;
@@ -65,6 +52,13 @@ public class Component extends Model
 		this.componentType = componentType.toLowerCase();
 	}
 	
+	/**
+	 * 
+	 * @param name
+	 * @param code
+	 * @param componentType
+	 * @param classes
+	 */
 	public Component(String name, String code, String componentType, String classes)
 	{
 		this.name = name;
@@ -74,9 +68,20 @@ public class Component extends Model
 		this.componentType = componentType.toLowerCase();
 	}
 	
+	/**
+	 * 
+	 */
 	public static Finder<Integer, Component> find 
-	= new Finder<Integer, Component>(Integer.class, Component.class);
+		= new Finder<Integer, Component>(Integer.class, Component.class);
 
+	/**
+	 * 
+	 * @param name
+	 * @param code
+	 * @param componentType
+	 * @param classes
+	 * @return
+	 */
 	public static Component create(String name, String code, String componentType, String classes)
 	{
 		Component component = new Component(name, code, componentType, classes);
@@ -86,6 +91,11 @@ public class Component extends Model
 		return component;
 	}
 	
+	/**
+	 * deletes current and child components
+	 * @param component - the top level component to delete
+	 * @throws SQLException
+	 */
 	public static void delete(Component component) throws SQLException
 	{	
 		List<Integer> ids = new ArrayList<Integer>();
@@ -94,8 +104,6 @@ public class Component extends Model
 		PreparedStatement preparedStatement = null;
 		
 		ids.addAll(relatedIds(component.id));
-		
-		Logger.info("ids: " + ids.toString());
 			
 		connection = DB.getConnection();
 		
@@ -121,6 +129,11 @@ public class Component extends Model
 		preparedStatement.executeUpdate();
 	}
 	
+	/**
+	 * gets all component child ids of parent
+	 * @param parentId - id of the parent component
+	 * @return
+	 */
 	public static List<Integer> relatedIds(Integer parentId)
 	{
 		List<Integer> ids = new ArrayList<Integer>();
@@ -137,8 +150,12 @@ public class Component extends Model
 		return ids;
 	}
 	
-	
-	public void update(String name, String code, Long width, Long height)
+	/**
+	 * 
+	 * @param name
+	 * @param code
+	 */
+	public void update(String name, String code)
 	{
 		this.name = name;
 		this.code = code;
@@ -146,14 +163,13 @@ public class Component extends Model
 		this.dateModified = UrizaHelpers.getTime();
 	}
 	
-	public void update(String code, Long width, Long height)
-	{
-		this.code = code;
-		
-		this.dateModified = UrizaHelpers.getTime();
-	}
-	
-	public void update(String code, String classes)
+	/**
+	 * 
+	 * @param name
+	 * @param code
+	 * @param classes
+	 */
+	public void update(String name, String code, String classes)
 	{
 		this.code = code;
 		this.classes = classes;
@@ -161,7 +177,11 @@ public class Component extends Model
 		this.dateModified = UrizaHelpers.getTime();
 	}
 	
-	public List<Component> children() throws SQLException
+	/**
+	 * 
+	 * @return
+	 */
+	public List<Component> children()
 	{		
 		List<Component> children = new ArrayList<Component>();
 		
