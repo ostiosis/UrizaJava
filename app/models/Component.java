@@ -154,8 +154,10 @@ public class Component extends Model
 	 * 
 	 * @param name
 	 * @param code
+	 * @param width
+	 * @param height
 	 */
-	public void update(String name, String code)
+	public void update(String name, String code, String classes)
 	{
 		this.name = name;
 		this.code = code;
@@ -163,13 +165,14 @@ public class Component extends Model
 		this.dateModified = UrizaHelpers.getTime();
 	}
 	
-	/**
-	 * 
-	 * @param name
-	 * @param code
-	 * @param classes
-	 */
-	public void update(String name, String code, String classes)
+	public void update(String code, Long width, Long height)
+	{
+		this.code = code;
+		
+		this.dateModified = UrizaHelpers.getTime();
+	}
+	
+	public void update(String code, String classes)
 	{
 		this.code = code;
 		this.classes = classes;
@@ -177,10 +180,6 @@ public class Component extends Model
 		this.dateModified = UrizaHelpers.getTime();
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
 	public List<Component> children()
 	{		
 		List<Component> children = new ArrayList<Component>();

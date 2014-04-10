@@ -25,22 +25,14 @@ import utility.UrizaHelpers;
 
 public class Development extends Controller
 {
-	/**
-	 * loads page based on name
-	 * @param name
-	 * @return - development page
-	 */
+	
     public static Result development(String name) 
 	{
     	Page getPage = Page.getPage(name);
     	return ok(views.html.development.development.render(getPage));        
     }
     
-    /**
-     * checks if name is already in use
-     * @param name
-     * @return - error message if name is used
-     */
+    /**/
     public static Result validatePage(String name)
 	{    	    	
     	int check = Page.find.where().eq("name", name).findRowCount();
@@ -50,15 +42,9 @@ public class Development extends Controller
 			return ok("Error: page " + name + " already exists");  
 		}
 		return ok();
+    	      
+
 	}
-    
-    /**
-     * creates new page
-     * @param name - name of page
-     * @param title - title, replaces <title> tag in html
-     * @param description
-     * @return - development page
-     */
     public static Result addPage(String name, String title, String description)
 	{    	    	
     	Page newPage = Page.create(
@@ -71,21 +57,11 @@ public class Development extends Controller
 
 	}
     
-    /**
-     * returns list of existing pages
-     * @return
-     */
     public static Result openMenu()
     {
     	return ok(views.html.development.open.render(Page.pages()));
     }
 
-    /**
-     * file upload
-     * @param fileName
-     * @return
-     * @throws IOException
-     */
     public static Result uploadAjax(String fileName) throws IOException
     {    	   	
     	String extension = FilenameUtils.getExtension(fileName);
@@ -99,6 +75,7 @@ public class Development extends Controller
     	
 		is = new BufferedInputStream(new FileInputStream(file));
 		
+		//String mimeType = URLConnection.guessContentTypeFromStream(is);
 		String mimeType = MediaHelpers.guessContentTypeFromStream(is);
 		
 		Logger.info(mimeType);
@@ -113,13 +90,8 @@ public class Development extends Controller
 		return ok("File uploaded");    	
 		
     }
+    /**/
     
-    /**
-     * loads image thumbnail
-     * @param label - defined in utility/MediaObjectThumbnailType
-     * @return
-     * @throws SQLException
-     */
     public static Result showImageThumbnails(String label) throws SQLException
     {
     	List<MediaObject> thumbnails = MediaObject.thumbnailList(label);
@@ -149,22 +121,21 @@ public class Development extends Controller
     	return ok(views.html.development.image.render(findImage));
     }
     
-    /**
-     * if component is added or changed, this saves it to database
-     * @param componentId
-     * @param parentId
-     * @param componentType
-     * @param classes
-     * @param code
-     * @param displayOrder
-     * @return
-     */
     public static Result updateComponent(Integer componentId, Integer parentId, String componentType, String classes, String code, Integer displayOrder)
     {
     	code = code.trim();
     	classes = UrizaHelpers.classCleanup(classes.trim());
     	
     	Component getComponent = null;
+    	
+    	Logger.info("\nBegin Row");
+    	Logger.info("code: " + code.trim());
+    	Logger.info("classes: " + classes.trim());
+    	
+    	Logger.info("parentId: " + parentId);
+    	Logger.info("componentId: " + componentId);
+    	Logger.info("componentType: " + componentType);  	
+    	Logger.info("\nEnd Row");
 
     	if (componentId <= 0)
     	{
@@ -200,13 +171,6 @@ public class Development extends Controller
     	return ok(views.html.utility.integerresult.render(getComponent.id));
     }
 
-    /**
-     * updates component display order
-     * @param parentId
-     * @param order
-     * @return
-     * @throws SQLException
-     */
     public static Result updateOrder(Integer parentId, String order) throws SQLException
     {    	
     	Logger.info("parentId: " + parentId);
@@ -259,12 +223,6 @@ public class Development extends Controller
     	return ok("updated");
     }
     
-    /**
-     * 
-     * @param id
-     * @return
-     * @throws SQLException
-     */
     public static Result deleteComponent(Integer id) throws SQLException
     {
     	Component component = Component.find.byId(id);
@@ -274,12 +232,6 @@ public class Development extends Controller
     	return ok("updated");
     }
     
-    /**
-     * 
-     * @param pageId
-     * @param preview
-     * @return
-     */
     public static Result open(Integer pageId, Boolean preview)
     {
     	Page getPage = Page.find.byId(pageId);
