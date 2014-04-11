@@ -4,6 +4,11 @@ import javax.persistence.Entity;
 
 import play.db.ebean.Model;
 
+/**
+ * 
+ * @author Philip Lipman
+ *
+ */
 @Entity
 public class MediaObjectThumbnail extends Model
 {
@@ -17,8 +22,15 @@ public class MediaObjectThumbnail extends Model
 	public Long childId;
 	
 	public static Finder<Long, MediaObjectThumbnail> find 
-	= new Finder<Long, MediaObjectThumbnail>(Long.class, MediaObjectThumbnail.class);
+	= new Finder<Long, MediaObjectThumbnail>(Long.class, 
+			MediaObjectThumbnail.class);
 	
+	/**
+	 * 
+	 * @param parentId
+	 * @param label
+	 * @param childId
+	 */
 	public MediaObjectThumbnail(Long parentId, String label, Long childId)
 	{
 		this.parentId = parentId;

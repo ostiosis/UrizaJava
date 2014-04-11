@@ -43,6 +43,12 @@ public class Blog extends Model
 				.findUnique();
 	}
 	
+	/**
+	 * 
+	 * @param title
+	 * @param post
+	 * @param image
+	 */
 	public Blog(String title, String post, String image)
 	{
 		this.title = title;
@@ -54,13 +60,29 @@ public class Blog extends Model
 		this.dateCreated = UrizaHelpers.getTime();
 	}
 	
+	/**
+	 * 
+	 * @param tag
+	 * @return
+	 */
 	public static List<Blog> blogRoll(String tag)
 	{
 		List<String> tags = Arrays.asList(tag.split(","));
 		return find.where().in("tag", tags).findList();
 	}
 	
-	public static Blog create(String title, String post, String image, List<String> tags)
+	/**
+	 * 
+	 * @param title
+	 * @param post
+	 * @param image
+	 * @param tags
+	 * @return
+	 */
+	public static Blog create(String title, 
+			String post, 
+			String image, 
+			List<String> tags)
 	{
 		Blog blog = new Blog(title, post, image);
 		blog.dateCreated = UrizaHelpers.getTime();

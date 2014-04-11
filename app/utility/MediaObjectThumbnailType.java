@@ -1,5 +1,10 @@
 package utility;
 
+/**
+ * 
+ * @author Philip Lipman
+ *
+ */
 public enum MediaObjectThumbnailType
 {
 	SMALL("small", 25, 25),

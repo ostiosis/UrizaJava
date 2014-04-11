@@ -4,7 +4,11 @@ import org.apache.commons.mail.*;
 
 import com.typesafe.config.ConfigFactory;
 
-
+/**
+ * mailer
+ * @author Philip Lipman
+ *
+ */
 public class Mailer
 {
 	private String _host = ConfigFactory.load().getString("smtp.host");
@@ -20,11 +24,15 @@ public class Mailer
 	{
 		_email.setHostName(_host);
 		_email.setSmtpPort(_port);
-		_email.setAuthenticator(new DefaultAuthenticator(_authUsername, _authPassword));
+		_email.setAuthenticator(
+				new DefaultAuthenticator(_authUsername, _authPassword));
 		_email.setSSLOnConnect(_setSSL);
 	}
 	
-	public void sendMail(String from, String to, String subject, String body) throws EmailException
+	public void sendMail(String from, 
+			String to, 
+			String subject, 
+			String body) throws EmailException
 	{
 		try
 		{

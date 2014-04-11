@@ -10,6 +10,11 @@ import java.util.Calendar;
 
 import java.util.UUID;
 
+/**
+ * password reset
+ * @author Philip Lipman
+ *
+ */
 @Entity
 public class PasswordReset extends Model
 {

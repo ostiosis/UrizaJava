@@ -113,7 +113,7 @@ public class Application extends Controller
     	{
     		if (User.authenticate(email, passwordHash) == null)
     		{
-    			return "Invalid user or password: " + email + " " + passwordHash;
+    			return "Invalid user or password.";
     		}
     		
     		return null;
@@ -164,11 +164,17 @@ public class Application extends Controller
 			{
     			if(TEST_MODE)
     			{
-    				mailer.sendMail("prinnypayday@gmail.com", "prinnypayday@gmail.com", "Reset Token", token);    				
+    				mailer.sendMail("prinnypayday@gmail.com", 
+    						"prinnypayday@gmail.com", 
+    						"Reset Token", 
+    						token);    				
     			}
     			else
     			{
-    				mailer.sendMail("prinnypayday@gmail.com", email, "Reset Token", token);    				    				
+    				mailer.sendMail("prinnypayday@gmail.com", 
+    						email, 
+    						"Reset Token", 
+    						token);    				    				
     			}
 			} 
     		catch (EmailException e)
@@ -278,7 +284,8 @@ public class Application extends Controller
     		throws NoSuchAlgorithmException, 
     		InvalidKeySpecException
     {    	    	
-    	Form<Password> passwordForm = Form.form(Password.class).bindFromRequest();    	   	
+    	Form<Password> passwordForm = 
+    			Form.form(Password.class).bindFromRequest();    	   	
     	
     	if (passwordForm.hasErrors())
     	{
@@ -289,7 +296,11 @@ public class Application extends Controller
         	try
 			{
         		String email = session().get("email");
-        		String passwordHash = PasswordHash.createHash(PasswordHash.createHash(passwordForm.field("password").value()));
+        		String passwordHash = 
+        				PasswordHash.createHash(
+        						PasswordHash.createHash(
+        								passwordForm.field("password").value()));
+        		
 				User.resetPassword(email, passwordHash);
 			} 
     		catch (SQLException e)
@@ -317,7 +328,9 @@ public class Application extends Controller
     	
     	public String validate()
     	{
-    		if (!password.equals(confirmPassword) || password.isEmpty() || password == null)
+    		if (!password.equals(confirmPassword) 
+    				|| password.isEmpty() 
+    				|| password == null)
     		{
     			return "passwords do not match";
     		}

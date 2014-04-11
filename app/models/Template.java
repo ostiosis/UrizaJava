@@ -10,6 +10,11 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ * @author Philip Lipman
+ *
+ */
 @Entity
 public class Template extends Model 
 {
@@ -45,7 +50,10 @@ public class Template extends Model
 		template.dateCreated = UrizaHelpers.getTime();
 		template.save();
 		
-		Component main = Component.create(name + "Component", "", "template", "custom-template");
+		Component main = Component.create(name + "Component", 
+				"", 
+				"template", 
+				"custom-template");
 		TemplateComponent.create(template.id, main.id);
 		
 		return template;
@@ -72,7 +80,12 @@ public class Template extends Model
 	{			
 		List<Component> components = new ArrayList<Component>();
 		
-		List<TemplateComponent> componentIds = TemplateComponent.find.where().eq("page_id", this.id).findList();
+		List<TemplateComponent> componentIds = 
+				TemplateComponent
+				.find
+				.where()
+				.eq("page_id", this.id)
+				.findList();
 				
 		for (TemplateComponent c: componentIds)
 		{

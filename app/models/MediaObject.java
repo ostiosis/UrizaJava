@@ -144,14 +144,16 @@ public class MediaObject extends Model
 		{
 			
 			scaleWidth = thumbnailType.getWidth();
-			scaleHeight = (int)(image.getHeight() * 
-					(thumbnailType.getWidth().floatValue()/(float)image.getWidth()));
+			scaleHeight = (int)(image.getHeight() 
+					* (thumbnailType.getWidth().floatValue() 
+							/ (float)image.getWidth()));
 		}
 		else
 		{
 			scaleHeight = thumbnailType.getHeight();
-			scaleWidth = (int)(image.getWidth() * 
-					(thumbnailType.getHeight().floatValue()/(float)image.getHeight()));
+			scaleWidth = (int)(image.getWidth() 
+					* (thumbnailType.getHeight().floatValue() 
+							/ (float)image.getHeight()));
 
 			Logger.info("scaleWidth2: " + scaleWidth);
 			Logger.info("scaleHeight2: " + scaleHeight);

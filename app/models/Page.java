@@ -9,6 +9,11 @@ import javax.persistence.*;
 import play.db.ebean.*;
 import utility.UrizaHelpers;
 
+/**
+ * main page object
+ * @author Philip Lipman
+ *
+ */
 @Entity
 public class Page extends Model 
 {
@@ -37,6 +42,11 @@ public class Page extends Model
 	public static Finder<Integer, Page> find 
 	= new Finder<Integer, Page>(Integer.class, Page.class);
 	
+	/**
+	 * returns page
+	 * @param name
+	 * @return
+	 */
 	public static Page getPage(String name)
 	{		
 		/**/
@@ -46,29 +56,48 @@ public class Page extends Model
 		/**/
 	}
 	
+	/**
+	 * create page
+	 * @param name
+	 * @param title
+	 * @param description
+	 * @return
+	 */
 	public static Page create(String name, String title, String description)
 	{
 		Page page = new Page(name, title, description);
 		page.dateCreated = UrizaHelpers.getTime();
 		page.save();
 		
-		//String name, String code, String componentType, String classes
-		Component main = Component.create(name + "Component", "", "page", "custom-page");
+		Component main = Component.create(name + "Component", 
+				"", 
+				"page", 
+				"custom-page");
+		
 		PageComponent.create(page.id, main.id);
 		
 		return page;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public static List<Page> pages()
 	{
 		return find.findList();
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public List<Component> components()
 	{			
 		List<Component> components = new ArrayList<Component>();
 		
-		List<PageComponent> componentIds = PageComponent.find.where().eq("page_id", this.id).findList();
+		List<PageComponent> componentIds = 
+				PageComponent.find.where().eq("page_id", this.id).findList();
 				
 		for (PageComponent c: componentIds)
 		{

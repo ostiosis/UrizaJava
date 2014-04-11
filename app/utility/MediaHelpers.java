@@ -2,6 +2,11 @@ package utility;
 
 import java.io.InputStream;
 
+/**
+ * 
+ * @author Philip Lipman
+ *
+ */
 public class MediaHelpers
 {
 	public static String guessContentTypeFromStream(InputStream is) throws java.io.IOException

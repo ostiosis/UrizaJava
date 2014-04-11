@@ -13,6 +13,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
+/**
+ * user
+ * @author Philip Lipman
+ *
+ */
 @Entity
 public class User extends Model
 {
@@ -31,7 +36,9 @@ public class User extends Model
 	public static Finder<Long, User> find 
 		= new Finder<Long, User>(Long.class, User.class);
 	
-	public User(String username, String email, String password) throws NoSuchAlgorithmException, InvalidKeySpecException
+	public User(String username, String email, String password) 
+			throws NoSuchAlgorithmException, 
+			InvalidKeySpecException
 	{
 		this.username = username;
 		this.email = email;
@@ -56,7 +63,10 @@ public class User extends Model
 				.findUnique();
 	}
 	
-	public static void resetPassword(String email, String password) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException
+	public static void resetPassword(String email, String password) 
+			throws SQLException, 
+			NoSuchAlgorithmException, 
+			InvalidKeySpecException
 	{	
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
