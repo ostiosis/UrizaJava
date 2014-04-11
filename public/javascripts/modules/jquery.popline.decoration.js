@@ -25,13 +25,13 @@
       }
     },
 
-    strikethrough: {
+  /*  strikethrough: {
       iconClass: "fa fa-strikethrough",
       mode: "edit",
       action: function(event) {
         document.execCommand("strikethrough");
       }
-    },
+    },*/
 
     underline: {
       iconClass: "fa fa-underline",
