@@ -18,14 +18,25 @@ import com.google.common.collect.ImmutableMap;
 import play.mvc.Result;
 import play.test.WithApplication;
 
+/**
+ * Application controller test
+ * @author Philip Lipman
+ *
+ */
 public class ApplicationTest extends WithApplication
 {
+	/**
+	 * test setup
+	 */
 	@Before
 	public void setUp()
 	{
 		start(fakeApplication(inMemoryDatabase()));
 	}
 	
+	/**
+	 * user authentication test
+	 */
 	@Test
 	public void authenticated()
 	{
@@ -37,6 +48,9 @@ public class ApplicationTest extends WithApplication
 		assertEquals(200, status(result));	
 	}
 	
+	/**
+	 * user fails authentication test
+	 */
 	@Test
 	public void authenticateFailure()
 	{
@@ -52,6 +66,9 @@ public class ApplicationTest extends WithApplication
 		assertNull(session(result).get("email"));
 	}
 	
+	/**
+	 * 
+	 */
 	@Test
 	public void notAuthenticated()
 	{

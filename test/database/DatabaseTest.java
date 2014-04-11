@@ -12,7 +12,6 @@ import java.sql.SQLException;
 
 /**
  * Methods for testing the database.
- * 
  * @author Philip Lipman
  *
  */

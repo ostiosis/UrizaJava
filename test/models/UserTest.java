@@ -15,16 +15,31 @@ import play.Logger;
 import play.test.WithApplication;
 import utility.PasswordHash;
 
+/**
+ * user model test
+ * @author Philip Lipman
+ *
+ */
 public class UserTest extends WithApplication
 {
+	/**
+	 * test setup
+	 */
 	@Before
 	public void setUp()
 	{
 		start(fakeApplication(inMemoryDatabase()));
 	}
 	
+	/**
+	 * create user test
+	 * @throws NoSuchAlgorithmException
+	 * @throws InvalidKeySpecException
+	 */
 	@Test
-	public void createAndRetrieveUser() throws NoSuchAlgorithmException, InvalidKeySpecException
+	public void createAndRetrieveUser() 
+			throws NoSuchAlgorithmException, 
+			InvalidKeySpecException
 	{
 		new User("Bob", "bob@gmail.com", "secret").save();
 		
@@ -36,8 +51,15 @@ public class UserTest extends WithApplication
 		assertEquals("Bob", bob.username);
 	}
 	
+	/**
+	 * reset password test
+	 * @throws NoSuchAlgorithmException
+	 * @throws InvalidKeySpecException
+	 */
 	@Test
-	public void resetPassword() throws NoSuchAlgorithmException, InvalidKeySpecException
+	public void resetPassword() 
+			throws NoSuchAlgorithmException, 
+			InvalidKeySpecException
 	{
 		new User("Bob", "bob@gmail.com", "secret").save();
 				
@@ -57,7 +79,8 @@ public class UserTest extends WithApplication
 		
 		Logger.info(bob.passwordHash);
 		
-		assertTrue(PasswordHash.validatePassword("new-secret", bob.passwordHash));
+		assertTrue(
+				PasswordHash.validatePassword("new-secret", bob.passwordHash));
 		
 	}
 
