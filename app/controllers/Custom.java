@@ -2,17 +2,25 @@ package controllers;
 
 import java.util.Map;
 
-import controllers.Application.Login;
 import models.Page;
 import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.*;
-import views.html.custom.*;
 import views.html.*;
 
+/**
+ * render custom pages
+ * @author Philip Lipman
+ *
+ */
 public class Custom extends Controller
 {	
+	/**
+	 * load page
+	 * @param pageName
+	 * @return
+	 */
 	public static Result custom(String pageName)
 	{
 		Page page = Page.getPage(pageName);
@@ -25,11 +33,19 @@ public class Custom extends Controller
 		return ok(views.html.custom.page.render(page));
 	}
 
-    public static Result formtest() 
+	/**
+	 * generic form renderer
+	 * @return
+	 */
+    public static Result formGeneric() 
 	{
-        return ok(views.html.formtest.render(Form.form(DynamicForm.class)));
+        return ok(views.html.formgeneric.render(Form.form(DynamicForm.class)));
     }
 	
+    /**
+     * generic form processor
+     * @return
+     */
 	public static Result dynamicForm()
 	{
 		DynamicForm requestData = Form.form().bindFromRequest();

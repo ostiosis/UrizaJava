@@ -6,16 +6,12 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import play.Logger;
 import play.db.ebean.*;
 import utility.UrizaHelpers;
 
 @Entity
 public class Page extends Model 
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 9065865930662266632L;
 
 	@Id

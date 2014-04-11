@@ -9,12 +9,14 @@ import javax.persistence.*;
 import play.db.ebean.Model;
 import utility.UrizaHelpers;
 
+/**
+ * blog object, will be used when CMS is implemented
+ * @author Philip Lipman
+ *
+ */
 @Entity
 public class Blog extends Model
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2881184938176757675L;
 
 	@Id
@@ -36,7 +38,6 @@ public class Blog extends Model
 	
 	public static Blog getBlog(String title)
 	{				
-		//title = title.replace("-", " ");
 		return find.where()
 				.ieq("title", title)
 				.findUnique();

@@ -13,24 +13,31 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.imageio.ImageIO;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import play.Logger;
 import play.Play;
 import play.db.ebean.Model;
 import utility.MediaObjectThumbnailType;
 
+/**
+ * image process
+ * TODO: all media objects
+ * @author Philip Lipman
+ *
+ */
 @Entity
 public class MediaObject extends Model
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -7341090239191464746L;
 
-	private static String uploadDir = (Play.application().path().getAbsolutePath() + "\\public\\uploads\\");
+	private static String uploadDir = 
+			(Play.application().path().getAbsolutePath() 
+					+ "\\public\\uploads\\");
 	
 	@Id
 	public Long id;
@@ -46,6 +53,11 @@ public class MediaObject extends Model
 	public static Finder<Long, MediaObject> find 
 	= new Finder<Long, MediaObject>(Long.class, MediaObject.class);
 	
+	/**
+	 * 
+	 * @param name
+	 * @param code
+	 */
 	public MediaObject(String name, String code)
 	{
 		this.name = name;
@@ -55,16 +67,18 @@ public class MediaObject extends Model
 		this.dateCreated = new java.sql.Timestamp(calendar.getTimeInMillis());
 	}
 	
-	public static MediaObject create(String fileName, String extension, File file) throws IOException
+	/**
+	 * 
+	 * @param fileName
+	 * @param extension
+	 * @param file
+	 * @return
+	 * @throws IOException
+	 */
+	public static MediaObject create(String fileName, 
+			String extension, 
+			File file) throws IOException
 	{
-		/**
-		Page page = new Page(name, title, description);
-		page.save();
-		page.saveManyToManyAssociations("templates");
-		
-		return page;
-		/**/
-		
 		String fullFileName = fileName + "." + extension;
 		
 		BufferedImage image = ImageIO.read(file);
@@ -73,14 +87,21 @@ public class MediaObject extends Model
 		{
 			
 			
-			MediaObject mediaObject = new MediaObject(fullFileName, fullFileName);
+			MediaObject mediaObject = 
+					new MediaObject(fullFileName, fullFileName);
+			
 			mediaObject.save();
 			
 			Long parentId = mediaObject.id;
 			
-			for (MediaObjectThumbnailType thumbnailType: MediaObjectThumbnailType.values())
+			for (MediaObjectThumbnailType thumbnailType: 
+				MediaObjectThumbnailType.values())
 			{
-				createThumbnail(parentId, thumbnailType, fileName, extension, image);
+				createThumbnail(parentId, 
+						thumbnailType, 
+						fileName, 
+						extension, 
+						image);
 			}
 			
 			return mediaObject;
@@ -89,30 +110,89 @@ public class MediaObject extends Model
 		return null;	
 	}
 	
-	public static void createThumbnail(Long parentId, MediaObjectThumbnailType thumbnailType, String fileName, String extension, BufferedImage image) throws IOException
+	/**
+	 * 
+	 * @param parentId
+	 * @param thumbnailType
+	 * @param fileName
+	 * @param extension
+	 * @param image
+	 * @throws IOException
+	 */
+	public static void createThumbnail(Long parentId, 
+			MediaObjectThumbnailType thumbnailType, 
+			String fileName, 
+			String extension, 
+			BufferedImage image) throws IOException
 	{
-		String thumbnailFileName = fileName + "_" + thumbnailType.name() + "." + extension;
+		String thumbnailFileName = fileName 
+				+ "_" 
+				+ thumbnailType.name() 
+				+ "." + extension;
 		
 		int type = image.getType();
+		
+		Integer scaleWidth = 0;
+		Integer scaleHeight = 0;
 		
 		if (image.getType() == 0)
 		{
 			type = BufferedImage.TYPE_INT_ARGB;
 		}
 		
-		BufferedImage thumbnail = resizeImage(image, type, thumbnailType.getWidth(), thumbnailType.getHeight());
-		
-		if (ImageIO.write(thumbnail, "png", new File(uploadDir  + thumbnailFileName)))
+		if(image.getWidth() < image.getHeight())
 		{
-			MediaObject mediaObject = new MediaObject(thumbnailFileName, thumbnailFileName);
+			
+			scaleWidth = thumbnailType.getWidth();
+			scaleHeight = (int)(image.getHeight() * 
+					(thumbnailType.getWidth().floatValue()/(float)image.getWidth()));
+		}
+		else
+		{
+			scaleHeight = thumbnailType.getHeight();
+			scaleWidth = (int)(image.getWidth() * 
+					(thumbnailType.getHeight().floatValue()/(float)image.getHeight()));
+
+			Logger.info("scaleWidth2: " + scaleWidth);
+			Logger.info("scaleHeight2: " + scaleHeight);
+
+		}
+		
+		BufferedImage thumbnail = resizeImage(image, 
+				type, 
+				scaleWidth, 
+				scaleHeight);
+		
+		if (ImageIO.write(thumbnail, 
+				"png", 
+				new File(uploadDir  + thumbnailFileName)))
+		{
+			MediaObject mediaObject = 
+					new MediaObject(thumbnailFileName, thumbnailFileName);
+			
 			mediaObject.save();
 						
-			MediaObjectThumbnail objectThumbnail = new MediaObjectThumbnail(parentId, thumbnailType.name(), mediaObject.id);
+			MediaObjectThumbnail objectThumbnail = 
+					new MediaObjectThumbnail(parentId, 
+							thumbnailType.name(), 
+							mediaObject.id);
+			
 			objectThumbnail.save();
 		}
 	}
 	
-	private static BufferedImage resizeImage(BufferedImage originalImage, int type, Integer width, Integer height)
+	/**
+	 * resize image
+	 * @param originalImage
+	 * @param type
+	 * @param width
+	 * @param height
+	 * @return
+	 */
+	private static BufferedImage resizeImage(BufferedImage originalImage, 
+			int type, 
+			Integer width, 
+			Integer height)
 	{
 		BufferedImage resizedImage = new BufferedImage(width, height, type);
 		Graphics2D graphics = resizedImage.createGraphics();
@@ -124,49 +204,95 @@ public class MediaObject extends Model
 		
 	}
 	
+	/**
+	 * map key is label, value is MediaObject
+	 * @return
+	 * @throws SQLException
+	 */
 	public Map<String, MediaObject> thumbnails() throws SQLException
-	{
+	{	
+		Map<String, MediaObject> thumbnails = 
+				new HashMap<String, MediaObject>();
 		
-		Map<String, MediaObject> thumbnails = new HashMap<String, MediaObject>();
-		
-		List<MediaObjectThumbnail> thumbnailList = MediaObjectThumbnail.find.where().eq("parent_id", this.id).findList();
+		List<MediaObjectThumbnail> thumbnailList = 
+				MediaObjectThumbnail
+				.find.where()
+				.eq("parent_id", this.id)
+				.findList();
 		
 		for (MediaObjectThumbnail m: thumbnailList)
 		{
-			thumbnails.put(m.label.toLowerCase(), MediaObject.find.byId(m.childId));
+			thumbnails.put(m.label.toLowerCase(), 
+					MediaObject.find.byId(m.childId));
 		}
-
 		
 		return thumbnails;	
 	}
 	
+	/**
+	 * finds thumbnail
+	 * @param label - type of thumbnail to return
+	 * @return
+	 * @throws SQLException
+	 */
 	public MediaObject thumbnail(String label) throws SQLException
 	{		
 		MediaObject thumbnail = null;
 		
-		MediaObjectThumbnail reference = MediaObjectThumbnail.find.where().eq("parent_id", this.id).eq("label", label).findUnique();
+		MediaObjectThumbnail reference = 
+				MediaObjectThumbnail
+				.find
+				.where()
+				.eq("parent_id", this.id)
+				.eq("label", label)
+				.findUnique();
 
-		thumbnail = find.where().eq("id", reference.childId).findUnique();
+		thumbnail = find
+				.where()
+				.eq("id", reference.childId)
+				.findUnique();
 		
 		return thumbnail;
 	}
 	
+	/**
+	 * MediaObject's parent 
+	 * @return
+	 * @throws SQLException
+	 */
 	public MediaObject parent() throws SQLException
 	{		
 		MediaObject parent = null;
 		
-		MediaObjectThumbnail reference = MediaObjectThumbnail.find.where().eq("child_id", this.id).findUnique();
+		MediaObjectThumbnail reference = 
+				MediaObjectThumbnail
+				.find
+				.where()
+				.eq("child_id", this.id)
+				.findUnique();
 
 		parent = find.where().eq("id", reference.parentId).findUnique();
 		
 		return parent;
 	}
 	
-	public static List<MediaObject> thumbnailList(String label) throws SQLException
+	/**
+	 * returns image thumbnails
+	 * @param label
+	 * @return
+	 * @throws SQLException
+	 */
+	public static List<MediaObject> thumbnailList(String label) 
+			throws SQLException
 	{		
 		List<MediaObject> thumbnails = new ArrayList<MediaObject>();
 		
-		List<MediaObjectThumbnail> thumbnailList = MediaObjectThumbnail.find.where().eq("label", label).findList();
+		List<MediaObjectThumbnail> thumbnailList = 
+				MediaObjectThumbnail
+				.find
+				.where()
+				.eq("label", label)
+				.findList();
 
 		for (MediaObjectThumbnail m: thumbnailList)
 		{

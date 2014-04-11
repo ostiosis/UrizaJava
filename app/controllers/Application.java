@@ -15,16 +15,29 @@ import utility.Mailer;
 import utility.PasswordHash;
 import views.html.*;
 
+/**
+ * main application controller
+ * @author Philip Lipman
+ *
+ */
 public class Application extends Controller 
 {
 	static boolean TEST_MODE = true;
 
+	/**
+	 * index
+	 * @return
+	 */
 	@Security.Authenticated(Secured.class)
     public static Result index() 
 	{
         return ok(index.render("Your new application is ready."));
     }
 	
+	/**
+	 * access controllers via javascript routes
+	 * @return
+	 */
     public static Result javascriptRoutes()
     {
     	response().setContentType("test/javascript");
@@ -44,13 +57,21 @@ public class Application extends Controller
 
 		));
     }
-    	
+    
+    /**
+     * user login
+     * @return
+     */
     public static Result login()
     {
     	session().clear();
     	return ok(login.render(Form.form(Login.class)));
     }
     
+    /**
+     * authenticates user login information
+     * @return
+     */
     public static Result authenticate()
     {
     	Form<Login> loginForm = Form.form(Login.class).bindFromRequest();
@@ -67,6 +88,10 @@ public class Application extends Controller
     	}
     }
     
+    /**
+     * user log out
+     * @return
+     */
     public static Result logout()
     {
     	session().clear();
@@ -74,6 +99,11 @@ public class Application extends Controller
     	return redirect(routes.Application.login());
     }
 
+    /**
+     * user login class
+     * @author Philip Lipman
+     *
+     */
     public static class Login
     {
     	public String email;
@@ -90,15 +120,20 @@ public class Application extends Controller
     	}    	
     }
  
-    //Password Reset
-    
+    /**
+     * reset password form
+     * @return
+     */
     public static Result reset()
     {
     	session().clear();
     	return ok(reset.render(Form.form(Reset.class)));
     }
     
-    
+    /**
+     * 
+     * @return
+     */
     public static Result resetForm()
     {
     	Form<Reset> resetForm = Form.form(Reset.class).bindFromRequest();
@@ -148,7 +183,11 @@ public class Application extends Controller
     	}
     }
 
-    
+    /**
+     * password reset form
+     * @author Philip Lipman
+     *
+     */
     public static class Reset
     {
     	public String email;
@@ -164,8 +203,10 @@ public class Application extends Controller
     	}   	
     }
     
-    //Password Token
-    
+    /**
+     * reset password using token
+     * @return
+     */
     public static Result token()
     {
     	System.out.println(session().get("email"));
@@ -173,6 +214,10 @@ public class Application extends Controller
     	return ok(token.render(Form.form(Token.class)));
     }
     
+    /**
+     * token form authentication
+     * @return
+     */
     public static Result tokenForm()
     {
     	Form<Token> tokenForm = Form.form(Token.class).bindFromRequest();
@@ -189,6 +234,11 @@ public class Application extends Controller
     	}
     }
     
+    /**
+     * token class
+     * @author Ost
+     *
+     */
     public static class Token
     {
     	public String email;
@@ -205,8 +255,10 @@ public class Application extends Controller
     	}   	
     }
     
-    //Password
-    
+    /**
+     * password reset, return to login
+     * @return
+     */
     public static Result password()
     {
     	if(session().get("email") == null)
@@ -216,22 +268,24 @@ public class Application extends Controller
     	return ok(password.render(Form.form(Password.class)));
     }
     
-    
-    public static Result passwordForm() throws NoSuchAlgorithmException, InvalidKeySpecException
+    /**
+     * 
+     * @return
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeySpecException
+     */
+    public static Result passwordForm() 
+    		throws NoSuchAlgorithmException, 
+    		InvalidKeySpecException
     {    	    	
     	Form<Password> passwordForm = Form.form(Password.class).bindFromRequest();    	   	
-    	
-    	
     	
     	if (passwordForm.hasErrors())
     	{
     		return badRequest(password.render(passwordForm));
     	}
     	else
-    	{
-        	//System.out.println(passwordForm.field("password").value());
-        	//System.out.println(session().get("email"));
-        	
+    	{        	
         	try
 			{
         		String email = session().get("email");
@@ -240,7 +294,6 @@ public class Application extends Controller
 			} 
     		catch (SQLException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
     		
@@ -249,9 +302,13 @@ public class Application extends Controller
     		session("email", session().get("email"));
     		return redirect(routes.Application.login());
     	}
-    	/**/
     }
     
+    /**
+     * password class
+     * @author Philip Lipman
+     *
+     */
     public static class Password
     {
     	public String password;
@@ -260,9 +317,6 @@ public class Application extends Controller
     	
     	public String validate()
     	{
-    		//System.out.println(password);
-    		//System.out.println(confirmPassword);
-    		
     		if (!password.equals(confirmPassword) || password.isEmpty() || password == null)
     		{
     			return "passwords do not match";

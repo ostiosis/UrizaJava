@@ -23,8 +23,20 @@ import play.mvc.*;
 import utility.MediaHelpers;
 import utility.UrizaHelpers;
 
+/**
+ * Controls the development area
+ * 
+ * @author Philip Lipman
+ *
+ */
 public class Development extends Controller
 {
+	/**
+	 * returns current working page
+	 * @param name - name of page to load
+	 * @return
+	 */
+	private static boolean LOGGING = true;
 	
     public static Result development(String name) 
 	{
@@ -32,7 +44,11 @@ public class Development extends Controller
     	return ok(views.html.development.development.render(getPage));        
     }
     
-    /**/
+    /**
+     * if page exists send error message
+     * @param name - name of page to check
+     * @return
+     */
     public static Result validatePage(String name)
 	{    	    	
     	int check = Page.find.where().eq("name", name).findRowCount();
@@ -42,9 +58,15 @@ public class Development extends Controller
 			return ok("Error: page " + name + " already exists");  
 		}
 		return ok();
-    	      
-
 	}
+    
+    /**
+     * creates new page
+     * @param name - name of page
+     * @param title - replaces text in <title> meta tag
+     * @param description - replaces text in <description> meta tag 
+     * @return - development with page loaded
+     */
     public static Result addPage(String name, String title, String description)
 	{    	    	
     	Page newPage = Page.create(
@@ -57,11 +79,21 @@ public class Development extends Controller
 
 	}
     
+    /**
+     * opens a list of all existing pages
+     * @return
+     */
     public static Result openMenu()
     {
     	return ok(views.html.development.open.render(Page.pages()));
     }
 
+    /**
+     * upload file
+     * @param fileName
+     * @return
+     * @throws IOException
+     */
     public static Result uploadAjax(String fileName) throws IOException
     {    	   	
     	String extension = FilenameUtils.getExtension(fileName);
@@ -78,7 +110,10 @@ public class Development extends Controller
 		//String mimeType = URLConnection.guessContentTypeFromStream(is);
 		String mimeType = MediaHelpers.guessContentTypeFromStream(is);
 		
-		Logger.info(mimeType);
+		if (LOGGING)
+		{
+			Logger.info(mimeType);
+		}
 		
 		if (mimeType != null && mimeType.contains("image"))
 		{
@@ -90,8 +125,13 @@ public class Development extends Controller
 		return ok("File uploaded");    	
 		
     }
-    /**/
     
+    /**
+     * gets image thumbnail based on label
+     * @param label
+     * @return
+     * @throws SQLException
+     */
     public static Result showImageThumbnails(String label) throws SQLException
     {
     	List<MediaObject> thumbnails = MediaObject.thumbnailList(label);
@@ -99,6 +139,12 @@ public class Development extends Controller
     	return ok(views.html.development.mediathumbnail.render(thumbnails));    	
     }
     
+    /**
+     * gets image thumbnail associated with it
+     * @param imageId - parent image id
+     * @param label - label based on utility.MediaObjectThumbnailType
+     * @return
+     */
     public static Result getImage(Long imageId, String label)
     {
     	MediaObject findImage = null;
@@ -121,22 +167,40 @@ public class Development extends Controller
     	return ok(views.html.development.image.render(findImage));
     }
     
-    public static Result updateComponent(Integer componentId, Integer parentId, String componentType, String classes, String code, Integer displayOrder)
+    /**
+     * updates component
+     * @param componentId
+     * @param parentId
+     * @param componentType
+     * @param classes
+     * @param code
+     * @param displayOrder
+     * @return
+     */
+    public static Result updateComponent(Integer componentId, 
+    		Integer parentId, 
+    		String componentType, 
+    		String classes, 
+    		String code, 
+    		Integer displayOrder)
     {
     	code = code.trim();
     	classes = UrizaHelpers.classCleanup(classes.trim());
     	
     	Component getComponent = null;
     	
-    	Logger.info("\nBegin Row");
-    	Logger.info("code: " + code.trim());
-    	Logger.info("classes: " + classes.trim());
+    	if (LOGGING)
+    	{
+	    	Logger.info("\nBegin Row");
+	    	Logger.info("code: " + code.trim());
+	    	Logger.info("classes: " + classes.trim());
+	    	
+	    	Logger.info("parentId: " + parentId);
+	    	Logger.info("componentId: " + componentId);
+	    	Logger.info("componentType: " + componentType);  	
+	    	Logger.info("\nEnd Row");
+    	}
     	
-    	Logger.info("parentId: " + parentId);
-    	Logger.info("componentId: " + componentId);
-    	Logger.info("componentType: " + componentType);  	
-    	Logger.info("\nEnd Row");
-
     	if (componentId <= 0)
     	{
     		getComponent = Component.create("", code, componentType, classes);
@@ -162,7 +226,10 @@ public class Development extends Controller
     	}
     	else
     	{
-    		childComponent = ChildComponent.create(parentId, getComponent.id, displayOrder);
+    		childComponent = ChildComponent.create(parentId, 
+    				getComponent.id, 
+    				displayOrder);
+    		
     		childComponent.save();
     	}
     	
@@ -171,10 +238,21 @@ public class Development extends Controller
     	return ok(views.html.utility.integerresult.render(getComponent.id));
     }
 
-    public static Result updateOrder(Integer parentId, String order) throws SQLException
+    /**
+     * update component display order
+     * @param parentId
+     * @param order
+     * @return
+     * @throws SQLException
+     */
+    public static Result updateOrder(Integer parentId, String order) 
+    		throws SQLException
     {    	
-    	Logger.info("parentId: " + parentId);
-    	Logger.info("order: " + order);
+    	if (LOGGING)
+    	{
+	    	Logger.info("parentId: " + parentId);
+	    	Logger.info("order: " + order);
+    	}
     	
     	Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -186,11 +264,10 @@ public class Development extends Controller
 			connection = DB.getConnection();
 			
 			String clear = "DELETE FROM child_component WHERE parent_id = ?";
+			
 			preparedStatement = connection.prepareStatement(clear);
-			preparedStatement.setLong(1, parentId);
-			
+			preparedStatement.setLong(1, parentId);			
 			preparedStatement.executeUpdate();
-			
 			preparedStatement.close();			
 		}
 		catch (SQLException e)
@@ -223,6 +300,12 @@ public class Development extends Controller
     	return ok("updated");
     }
     
+    /**
+     * delete component
+     * @param id
+     * @return
+     * @throws SQLException
+     */
     public static Result deleteComponent(Integer id) throws SQLException
     {
     	Component component = Component.find.byId(id);
@@ -232,18 +315,24 @@ public class Development extends Controller
     	return ok("updated");
     }
     
+    /**
+     * open page
+     * @param pageId
+     * @param preview
+     * @return
+     */
     public static Result open(Integer pageId, Boolean preview)
     {
     	Page getPage = Page.find.byId(pageId);
     	
+    	//development preview, shows what final page will look like
     	if (preview)
     	{
-        	return ok(views.html.development.developmentpreview.render(getPage));
-    		
+        	return ok(
+    			views.html.development.developmentpreview.render(getPage));    		
     	}   	
     	
     	return ok(views.html.development.developmentpage.render(getPage));
-
     }
-
+    
 }

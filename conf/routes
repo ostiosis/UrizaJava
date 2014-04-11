@@ -12,8 +12,8 @@ POST	/login												controllers.Application.authenticate()
 
 GET		/logout												controllers.Application.logout()
 
-GET		/formtest											controllers.Custom.formtest()
-POST	/formtest											controllers.Custom.dynamicForm()
+GET		/formgeneric											controllers.Custom.formGeneric()
+POST	/formgeneric											controllers.Custom.dynamicForm()
 
 # Password Reset
 GET		/reset												controllers.Application.reset()

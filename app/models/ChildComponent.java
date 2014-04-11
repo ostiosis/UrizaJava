@@ -4,14 +4,15 @@ import javax.persistence.*;
 
 import play.db.ebean.Model;
 
+/**
+ * associate child component with parent component
+ * @author Philip Lipman
+ *
+ */
 @Entity
 public class ChildComponent extends Model
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 7517223511230695777L;
-
 	
 	@Id
 	public Integer childId;
@@ -19,12 +20,12 @@ public class ChildComponent extends Model
 	
 	public Integer displayOrder;
 
-	
-	
 	public static Finder<Integer, ChildComponent> find 
 	= new Finder<Integer, ChildComponent>(Integer.class, ChildComponent.class);
 	
-	public ChildComponent(Integer parentId, Integer childId, Integer displayOrder)
+	public ChildComponent(Integer parentId, 
+			Integer childId, 
+			Integer displayOrder)
 	{
 		this.parentId = parentId;
 		this.childId = childId;
@@ -40,9 +41,13 @@ public class ChildComponent extends Model
 		this.displayOrder = displayOrder;
 	}
 	
-	public static ChildComponent create(Integer parentId, Integer childId, Integer displayOrder)
+	public static ChildComponent create(Integer parentId, 
+			Integer childId, 
+			Integer displayOrder)
 	{
-		ChildComponent component = new ChildComponent(parentId, childId, displayOrder);
+		ChildComponent component = 
+				new ChildComponent(parentId, childId, displayOrder);
+		
 		component.save();
 		
 		return component;

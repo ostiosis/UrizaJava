@@ -14,6 +14,11 @@ import play.db.DB;
 import play.db.ebean.Model;
 import utility.UrizaHelpers;
 
+/**
+ * Component is the bases for all layout features
+ * @author Philip Lipman
+ *
+ */
 @Entity
 public class Component extends Model 
 {
@@ -59,7 +64,10 @@ public class Component extends Model
 	 * @param componentType
 	 * @param classes
 	 */
-	public Component(String name, String code, String componentType, String classes)
+	public Component(String name, 
+			String code, 
+			String componentType, 
+			String classes)
 	{
 		this.name = name;
 		this.code = code;
@@ -82,7 +90,10 @@ public class Component extends Model
 	 * @param classes
 	 * @return
 	 */
-	public static Component create(String name, String code, String componentType, String classes)
+	public static Component create(String name, 
+			String code, 
+			String componentType, 
+			String classes)
 	{
 		Component component = new Component(name, code, componentType, classes);
 		component.dateCreated = UrizaHelpers.getTime();
@@ -107,7 +118,11 @@ public class Component extends Model
 			
 		connection = DB.getConnection();
 		
-		String down = "DELETE FROM child_component WHERE parent_id = ? OR child_id = ?";
+		String down = 
+				"DELETE FROM child_component "
+				+ "WHERE parent_id = ? "
+				+ "OR child_id = ?";
+		
 		preparedStatement = connection.prepareStatement(down);
 		
 		for (int i = 0; i < ids.size(); i++)
@@ -138,7 +153,12 @@ public class Component extends Model
 	{
 		List<Integer> ids = new ArrayList<Integer>();
 		
-		List<ChildComponent> childIds = ChildComponent.find.where().eq("parent_id", parentId).findList();
+		List<ChildComponent> childIds = 
+				ChildComponent
+				.find
+				.where()
+				.eq("parent_id", parentId)
+				.findList();
 		
 		for(ChildComponent c: childIds)
 		{
@@ -165,13 +185,11 @@ public class Component extends Model
 		this.dateModified = UrizaHelpers.getTime();
 	}
 	
-	public void update(String code, Long width, Long height)
-	{
-		this.code = code;
-		
-		this.dateModified = UrizaHelpers.getTime();
-	}
-	
+	/**
+	 * 
+	 * @param code
+	 * @param classes
+	 */
 	public void update(String code, String classes)
 	{
 		this.code = code;
@@ -180,11 +198,21 @@ public class Component extends Model
 		this.dateModified = UrizaHelpers.getTime();
 	}
 	
+	/**
+	 * gets current components children
+	 * @return
+	 */
 	public List<Component> children()
 	{		
 		List<Component> children = new ArrayList<Component>();
 		
-		List<ChildComponent> childIds = ChildComponent.find.where().eq("parent_id", this.id).orderBy("display_order asc").findList();
+		List<ChildComponent> childIds = 
+				ChildComponent
+				.find
+				.where()
+				.eq("parent_id", this.id)
+				.orderBy("display_order asc")
+				.findList();
 		
 		for (ChildComponent c: childIds)
 		{
