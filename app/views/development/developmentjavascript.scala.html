@@ -686,7 +686,7 @@
 			navBarDevelopmentMenu(event.currentTarget);
 		});
 		
-		$('.page-wrapper .navbar li:not(.nav-add-link) a').unbind('click').on('click', function(event){
+		$('.page-wrapper .navbar li:not(.nav-add-link) a, .page-wrapper .navbar a.navbar-brand').unbind('click').on('click', function(event){
 
 			event.preventDefault();
 			$(this).parent('li').siblings().each(function(){
@@ -702,14 +702,23 @@
 			}
 			
 			var currentLink = $(this);
+			var previous = currentLink.attr('href');
 			$('#navbar-href').val($(currentLink).attr('href'));
 			$("label[for='navbar-href']").text($(currentLink).text());
 			
-			$('#navbar-href').unbind().bind('input', function() {
-			    $(currentLink).attr('href', $(this).val());
-			    //updateComponent($(element).closest('.component-element'));
-			});
+			$('#navbar-href').unbind().bind({
+				input: function() {
+			    	$(currentLink).attr('href', $(this).val());
+				},
+				blur: function() {
+					updateComponent($(currentLink).closest('.component-element'));
+				}
+				});
 
+
+			
+
+			
 			var closestLi = $(currentLink).closest('li');
 
 			if ($(closestLi).hasClass('active'))
