@@ -27,8 +27,8 @@
 	       	<div class="panel panel-default">
 		        <div class="panel-heading">	        
 		            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-one">
-		                <h4 class="panel-title">
-		                    <i class="fa fa-th-large"></i> Test
+		                <h4 class="">
+		                    <i class="icon-insert-template"></i> Layout
 		                </h4>
 		            </a>
 		        </div>
@@ -36,7 +36,9 @@
 		        	      
 					<div class="component-wrapper component-element" type="row">
 						@views.html.development.componentmenu("row")
-						<div class="thumbnail-component">12 row</div>
+						<div class="thumbnail-component">12 row
+							<div class="tiny-grid" style="width: 120px;"></div>
+						</div>
 						<div class="component-interior hide">
 							<div class="row clearfix ">
 								<div class="col-md-12 column component-element" type="column"></div>
@@ -46,7 +48,7 @@
 			      
 					<div class="component-wrapper component-element" type="row">
 						@views.html.development.componentmenu("row")
-						<div class="thumbnail-component">6.6 row</div>
+						<div class="thumbnail-component">6.6 row<div class="tiny-grid" style="width: 60px;"></div><div class="tiny-grid" style="width: 60px;"></div></div>
 						<div class="component-interior hide">
 							<div class="row clearfix ">
 								<div class="col-md-6 column component-element" type="column"></div>
@@ -57,12 +59,30 @@
 					
 					<div class="component-wrapper component-element" type="row">
 						@views.html.development.componentmenu("row")
-						<div class="thumbnail-component">4.4.4 row</div>
+						<div class="thumbnail-component">4.4.4 row<div class="tiny-grid" style="width: 40px;"></div><div class="tiny-grid" style="width: 40px;"></div><div class="tiny-grid" style="width: 40px;"></div></div>
 						<div class="component-interior hide">
 							<div class="row clearfix ">
 								<div class="col-md-4 column component-element" type="column"></div>
 								<div class="col-md-4 column component-element" type="column"></div>
 								<div class="col-md-4 column component-element" type="column"></div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="component-wrapper component-element" type="row">
+						@views.html.development.componentmenu("row")
+						<div class="thumbnail-component">3.3.3.3 row
+							<div class="tiny-grid" style="width: 30px;"></div>
+							<div class="tiny-grid" style="width: 30px;"></div>
+							<div class="tiny-grid" style="width: 30px;"></div>
+							<div class="tiny-grid" style="width: 30px;"></div>
+						</div>
+						<div class="component-interior hide">
+							<div class="row clearfix ">
+								<div class="col-md-3 column component-element" type="column"></div>
+								<div class="col-md-3 column component-element" type="column"></div>
+								<div class="col-md-3 column component-element" type="column"></div>
+								<div class="col-md-3 column component-element" type="column"></div>
 							</div>
 						</div>
 					</div>
@@ -162,7 +182,7 @@
 	       	<div class="panel panel-default">
 		        <div class="panel-heading">	        
 		            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-two">
-		                <h4 class="panel-title">
+		                <h4 class="">
 		                    <i class="fa fa-th-large"></i> Test2
 		                </h4>
 		            </a>
