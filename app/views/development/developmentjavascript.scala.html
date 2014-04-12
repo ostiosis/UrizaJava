@@ -1,6 +1,10 @@
 <script type="text/javascript" >
 	$(document).ready(function(){
 
+		$('#sidebar').scroll(function () {
+		    this.scrollLeft = 0;
+		});
+
 		$(document).on('click', '#modalNew .btn-success', function(event){
 	
 	    	var name = $('#name').val();
