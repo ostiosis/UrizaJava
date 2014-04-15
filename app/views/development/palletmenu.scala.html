@@ -23,7 +23,9 @@
 		@views.html.development.imagepalletmenu()
 	</div>
     <div class="panel panel-default sidebar-nav">	
-		<div class="panel-group" id="accordion">      	
+		<div class="panel-group" id="accordion"> 
+		
+			<!-- layout -->     	
 	       	<div class="panel panel-default">
 		        <div class="panel-heading">	        
 		            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-one">
@@ -87,9 +89,28 @@
 						</div>
 					</div>
 					
+
+		            
+
+		        </div>
+		    </div>	
+		    
+		    <!-- components -->
+	       	<div class="panel panel-default">
+		        <div class="panel-heading">	        
+		            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-two">
+		                <h4 class="">
+		                    <i class="icon-images"></i> Components
+		                </h4>
+		            </a>
+		        </div>
+		        <div id="collapse-two" class="pallet panel-collapse collapse ">
+		            
 					<div class="component-element design-element" type="menu" >
 						@views.html.development.componentmenu("menu")									
-						<div class="thumbnail-component">menu</div>
+						<div class="thumbnail-component">
+							<i class="icon-menu2"></i> Menu
+						</div>
 						<div class="component-interior hide">
 							<ul class="nav nav-pills ">
 								<li class="active"><a href="#" class="editable-text">Menu Element</a></li>
@@ -99,7 +120,10 @@
 			      
 					<div class="component-element design-element" type="page-header" >
 						@views.html.development.componentmenu("page-header")	
-						<div class="thumbnail-component">Header</div>
+						<div class="thumbnail-component">
+							<i class="icon-file"></i> 
+							Header
+						</div>
 						<div class="component-interior hide">
 							<div class="page-header editable-text ">
 			  					<h1>Example page header <small>Subtext for header</small></h1>
@@ -109,7 +133,10 @@
 		            
    					<div class="component-element design-element" type="body-copy" >
 						@views.html.development.componentmenu("page-header")	
-						<div class="thumbnail-component">Paragraph</div>
+						<div class="thumbnail-component">
+							<i class="icon-paragraph-left2"></i>
+							Paragraph
+						</div>
 						<div class="component-interior hide">
 							<div class="editable-text ">
 			  					<p class="lead">
@@ -130,7 +157,10 @@
 		      
 					<div class="component-element design-element" type="jumbotron" >
 						@views.html.development.componentmenu("jumbotron")						
-						<div class="thumbnail-component">Jumbotron</div>
+						<div class="thumbnail-component">
+							<i class="icon-file"></i> 
+							Jumbotron
+						</div>
 						<div class="component-interior hide">
 							<div class="jumbotron editable-text ">
 								<h1>Hello, world!</h1>
@@ -165,19 +195,20 @@
 							</div>								
 		            	</div>
 		            </div>
-		            
-
 		        </div>
 		    </div>	
+
+		    
+		    <!-- images -->
 	       	<div class="panel panel-default">
 		        <div class="panel-heading">	        
-		            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-two">
+		            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-three">
 		                <h4 class="">
 		                    <i class="icon-images"></i> Images
 		                </h4>
 		            </a>
 		        </div>
-		        <div id="collapse-two" class="pallet panel-collapse collapse ">
+		        <div id="collapse-three" class="pallet panel-collapse collapse ">
 		            
 					<div id="media-thumbnails">
 					
