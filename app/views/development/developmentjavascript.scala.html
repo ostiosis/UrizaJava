@@ -1,6 +1,12 @@
 <script type="text/javascript" >
 	$(document).ready(function(){
 
+		sideBarResize();
+		
+		$( window ).resize(function() {
+			sideBarResize();
+		});
+		
 		$('#sidebar').scroll(function () {
 		    this.scrollLeft = 0;
 		});
@@ -85,12 +91,6 @@
 		});
 
 
-
-		sideBarResize();
-		
-		$( window ).resize(function() {
-			sideBarResize();
-		});
 		
 		developmentInitialize();
 		previewEditDevelopment();
@@ -449,7 +449,7 @@
             revert:			true,
 	        opacity: .50,
 	        handle: ".drag",
-	        tolerance: "pointer",
+	        tolerance: "intersect",
 	        beforeStop: function(event, ui)
 	        {
 	        	element = ui.item;
@@ -484,7 +484,7 @@
 
 				$(clonedElement).find('.thumbnail-component').remove();
 				$(clonedElement).find(".hide").removeClass('hide');
-				
+								
 				return clonedElement;
 	        },
 	        start: function (event, ui)
@@ -499,6 +499,7 @@
 	    	        connectWith: ".column",
 	    	        opacity: .50,
 	    	        handle: ".drag",
+	    	        tolerance: "intersect",
 	    	        beforeStop: function(event, ui)
 	    	        {
 	    	        	element = ui.item;
@@ -540,8 +541,9 @@
 				
 				return clonedElement;
 	        },	        
-	        drag: function (event, ui) {
-	            ui.helper.width(500)
+	        drag: function (event, ui) 
+	        {
+	            ui.helper.width(500);
 	        }
 	    });
 	}
