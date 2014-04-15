@@ -271,6 +271,7 @@
 		
   		var dropZone = document.getElementById('drop-zone');
   		dropZone.addEventListener('dragover', handleDragOver, false);
+  		dropZone.addEventListener('dragleave', handleDragLeave, false);
   		dropZone.addEventListener('drop', handleFileSelect, false);
 	}
 	
@@ -578,13 +579,26 @@
    		event.stopPropagation();
    		event.preventDefault();
    		event.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+   		$('#drop-zone').addClass('drop-zone-hover');
+   		$('#drop-zone').removeClass('drop-zone-normal');
+   		
 	}
-		
+
+	function handleDragLeave(event) 
+	{
+   		event.stopPropagation();
+   		event.preventDefault();
+   		$('#drop-zone').removeClass('drop-zone-hover');
+   		$('#drop-zone').addClass('drop-zone-normal');
+	}
+
+	
 	function handleFileSelect(event) 
 	{
 		event.stopPropagation();
   		event.preventDefault();
-
+  		$('#drop-zone').removeClass('drop-zone-hover');
+  		$('#drop-zone').addClass('drop-zone-normal');
   		var files = event.dataTransfer.files; // FileList object.
 
   		// files is a FileList of File objects. List some properties.
@@ -710,7 +724,7 @@
 			var currentLink = $(this);
 			var previous = currentLink.attr('href');
 			$('#navbar-href').val($(currentLink).attr('href'));
-			$("label[for='navbar-href']").text($(currentLink).text());
+			$("label[for='navbar-href']").html('<i class="icon-link"></i> ' + $(currentLink).text());
 			
 			$('#navbar-href').unbind().bind({
 				input: function() {
@@ -1120,7 +1134,7 @@
 			e.preventDefault();
 		});
 
-		$('#page-render .component-interior ul.navbar-nav').append('<li class="nav-add-link"><a href="#"><i class="fa fa-plus-square"></i></a></li>');
+		$('#page-render .component-interior ul.navbar-nav').append('<li class="nav-add-link"><a href="#"><i class="icon-plus"></i></a></li>');
 		
 	}
 </script>
