@@ -449,7 +449,7 @@
             revert:			true,
 	        opacity: .50,
 	        handle: ".drag",
-	        tolerance: "intersect",
+	        tolerance: "pointer",
 	        beforeStop: function(event, ui)
 	        {
 	        	element = ui.item;
@@ -492,14 +492,13 @@
 	        	
 	        },
 	        stop: function (event, ui) 
-	        {
-	        	
+	        {	        	
 	            $(".custom-page .column").sortable({
 	    			placeholder: "placeholder-element",
 	    	        connectWith: ".column",
 	    	        opacity: .50,
 	    	        handle: ".drag",
-	    	        tolerance: "intersect",
+	    	        tolerance: "pointer",
 	    	        beforeStop: function(event, ui)
 	    	        {
 	    	        	element = ui.item;
