@@ -20,6 +20,9 @@
   $(document).on('compositionend', function(event) {
     isIMEMode = false;
   });
+  $(document).keyup(function(e) { 
+	  if (e.keyCode == 27) { $.popline.hideAllBar(); }   // esc
+  });
 
   var toggleBox = function(event) {
     if ($.popline.utils.isNull($.popline.current)) {
