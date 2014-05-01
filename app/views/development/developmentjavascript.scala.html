@@ -938,11 +938,26 @@
 		
 		$('#button-href').val($(element).attr('href'));
 		//$(this).next().html($(element).attr('href'));
+		
+		/**
 		$('#button-href').bind('input', function() {
 		    //$(this).next().html('[input event fired!]: ' + $(this).val());
 		    $(element).attr('href', $(this).val());
 			//remove comment
 		    updateComponent($(element).closest('.component-element'));
+		});
+		/**/
+		$('#button-href').unbind().bind({
+			input: function() {
+		    	$(element).attr('href', $(this).val());
+			},
+			blur: function() {
+				if ($(element).closest('.component-element').length)
+				{
+					updateComponent($(element).closest('.component-element'));
+				}
+				
+			}
 		});
 
 	}

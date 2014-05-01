@@ -41,13 +41,13 @@ POST	/development/updateComponent						controllers.Development.updateComponent(c
 POST	/development/updateOrder							controllers.Development.updateOrder(parentId: Integer, order: String)
 POST	/development/deleteComponent						controllers.Development.deleteComponent(id: Integer)
 
-GET		/template/blog										controllers.Content.blog(title = "")
-GET		/template/blog/										controllers.Content.blog(title = "")
-GET		/template/blog/:title								controllers.Content.blog(title: String)
+GET		/admin/template/blog								controllers.Content.blog(title = "")
+GET		/admin/template/blog/								controllers.Content.blog(title = "")
+GET		/admin/template/blog/:title							controllers.Content.blog(title: String)
 
-GET		/template											controllers.Content.template(name = "")
-GET		/template/											controllers.Content.template(name = "")
-GET		/template/:name										controllers.Content.template(name: String)
+GET		/admin/template										controllers.Content.template(name = "")
+GET		/admin/template/									controllers.Content.template(name = "")
+GET		/admin/template/:name								controllers.Content.template(name: String)
 
 
 #Order Matters here
